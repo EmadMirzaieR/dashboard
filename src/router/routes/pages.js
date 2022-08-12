@@ -84,11 +84,6 @@ export default [
     component: () => import('@/views/apps/user/users-edit/UsersEdit.vue'),
   },
   {
-    path: '/apps/products/list',
-    name: 'apps-products-list',
-    component: () => import('@/views/apps/product/products-list/ProductsList.vue'),
-  },
-  {
     path: '/apps/category/list',
     name: 'apps-categories-list',
     component: () => import('@/views/apps/category/categories-list/CategoriesList.vue'),
@@ -149,18 +144,18 @@ export default [
     component: () => import('@/views/apps/invoice/invoice-edit/InvoiceEdit.vue'),
   },
   {
-    path: '/apps/e-commerce/shop',
-    name: 'apps-e-commerce-shop',
-    component: () => import('@/views/apps/e-commerce/e-commerce-shop/ECommerceShop.vue'),
+    path: '/apps/product/list',
+    name: 'apps-products-list',
+    component: () => import('@/views/apps/product/products-list/ProductsList.vue'),
     meta: {
       contentRenderer: 'sidebar-left-detached',
       contentClass: 'ecommerce-application',
     },
   },
   {
-    path: '/apps/e-commerce/:id',
-    name: 'apps-e-commerce-product-details',
-    component: () => import('@/views/apps/e-commerce/e-commerce-product-details/ECommerceProductDetails.vue'),
+    path: '/apps/product/:id',
+    name: 'apps-product-details',
+    component: () => import('@/views/apps/product/product-details/ProductDetails.vue'),
     meta: {
       contentClass: 'ecommerce-application',
     },

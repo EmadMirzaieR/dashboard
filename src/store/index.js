@@ -7,7 +7,6 @@ import categoryStoreModule from '@/views/apps/category/categoryStoreModule'
 import brandStoreModule from '@/views/apps/brand/brandStoreModule'
 import shopStoreModule from '@/views/apps/shop/shopStoreModule'
 import stockStoreModule from '@/views/apps/stock/stockStoreModule'
-import ecommerceStoreModule from '@/views/apps/e-commerce/eCommerceStoreModule'
 import app from './app'
 import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
@@ -24,7 +23,6 @@ export default new Vuex.Store({
     'app-brand': brandStoreModule,
     'app-shop': shopStoreModule,
     'app-stock': stockStoreModule,
-    'app-ecommerce': ecommerceStoreModule,
   },
   strict: process.env.DEV,
 })

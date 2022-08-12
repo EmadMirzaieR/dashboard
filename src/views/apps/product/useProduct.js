@@ -1,25 +1,25 @@
 import store from '@/store'
 import { useRouter } from '@core/utils/utils'
 
-export const useEcommerce = () => {
+export const useProduct = () => {
   // eslint-disable-next-line arrow-body-style
   const addProductInWishlist = productId => {
-    return store.dispatch('app-ecommerce/addProductInWishlist', { productId })
+    return store.dispatch('app-product/addProductInWishlist', { productId })
   }
 
   // eslint-disable-next-line arrow-body-style
   const removeProductFromWishlist = productId => {
-    return store.dispatch('app-ecommerce/removeProductFromWishlist', { productId })
+    return store.dispatch('app-product/removeProductFromWishlist', { productId })
   }
 
   // eslint-disable-next-line arrow-body-style
   const addProductInCart = productId => {
-    return store.dispatch('app-ecommerce/addProductInCart', { productId })
+    return store.dispatch('app-product/addProductInCart', { productId })
   }
 
   // eslint-disable-next-line arrow-body-style
   const removeProductFromCart = productId => {
-    return store.dispatch('app-ecommerce/removeProductFromCart', { productId })
+    return store.dispatch('app-product/removeProductFromCart', { productId })
   }
 
   return {
@@ -30,11 +30,11 @@ export const useEcommerce = () => {
   }
 }
 
-export const useEcommerceUi = () => {
+export const useProductUi = () => {
   const { router } = useRouter()
 
   const toggleProductInWishlist = product => {
-    const { addProductInWishlist, removeProductFromWishlist } = useEcommerce()
+    const { addProductInWishlist, removeProductFromWishlist } = useProduct()
     if (product.isInWishlist) {
       removeProductFromWishlist(product.id).then(() => {
         // eslint-disable-next-line no-param-reassign
@@ -49,7 +49,7 @@ export const useEcommerceUi = () => {
   }
 
   const handleCartActionClick = product => {
-    const { addProductInCart } = useEcommerce()
+    const { addProductInCart } = useProduct()
 
     if (product.isInCart) {
       router.push({ name: 'apps-e-commerce-checkout' })
@@ -59,13 +59,13 @@ export const useEcommerceUi = () => {
         product.isInCart = true
 
         // Update cart items count
-        store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', store.state['app-ecommerce'].cartItemsCount + 1)
+        store.commit('app-product/UPDATE_CART_ITEMS_COUNT', store.state['app-product'].cartItemsCount + 1)
       })
     }
   }
 
   const handleWishlistCartActionClick = (product, removeProductFromWishlistUi) => {
-    const { addProductInCart, removeProductFromWishlist } = useEcommerce()
+    const { addProductInCart, removeProductFromWishlist } = useProduct()
 
     if (product.isInCart) {
       router.push({ name: 'apps-e-commerce-checkout' })
@@ -77,7 +77,7 @@ export const useEcommerceUi = () => {
           removeProductFromWishlist(product.id)
 
           // Update cart items count
-          store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', store.state['app-ecommerce'].cartItemsCount + 1)
+          store.commit('app-product/UPDATE_CART_ITEMS_COUNT', store.state['app-product'].cartItemsCount + 1)
         })
         .then(() => {
           // eslint-disable-next-line no-param-reassign

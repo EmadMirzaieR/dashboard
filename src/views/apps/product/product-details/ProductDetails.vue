@@ -13,7 +13,7 @@
         No item found with this item id. Check
         <b-link
           class="alert-link"
-          :to="{ name: 'apps-e-commerce-shop'}"
+          :to="{ name: 'apps-product-details'}"
         >
           Shop
         </b-link>
@@ -192,7 +192,7 @@ import {
   BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BButton, BDropdown, BDropdownItem, BAlert,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
-import { useEcommerceUi } from '../useEcommerce'
+import { useProductUi } from '../useProduct'
 
 export default {
   directives: {
@@ -213,7 +213,7 @@ export default {
     BAlert,
   },
   setup() {
-    const { handleCartActionClick, toggleProductInWishlist } = useEcommerceUi()
+    const { handleCartActionClick, toggleProductInWishlist } = useProductUi()
 
     const product = ref(null)
 
@@ -223,7 +223,7 @@ export default {
       const { route } = useRouter()
       const productId = route.value.params.id
 
-      store.dispatch('app-ecommerce/fetchProduct', { productId })
+      store.dispatch('app-product/fetchProduct', { productId })
         .then(response => {
           console.log(response);
           product.value = response.data

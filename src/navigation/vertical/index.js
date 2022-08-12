@@ -1,6 +1,7 @@
 import dashboard from '../dashboard'
 import pages from '../pages'
 import others from '../others'
+import product from '../product'
 
 export default [
     {
@@ -13,7 +14,11 @@ export default [
     {
         header: 'Pages',
     },
-    ...pages
+    ...pages,
+    {
+        header: 'Product',
+    },
+    ...product
     ,
     {
         header: 'Others',
