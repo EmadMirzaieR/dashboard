@@ -7,16 +7,16 @@ export default [
   {
     title: 'Colors',
     icon: 'DropletIcon',
-    route: 'apps-users-list',
+    route: 'apps-colors-list',
   },
   {
     title: 'Sizes',
     icon: 'Maximize2Icon',
-    route: 'apps-products-list',
+    route: 'apps-sizes-list',
   },
   {
     title: 'Features',
     icon: 'TwitchIcon',
-    route: 'apps-shops-list',
+    route: 'apps-features-list',
   },
 ]

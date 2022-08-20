@@ -19,7 +19,7 @@ export default {
     fetchProducts(ctx, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/dashboard/products/', {})
+          .get('/products-dashboard/products/', {})
           .then(response => {
             // eslint-disable-next-line object-curly-newline
             const { q = '', sortBy = 'featured', perPage = 9, page = 1, categories = '', brands = '' } = payload
@@ -53,13 +53,41 @@ export default {
 
             const paginatedData = JSON.parse(JSON.stringify(paginateArray(sortedData, perPage, page)))
 
-            resolve(paginatedData)
+            resolve({ data: paginatedData, total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
+    fetchProductOptions(ctx, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/products-dashboard/products/', {})
+          .then(response => {
+
+            const { data } = response;
+
+            const filteredData = data.map(
+              product => {
+                return {
+                  'text': product.name,
+                  'value': product.id
+                }
+              }
+            )
+
+            resolve({ data: filteredData })
           })
           .catch(error => reject(error))
       })
     },
     fetchFilterOptions(ctx, payload) {
-      const result = { categories: { text: "All", value: "" }, brands: { text: "All", value: "" } }
+      let result = { categories: { text: "All", value: "" }, brands: { text: "All", value: "" } }
+      if (payload.type != 'All')
+        result = {
+          categories: { value: null, text: "Nothing Selected" },
+          brands: { value: null, text: "Nothing Selected" },
+        }
+
       return new Promise((resolve, reject) => {
         axios
           .get('/dashboard/categories/', {})
@@ -74,7 +102,6 @@ export default {
                 }
               }
             )
-            console.log(result);
             result.categories = [result.categories, ...categories]
             axios
               .get('/dashboard/brands/', {})
@@ -98,63 +125,89 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchCreateOptions(ctx, payload) {
+      let result = {}
+
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/dashboard/products/features/', {})
+          .then(response => {
+            // eslint-disable-next-line object-curly-newline
+            const { data } = response;
+            const features = data.map(
+              feature => {
+                return {
+                  'text': feature.description,
+                  'value': feature.id
+                }
+              }
+            )
+            result.features = features
+            axios
+              .get('/dashboard/products/colors/', {})
+              .then(response => {
+                // eslint-disable-next-line object-curly-newline
+
+                const { data } = response;
+
+                const colors = data.map(
+                  color => {
+                    return {
+                      'text': color.name,
+                      'value': color.id
+                    }
+                  }
+                )
+                result.colors = colors
+                axios
+                  .get('/dashboard/products/sizes/', {})
+                  .then(response => {
+                    // eslint-disable-next-line object-curly-newline
+                    const { data } = response;
+                    const sizes = data.map(
+                      size => {
+                        return {
+                          'text': size.name,
+                          'value': size.id
+                        }
+                      }
+                    )
+                    result.sizes = sizes
+                    resolve(result)
+                  })
+              })
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchProduct(ctx, { productId }) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`/dashboard/products/${productId}/`)
+          .get(`/products-dashboard/products/${productId}/`)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
     },
-    fetchWishlistProducts() {
+    fetchProductGallery(ctx, { productId }) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/apps/ecommerce/wishlist')
+          .get(`/products-dashboard/products/${productId}/images/gallery/`)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
     },
-    fetchCartProducts() {
+    editProduct(ctx, { id, productData }) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/apps/ecommerce/cart')
+          .patch(`/products-dashboard/products/${id}/update/`, productData)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
     },
-
-    // ------------------------------------------------
-    // Product Actions
-    // ------------------------------------------------
-    addProductInWishlist(ctx, { productId }) {
+    deleteProduct(ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios
-          .post('/apps/ecommerce/wishlist', { productId })
-          .then(response => resolve(response))
-          .catch(error => reject(error))
-      })
-    },
-    removeProductFromWishlist(ctx, { productId }) {
-      return new Promise((resolve, reject) => {
-        axios
-          .delete(`/apps/ecommerce/wishlist/${productId}`)
-          .then(response => resolve(response))
-          .catch(error => reject(error))
-      })
-    },
-
-    addProductInCart(ctx, { productId }) {
-      return new Promise((resolve, reject) => {
-        axios
-          .post('/apps/ecommerce/cart', { productId })
-          .then(response => resolve(response))
-          .catch(error => reject(error))
-      })
-    },
-    removeProductFromCart(ctx, { productId }) {
-      return new Promise((resolve, reject) => {
-        axios
-          .delete(`/apps/ecommerce/cart/${productId}`)
+          .delete(`/products-dashboard/products/${id}/`)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })

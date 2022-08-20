@@ -7,82 +7,50 @@
             <h6 class="filter-heading d-none d-lg-block">Filters</h6>
           </b-col>
         </b-row>
-
-        <!-- Filters' Card -->
         <b-card>
-          <!-- Multi Range -->
-          <!-- <div class="multi-range-price">
-            <h6 class="filter-title mt-0">
-              Multi Range
-            </h6>
-            <b-form-radio-group
-              v-model="filters.priceRangeDefined"
-              class="price-range-defined-radio-group"
-              stacked
-              :options="filterOptions.priceRangeDefined"
-            />
-          </div> -->
-
-          <!-- Price Slider -->
-          <!-- <div class="price-slider">
-            <h6 class="filter-title">
-              Price Range
-            </h6>
-            <vue-slider
-              v-model="filters.priceRange"
-              :direction="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            />
-          </div> -->
-
-          <!-- Categories -->
-          <div class="product-categories">
-            <h6 class="filter-title">Categories</h6>
-            <b-form-radio-group
-              v-model="filters.categories"
-              class="categories-radio-group"
-              stacked
-              :options="filterOptions.categories"
-            />
-          </div>
-
-          <!-- Brands -->
-          <div class="brands">
-            <h6 class="filter-title">Brands</h6>
-            <b-form-radio-group
-              v-model="filters.brands"
-              class="brands-radio-group"
-              stacked
-              :options="filterOptions.brands"
-            />
-          </div>
-
-          <!-- Ratings -->
-          <!-- <div class="ratings">
-            <h6 class="filter-title">
-              Ratings
-            </h6>
-            <div
-              v-for="rating in filterOptions.ratings"
-              :key="rating.rating"
-              class="ratings-list"
+          <!-- <div class="wrapper">
+            <vue-perfect-scrollbar
+              :settings="perfectScrollbarSettings"
+              class="list"
+              style="height: 360px; overflow-y: auto"
             >
-              <b-link>
-                <div class="d-flex">
-                  <feather-icon
-                    v-for="star in 5"
-                    :key="star"
-                    icon="StarIcon"
-                    size="17"
-                    :class="[{'fill-current': star <= rating.rating}, star <= rating.rating ? 'text-warning' : 'text-muted']"
-                  />
-                  <span class="ml-25">&amp; up</span>
-                </div>
-              </b-link>
-              <div class="stars-received">
-                <span>{{ rating.count }}</span>
+              <div v-for="i in filterOptions.categories" :key="i.value">
+                {{ i.text }}
               </div>
-            </div>
+            </vue-perfect-scrollbar>
           </div> -->
+
+          <div class="product-categories wrapper">
+            <h6 class="filter-title">Categories</h6>
+            <vue-perfect-scrollbar
+              :settings="perfectScrollbarSettings"
+              class="list"
+              style="height: 50vh; overflow-y: auto"
+            >
+              <b-form-radio-group
+                v-model="filters.categories"
+                class="categories-radio-group"
+                stacked
+                :options="filterOptions.categories"
+              />
+            </vue-perfect-scrollbar>
+          </div>
+
+          <div class="brands wrapper">
+            <h6 class="filter-title">Brands</h6>
+            <vue-perfect-scrollbar
+              :settings="perfectScrollbarSettings"
+              class="list"
+              style="height: 50vh; overflow-y: auto"
+            >
+              <b-form-radio-group
+                v-model="filters.brands"
+                class="brands-radio-group"
+                stacked
+                :options="filterOptions.brands"
+              />
+            </vue-perfect-scrollbar>
+          </div>
         </b-card>
       </div>
     </div>
@@ -98,7 +66,7 @@
 <script>
 import { BRow, BCol, BCard, BFormRadioGroup, BLink } from "bootstrap-vue";
 import VueSlider from "vue-slider-component";
-import { ref, onMounted } from "@vue/composition-api";
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import store from "@/store";
 
 export default {
@@ -111,16 +79,21 @@ export default {
 
     // 3rd Party
     VueSlider,
+    VuePerfectScrollbar,
   },
   data() {
     return {
+      perfectScrollbarSettings: {
+        maxScrollbarLength: 150,
+        wheelPropagation: false,
+      },
       filterOptions: { categories: [], brands: [] },
     };
   },
   async created() {
     this.filterOptions = await store.dispatch(
       "app-product/fetchFilterOptions",
-      {}
+      { type: "All" }
     );
   },
   props: {

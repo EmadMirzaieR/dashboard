@@ -27,6 +27,8 @@ import dashboard from '../dashboard'
 import pages from '../pages'
 import others from '../others'
 import product from '../product'
+import stock from '../stock'
+import discount from '../discount'
 
 // Array of sections
 export default [{
@@ -44,10 +46,24 @@ export default [{
     ],
 },
 {
+    header: 'Discount',
+    icon: 'FileTextIcon',
+    children: [
+        ...discount
+    ],
+},
+{
     header: 'Product',
     icon: 'FileTextIcon',
     children: [
         ...product
+    ],
+},
+{
+    header: 'Stock',
+    icon: 'FileTextIcon',
+    children: [
+        ...stock
     ],
 },
 {

@@ -258,7 +258,6 @@ import {
   useShopRemoteData,
 } from "./useECommerceProduct";
 import { useProductUi } from "../useProduct";
-import { data } from "vue-echarts";
 import ProductListAddNew from "./ProductListAddNew.vue";
 
 export default {
@@ -309,9 +308,9 @@ export default {
         perPage: filters.value.perPage,
         categories: filters.value.categories,
         brands: filters.value.brands,
-      }).then((data) => {
-        products.value = data;
-        totalProducts.value = data.length;
+      }).then((response) => {
+        products.value = response.data;
+        totalProducts.value = response.total;
       });
     };
 

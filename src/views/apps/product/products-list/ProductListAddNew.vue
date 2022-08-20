@@ -54,7 +54,6 @@ import formValidation from "@core/comp-functions/forms/form-validation";
 import Ripple from "vue-ripple-directive";
 import vSelect from "vue-select";
 import CreateProductFormWizard from "./CreateProductFormWizard.vue";
-// import countries from '@/@fake-db/data/other/countries'
 import store from "@/store";
 
 export default {

@@ -61,14 +61,6 @@ export default [
     },
   },
   {
-    path: '/pages/profile',
-    name: 'pages-profile',
-    component: () => import('@/views/pages/profile/Profile.vue'),
-    meta: {
-      pageTitle: 'Profile',
-    },
-  },
-  {
     path: '/apps/users/list',
     name: 'apps-users-list',
     component: () => import('@/views/apps/user/users-list/UsersList.vue'),
@@ -94,6 +86,56 @@ export default [
     component: () => import('@/views/apps/category/categories-edit/CategoriesEdit.vue'),
   },
   {
+    path: '/apps/color/list',
+    name: 'apps-colors-list',
+    component: () => import('@/views/apps/color/colors-list/ColorsList.vue'),
+  },
+  {
+    path: '/apps/colors/edit/:id',
+    name: 'apps-colors-edit',
+    component: () => import('@/views/apps/color/colors-edit/ColorsEdit.vue'),
+  },
+  {
+    path: '/apps/size/list',
+    name: 'apps-sizes-list',
+    component: () => import('@/views/apps/size/sizes-list/SizesList.vue'),
+  },
+  {
+    path: '/apps/sizes/edit/:id',
+    name: 'apps-sizes-edit',
+    component: () => import('@/views/apps/size/sizes-edit/SizesEdit.vue'),
+  },
+  {
+    path: '/apps/feature/list',
+    name: 'apps-features-list',
+    component: () => import('@/views/apps/feature/features-list/FeaturesList.vue'),
+  },
+  {
+    path: '/apps/features/edit/:id',
+    name: 'apps-features-edit',
+    component: () => import('@/views/apps/feature/features-edit/FeaturesEdit.vue'),
+  },
+  {
+    path: '/apps/coupon/list',
+    name: 'apps-coupons-list',
+    component: () => import('@/views/apps/discount/coupon/coupons-list/CouponsList.vue'),
+  },
+  {
+    path: '/apps/campaign/list',
+    name: 'apps-campaigns-list',
+    component: () => import('@/views/apps/discount/campaign/campaigns-list/CampaignsList.vue'),
+  },
+  {
+    path: '/apps/faq/list',
+    name: 'apps-faqs-list',
+    component: () => import('@/views/apps/faq/faqs-list/FaqsList.vue'),
+  },
+  {
+    path: '/apps/faqs/edit/:id',
+    name: 'apps-faqs-edit',
+    component: () => import('@/views/apps/faq/faqs-edit/FaqsEdit.vue'),
+  },
+  {
     path: '/apps/brands/list',
     name: 'apps-brands-list',
     component: () => import('@/views/apps/brand/brands-list/BrandsList.vue'),
@@ -112,16 +154,6 @@ export default [
     path: '/apps/shops/edit/:id',
     name: 'apps-shops-edit',
     component: () => import('@/views/apps/shop/shops-edit/ShopsEdit.vue'),
-  },
-  {
-    path: '/apps/stocks/list',
-    name: 'apps-stocks-list',
-    component: () => import('@/views/apps/stock/stocks-list/StocksList.vue'),
-  },
-  {
-    path: '/apps/stocks/edit/:id',
-    name: 'apps-stocks-edit',
-    component: () => import('@/views/apps/stock/stocks-edit/StocksEdit.vue'),
   },
   {
     path: '/apps/invoice/list',
@@ -160,14 +192,32 @@ export default [
       contentClass: 'ecommerce-application',
     },
   },
-  // {
-  //   path: '/apps/products/view/:id',
-  //   name: 'apps-products-view',
-  //   component: () => import('@/views/apps/product/products-view/ProductsView.vue'),
-  // },
-  // {
-  //   path: '/apps/products/edit/:id',
-  //   name: 'apps-products-edit',
-  //   component: () => import('@/views/apps/product/products-edit/ProductsEdit.vue'),
-  // },
+  {
+    path: '/apps/product/edit/:id',
+    name: 'apps-product-edit',
+    component: () => import('@/views/apps/product/product-edit/ProductEdit.vue'),
+    meta: {
+      contentClass: 'ecommerce-application',
+    },
+  },
+  {
+    path: '/apps/stocks/list',
+    name: 'apps-stocks-list',
+    component: () => import('@/views/apps/stock/stocks-list/StocksList.vue'),
+  },
+  {
+    path: '/apps/stocks/history',
+    name: 'apps-stocks-history',
+    component: () => import('@/views/apps/stock/stocks-history/StocksHistory.vue'),
+  },
+  {
+    path: '/apps/stocks/transfer',
+    name: 'apps-stocks-transfer',
+    component: () => import('@/views/apps/stock/stocks-transfer/StocksTransfer.vue'),
+  },
+  {
+    path: '/apps/stocks/view/:id',
+    name: 'apps-stocks-view',
+    component: () => import('@/views/apps/stock/stocks-view/StocksView.vue'),
+  },
 ]

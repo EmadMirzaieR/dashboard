@@ -10,11 +10,6 @@ export default [
     route: 'apps-shops-list',
   },
   {
-    title: 'Stocks',
-    icon: 'BoxIcon',
-    route: 'apps-stocks-list',
-  },
-  {
     title: 'Brands',
     icon: 'GlobeIcon',
     route: 'apps-brands-list',
@@ -30,13 +25,13 @@ export default [
     route: 'apps-invoices-list',
   },
   {
-    title: 'Offline Shop',
+    title: 'Verbal',
     icon: 'ShoppingBagIcon',
-    route: 'apps-invoices-list',
+    route: 'apps-verbal-list',
   },
   {
     title: 'FAQ',
     icon: 'HelpCircleIcon',
-    route: 'apps-invoices-list',
+    route: 'apps-faqs-list',
   },
 ]

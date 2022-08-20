@@ -4,8 +4,6 @@ import store from '@/store'
 export const useShopFiltersSortingAndPagination = () => {
   const filters = ref({
     q: '',
-    priceRangeDefined: 'all',
-    priceRange: [0, 100],
     categories: '',
     brands: '',
     ratings: null,
