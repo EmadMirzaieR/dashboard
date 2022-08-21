@@ -1,12 +1,12 @@
 export default [
   {
     title: 'Staffs',
-    icon: 'UserIcon',
+    icon: 'UserCheckIcon',
     route: 'apps-users-list',
   },
   {
     title: 'Customers',
-    icon: 'UserIcon',
+    icon: 'UsersIcon',
     route: 'apps-customers-list',
   },
   {
