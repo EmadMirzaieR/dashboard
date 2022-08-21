@@ -1,8 +1,13 @@
 export default [
   {
-    title: 'Users',
+    title: 'Staffs',
     icon: 'UserIcon',
     route: 'apps-users-list',
+  },
+  {
+    title: 'Customers',
+    icon: 'UserIcon',
+    route: 'apps-customers-list',
   },
   {
     title: 'Shops',
@@ -20,6 +25,11 @@ export default [
     route: 'apps-categories-list',
   },
   {
+    title: 'Suppliers',
+    icon: 'CodesandboxIcon',
+    route: 'apps-suppliers-list',
+  },
+  {
     title: 'Invoices',
     icon: 'CheckIcon',
     route: 'apps-invoices-list',
@@ -28,6 +38,11 @@ export default [
     title: 'Verbal',
     icon: 'ShoppingBagIcon',
     route: 'apps-verbal-list',
+  },
+  {
+    title: 'Pending Comments',
+    icon: 'MessageCircleIcon',
+    route: 'apps-comments-pending',
   },
   {
     title: 'FAQ',

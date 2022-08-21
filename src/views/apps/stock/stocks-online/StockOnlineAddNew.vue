@@ -22,7 +22,7 @@
           py-1
         "
       >
-        <h5 class="mb-0">Register Stock</h5>
+        <h5 class="mb-0">Online Stock</h5>
 
         <feather-icon
           class="ml-1 cursor-pointer"
@@ -31,7 +31,7 @@
           @click="hide"
         />
       </div>
-      <register-stock-form-wizard />
+      <online-stock-form-wizard />
     </template>
   </b-sidebar>
 </template>
@@ -50,7 +50,7 @@ import { required, alphaNum, email } from "@validations";
 import formValidation from "@core/comp-functions/forms/form-validation";
 import Ripple from "vue-ripple-directive";
 import vSelect from "vue-select";
-import RegisterStockFormWizard from "./RegisterStockFormWizard.vue";
+import OnlineStockFormWizard from "./OnlineStockFormWizard.vue";
 
 export default {
   components: {
@@ -65,7 +65,7 @@ export default {
     // Form Validation
     ValidationProvider,
     ValidationObserver,
-    RegisterStockFormWizard,
+    OnlineStockFormWizard,
   },
   directives: {
     Ripple,

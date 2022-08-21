@@ -5,20 +5,21 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useStocksList() {
+export default function useStocksOnline() {
   // Use toast
   const toast = useToast()
 
-  const refStockListTable = ref(null)
+  const refStockOnlineTable = ref(null)
 
   // Table Handlers
   const tableColumns = [
     { key: 'id', sortable: true },
-    { key: 'name', sortable: true },
+    { key: 'product_name', sortable: true },
     { key: 'color', sortable: true },
     { key: 'size', sortable: true },
-    { key: 'shop', sortable: true },
+    { key: 'transfer_type', sortable: true },
     { key: 'quantity', sortable: true },
+    { key: 'status', sortable: true },
     { key: 'actions' },
   ]
   const perPage = ref(10)
@@ -30,7 +31,7 @@ export default function useStocksList() {
   const isSortDirDesc = ref(false)
 
   const dataMeta = computed(() => {
-    const localItemsCount = refStockListTable.value ? refStockListTable.value.localItems.length : 0
+    const localItemsCount = refStockOnlineTable.value ? refStockOnlineTable.value.localItems.length : 0
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
@@ -39,7 +40,7 @@ export default function useStocksList() {
   })
 
   const refetchData = () => {
-    refStockListTable.value.refresh()
+    refStockOnlineTable.value.refresh()
   }
 
   watch([currentPage, perPage, searchQuery], () => {
@@ -48,7 +49,7 @@ export default function useStocksList() {
 
   const fetchStocks = (ctx, callback) => {
     store
-      .dispatch('app-stock/fetchStocks', {
+      .dispatch('app-stock/fetchStocksOnline', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
@@ -64,7 +65,7 @@ export default function useStocksList() {
         toast({
           component: ToastificationContent,
           props: {
-            title: 'Error fetching stocks list',
+            title: 'Error fetching stocks online',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
@@ -87,7 +88,7 @@ export default function useStocksList() {
     searchQuery,
     sortBy,
     isSortDirDesc,
-    refStockListTable,
+    refStockOnlineTable,
 
     refetchData,
   }

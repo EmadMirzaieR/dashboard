@@ -17,6 +17,6 @@ export default [
   {
     title: 'Online',
     icon: 'AirplayIcon',
-    route: 'apps-stocks-onlone',
+    route: 'apps-stocks-online',
   },
 ]

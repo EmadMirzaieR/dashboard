@@ -136,6 +136,16 @@ export default [
     component: () => import('@/views/apps/faq/faqs-edit/FaqsEdit.vue'),
   },
   {
+    path: '/apps/supplier/list',
+    name: 'apps-suppliers-list',
+    component: () => import('@/views/apps/supplier/suppliers-list/SuppliersList.vue'),
+  },
+  {
+    path: '/apps/suppliers/edit/:id',
+    name: 'apps-suppliers-edit',
+    component: () => import('@/views/apps/supplier/suppliers-edit/SuppliersEdit.vue'),
+  },
+  {
     path: '/apps/brands/list',
     name: 'apps-brands-list',
     component: () => import('@/views/apps/brand/brands-list/BrandsList.vue'),
@@ -176,6 +186,11 @@ export default [
     component: () => import('@/views/apps/invoice/invoice-edit/InvoiceEdit.vue'),
   },
   {
+    path: '/apps/comments/pending',
+    name: 'apps-comments-pending',
+    component: () => import('@/views/apps/comment/comments-list/CommentsListPending.vue'),
+  },
+  {
     path: '/apps/product/list',
     name: 'apps-products-list',
     component: () => import('@/views/apps/product/products-list/ProductsList.vue'),
@@ -204,6 +219,11 @@ export default [
     path: '/apps/stocks/list',
     name: 'apps-stocks-list',
     component: () => import('@/views/apps/stock/stocks-list/StocksList.vue'),
+  },
+  {
+    path: '/apps/stocks/online',
+    name: 'apps-stocks-online',
+    component: () => import('@/views/apps/stock/stocks-online/StocksOnline.vue'),
   },
   {
     path: '/apps/stocks/history',

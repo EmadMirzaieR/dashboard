@@ -1,7 +1,7 @@
 <template>
   <div>
-    <stock-list-add-new
-      :is-add-new-stock-sidebar-active.sync="isAddNewStockSidebarActive"
+    <supplier-list-add-new
+      :is-add-new-supplier-sidebar-active.sync="isAddNewSupplierSidebarActive"
       @refetch-data="refetchData"
     />
 
@@ -37,9 +37,9 @@
               />
               <b-button
                 variant="primary"
-                @click="isAddNewStockSidebarActive = true"
+                @click="isAddNewSupplierSidebarActive = true"
               >
-                <span class="text-nowrap">Register Stock</span>
+                <span class="text-nowrap">Add Supplier</span>
               </b-button>
             </div>
           </b-col>
@@ -47,9 +47,9 @@
       </div>
 
       <b-table
-        ref="refStockListTable"
+        ref="refSupplierListTable"
         class="position-relative"
-        :items="fetchStocks"
+        :items="fetchSuppliers"
         responsive
         :fields="tableColumns"
         primary-key="id"
@@ -58,6 +58,28 @@
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
       >
+        <template #cell(is_active)="data">
+          <b-badge
+            pill
+            :variant="`light-${resolveTrueFalseVariant(data.item.is_active)}`"
+            class="text-capitalize"
+          >
+            {{ data.item.is_active == true ? "Active" : "InActive" }}
+          </b-badge>
+        </template>
+
+        <!-- <template #cell(supplier_type)="data">
+          <b-badge pill class="text-capitalize">
+            {{ resolveSupplierType(data.item.supplier_type) }}
+          </b-badge>
+        </template>
+
+        <template #cell(work_type)="data">
+          <b-badge pill class="text-capitalize">
+            {{ resolveWorkType(data.item.work_type) }}
+          </b-badge>
+        </template> -->
+
         <!-- Column: Actions -->
         <template #cell(actions)="data">
           <b-dropdown
@@ -68,13 +90,15 @@
             <template #button-content>
               <feather-icon
                 icon="MoreVerticalIcon"
-                size="16"
+                supplier="16"
                 class="align-middle text-body"
               />
             </template>
-
             <b-dropdown-item
-              :to="{ name: 'apps-stocks-edit', params: { id: data.item.id } }"
+              :to="{
+                name: 'apps-suppliers-edit',
+                params: { id: data.item.id },
+              }"
             >
               <feather-icon icon="EditIcon" />
               <span class="align-middle ml-50">Edit</span>
@@ -82,7 +106,11 @@
 
             <b-dropdown-item>
               <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
+              <span
+                class="align-middle ml-50"
+                @click="deleteSupplier(data.item.id)"
+                >Delete</span
+              >
             </b-dropdown-item>
           </b-dropdown>
         </template>
@@ -115,7 +143,7 @@
           >
             <b-pagination
               v-model="currentPage"
-              :total-rows="totalStocks"
+              :total-rows="totalSuppliers"
               :per-page="perPage"
               first-number
               last-number
@@ -124,10 +152,10 @@
               next-class="next-item"
             >
               <template #prev-text>
-                <feather-icon icon="ChevronLeftIcon" size="18" />
+                <feather-icon icon="ChevronLeftIcon" supplier="18" />
               </template>
               <template #next-text>
-                <feather-icon icon="ChevronRightIcon" size="18" />
+                <feather-icon icon="ChevronRightIcon" supplier="18" />
               </template>
             </b-pagination>
           </b-col>
@@ -157,13 +185,13 @@ import vSelect from "vue-select";
 import store from "@/store";
 import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
-import useStocksList from "./useStocksList";
-import stockStoreModule from "../stockStoreModule";
-import StockListAddNew from "./StockListAddNew.vue";
+import useSuppliersList from "./useSuppliersList";
+import supplierStoreModule from "../supplierStoreModule";
+import SupplierListAddNew from "./SupplierListAddNew.vue";
 
 export default {
   components: {
-    StockListAddNew,
+    SupplierListAddNew,
 
     BCard,
     BRow,
@@ -181,57 +209,109 @@ export default {
 
     vSelect,
   },
+  methods: {
+    deleteSupplier(id) {
+      this.$swal({
+        title: "Accept Or Deny",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Delete",
+        cancelButtonText: "Cancel",
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-outline-danger ml-1",
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.value) {
+          store
+            .dispatch("app-supplier/deleteSupplier", { id })
+            .then((response) => {
+              if (response.status == 204) {
+                this.$swal({
+                  icon: "success",
+                  text: "Deleted",
+                  confirmButtonText: "OK",
+                  customClass: {
+                    confirmButton: "btn btn-primary",
+                  },
+                });
+                this.refetchData();
+              } else {
+                this.$toast({
+                  component: ToastificationContent,
+                  position: "top-right",
+                  props: {
+                    title: "Error",
+                    variant: "danger",
+                    text: "Error",
+                  },
+                });
+              }
+            });
+        }
+      });
+    },
+  },
   setup() {
-    const Stock_APP_STORE_MODULE_NAME = "app-stock";
+    const supplier_APP_STORE_MODULE_NAME = "app-supplier";
 
     // Register module
-    if (!store.hasModule(Stock_APP_STORE_MODULE_NAME))
-      store.registerModule(Stock_APP_STORE_MODULE_NAME, stockStoreModule);
+    if (!store.hasModule(supplier_APP_STORE_MODULE_NAME))
+      store.registerModule(supplier_APP_STORE_MODULE_NAME, supplierStoreModule);
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(Stock_APP_STORE_MODULE_NAME))
-        store.unregisterModule(Stock_APP_STORE_MODULE_NAME);
+      if (store.hasModule(supplier_APP_STORE_MODULE_NAME))
+        store.unregisterModule(supplier_APP_STORE_MODULE_NAME);
     });
 
-    const isAddNewStockSidebarActive = ref(false);
+    const isAddNewSupplierSidebarActive = ref(false);
 
     const {
-      fetchStocks,
+      fetchSuppliers,
       tableColumns,
       perPage,
       currentPage,
-      totalStocks,
+      totalSuppliers,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refStockListTable,
+      refSupplierListTable,
       refetchData,
 
       // UI
-    } = useStocksList();
+      resolveTrueFalseVariant,
+      resolveWorkType,
+      resolveSupplierType,
+    } = useSuppliersList();
 
     return {
       // Sidebar
-      isAddNewStockSidebarActive,
+      isAddNewSupplierSidebarActive,
 
-      fetchStocks,
+      fetchSuppliers,
       tableColumns,
       perPage,
       currentPage,
-      totalStocks,
+      totalSuppliers,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refStockListTable,
+      refSupplierListTable,
       refetchData,
 
       // Filter
       avatarText,
+
+      // UI
+      resolveTrueFalseVariant,
+      resolveWorkType,
+      resolveSupplierType,
     };
   },
 };
