@@ -46,7 +46,9 @@ export default {
           .then(response => {
             const { data } = response
 
-            const filteredData = data.map(item => {
+            const active = data.filter(item => (item.status === 'Active'));
+
+            const filteredData = active.map(item => {
               return {
                 value: item.id,
                 text: item.name

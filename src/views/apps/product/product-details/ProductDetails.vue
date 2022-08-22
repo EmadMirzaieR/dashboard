@@ -22,6 +22,14 @@
           Edit
         </b-button>
         <b-button
+          class="mb-1 mb-sm-0 mr-0 mr-sm-1"
+          v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+          v-b-modal.modal-register-stock-form-wizard
+          variant="outline-primary"
+        >
+          Stock register
+        </b-button>
+        <b-button
           variant="primary"
           class="mb-1 mb-sm-0 mr-0 mr-sm-1"
           @click="deleteProduct(product.id)"
@@ -138,10 +146,11 @@
     </b-card>
     <b-row>
       <b-col cols="12">
-        <b-card title="Shops">
+        <b-card title="Shops And Stocks">
+          <product-stocks :productId="productId" />
         </b-card>
       </b-col>
-    </b-row>    
+    </b-row>
     <b-row>
       <b-col cols="12">
         <b-card title="Comments">
@@ -149,6 +158,16 @@
         </b-card>
       </b-col>
     </b-row>
+    <b-modal
+      hide-footer
+      id="modal-register-stock-form-wizard"
+      scrollable
+      title="Register"
+      size="lg"
+      cancel-variant="outline-secondary"
+    >
+      <register-stock-form-wizard-product :productId="productId" />
+    </b-modal>
   </section>
 </template>
 
@@ -171,6 +190,8 @@ import {
   BBadge,
   BCardHeader,
   VBTooltip,
+  BModal,
+  VBModal,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import { useProductUi } from "../useProduct";
@@ -178,13 +199,17 @@ import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 import router from "@/router";
 import CommentsListProduct from "@views/apps/comment/comments-list/CommentsListProduct.vue";
+import RegisterStockFormWizardProduct from "@views/apps/stock/stocks-list/RegisterStockFormWizardProduct.vue";
+import ProductStocks from "@views/apps/stock/product-stocks/ProductStocks.vue";
 
 export default {
   directives: {
     Ripple,
     "b-tooltip": VBTooltip,
+    "b-modal": VBModal,
   },
   components: {
+    BModal,
     // BSV
     BCard,
     BCardBody,
@@ -202,6 +227,8 @@ export default {
     Swiper,
     SwiperSlide,
     CommentsListProduct,
+    RegisterStockFormWizardProduct,
+    ProductStocks,
   },
   methods: {
     showStatus(num) {

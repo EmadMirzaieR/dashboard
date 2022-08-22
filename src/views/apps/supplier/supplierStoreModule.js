@@ -41,6 +41,25 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchSuppliersOption(ctx) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/suppliers/suppliers/', {})
+          .then(response => {
+            const { data } = response
+
+            const filteredData = data.map(item => {
+              return {
+                value: item.id,
+                text: item.name
+              }
+            })
+
+            resolve(filteredData)
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchSupplier(ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios

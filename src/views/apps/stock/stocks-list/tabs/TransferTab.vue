@@ -2,7 +2,11 @@
   <b-row>
     <b-col md="6">
       <b-form-group label="Buy From" label-for="buy_from">
-        <b-form-input id="buy_from" v-model="stock.buy_from" />
+        <b-form-select
+          v-model="stock.buy_from"
+          :options="suppliersOption"
+          :select-size="4"
+        />
       </b-form-group>
     </b-col>
     <b-col md="6">
@@ -64,6 +68,7 @@ import {
   BInputGroupAppend,
 } from "bootstrap-vue";
 import flatPickr from "vue-flatpickr-component";
+import store from "@/store";
 
 export default {
   components: {
@@ -87,11 +92,17 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      suppliersOption: [],
+    };
   },
   computed: {},
   methods: {},
-  async created() {},
+  async created() {
+    const options = await store.dispatch("app-supplier/fetchSuppliersOption");
+
+    this.suppliersOption = options;
+  },
 };
 </script>
 

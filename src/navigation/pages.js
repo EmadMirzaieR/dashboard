@@ -1,6 +1,6 @@
 export default [
   {
-    title: 'Staffs',
+    title: 'Staff',
     icon: 'UserCheckIcon',
     route: 'apps-users-list',
   },

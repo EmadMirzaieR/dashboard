@@ -58,6 +58,100 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchProductStocks(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 5,
+        page = 1,
+        sortBy = 'shop',
+        sortDesc = false,
+        productId = 0,
+      } = queryParams
+
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/products-dashboard/products/${productId}/stock/`)
+          .then(response => {
+            // const { data } = response
+            const data ={
+              "Shop1": {
+                  "offline_stock": [
+                      {
+                          "shop_id": 5,
+                          "stock_id": 19,
+                          "size": "6 DROP54",
+                          "color": "Alizarin Crimson",
+                          "quantity": 10,
+                          "status": "Available",
+                          "prices": 0,
+                          "stock_values": 0,
+                          "who_sell_in_month": 0,
+                          "who_sell_in_year": 0
+                      }
+                  ],
+                  "online_stock": [],
+                  "purchase_price": 1000.0,
+                  "total_transfer_price": 10.0
+              },
+              "shop2": {
+                  "offline_stock": [
+                      {
+                          "shop_id": 6,
+                          "stock_id": 20,
+                          "size": "4 DROP 58",
+                          "color": "Alizarin Crimson",
+                          "quantity": 7,
+                          "status": "Available",
+                          "prices": 123.0,
+                          "stock_values": 861.0,
+                          "who_sell_in_month": 0,
+                          "who_sell_in_year": 0
+                      }
+                  ],
+                  "online_stock": [{
+                    "shop_id": 7,
+                    "stock_id": 54,
+                    "size": "7 DROP 58",
+                    "color": "Alizarin Crimson",
+                    "quantity": 7,
+                    "status": "Available",
+                    "prices": 123.0,
+                    "stock_values": 435.0,
+                    "who_sell_in_month": 0,
+                    "who_sell_in_year": 0
+                },{
+                  "shop_id": 8,
+                  "stock_id": 23,
+                  "size": "3 DROP 58",
+                  "color": "Alizarin Crimson",
+                  "quantity": 7,
+                  "status": "Available",
+                  "prices": 123.0,
+                  "stock_values": 321.0,
+                  "who_sell_in_month": 0,
+                  "who_sell_in_year": 0
+              }],
+                  "purchase_price": 0,
+                  "total_transfer_price": 0
+              }
+          }
+            const array = Object.keys(data).map(item => {
+              return {
+                shop: item,
+                offline_stock: data[item].offline_stock,
+                online_stock: data[item].online_stock,
+                purchase_price: data[item].purchase_price,
+                total_transfer_price: data[item].total_transfer_price,
+              }
+            })
+
+            const sortedData = array.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: array.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchProductOptions(ctx, payload) {
       return new Promise((resolve, reject) => {
         axios
