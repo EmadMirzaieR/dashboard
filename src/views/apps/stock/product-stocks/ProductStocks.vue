@@ -13,8 +13,7 @@
       :sort-desc.sync="isSortDirDesc"
     >
       <template #row-details="row">
-        {{row.item.offline}}
-        <b-card v-if="row.item.offline">
+        <b-card v-if="rows(row.index) == 'offline'">
           <b-row>Offline Stocks</b-row>
           <b-row class="mb-2">
             <b-table
@@ -32,8 +31,38 @@
                 'stock_values',
                 'who_sell_in_month',
                 'who_sell_in_year',
+                'actions',
               ]"
-            />
+            >
+              <template #cell(actions)="data">
+                <b-dropdown
+                  variant="link"
+                  no-caret
+                  :right="$store.state.appConfig.isRTL"
+                >
+                  <template #button-content>
+                    <feather-icon
+                      icon="MoreVerticalIcon"
+                      feature="16"
+                      class="align-middle text-body"
+                    />
+                  </template>
+                  <b-dropdown-item v-b-modal.modal-transfer-to-other-shop>
+                    <feather-icon icon="ChevronsUpIcon" />
+                    <span class="align-middle ml-50"
+                      >Transfer To Other Shop</span
+                    >
+                  </b-dropdown-item>
+
+                  <b-dropdown-item>
+                    <feather-icon icon="ChevronsUpIcon" />
+                    <span class="align-middle ml-50"
+                      >Transfer To Online Shop</span
+                    >
+                  </b-dropdown-item>
+                </b-dropdown>
+              </template>
+            </b-table>
           </b-row>
           <b-button
             size="sm"
@@ -61,8 +90,31 @@
                 'stock_values',
                 'who_sell_in_month',
                 'who_sell_in_year',
+                'actions',
               ]"
-            />
+            >
+              <template #cell(actions)="data">
+                <b-dropdown
+                  variant="link"
+                  no-caret
+                  :right="$store.state.appConfig.isRTL"
+                >
+                  <template #button-content>
+                    <feather-icon
+                      icon="MoreVerticalIcon"
+                      feature="16"
+                      class="align-middle text-body"
+                    />
+                  </template>
+                  <b-dropdown-item>
+                    <feather-icon icon="ChevronsUpIcon" />
+                    <span class="align-middle ml-50"
+                      >Transfer To Offline Shop</span
+                    >
+                  </b-dropdown-item>
+                </b-dropdown>
+              </template>
+            </b-table>
           </b-row>
           <b-button
             size="sm"
@@ -76,24 +128,27 @@
 
       <!-- Column: Actions -->
       <template #cell(offline_stock)="row">
-        <b-button
-          variant="primary"
-          :disabled="row.item.offline_stock.length === 0"
-          @click="row.toggleDetails"
-          @change="row.item.offline=true"
-        >
-          <span class="text-nowrap">{{ row.item.offline_stock.length }}</span>
-        </b-button>
+        <div @click="changeRows(row.index, 'offline')">
+          <b-button
+            variant="primary"
+            :disabled="row.item.offline_stock.length === 0"
+            @click="row.toggleDetails"
+          >
+            <span class="text-nowrap">{{ row.item.offline_stock.length }}</span>
+          </b-button>
+        </div>
       </template>
 
       <template #cell(online_stock)="row">
-        <b-button
-          variant="primary"
-          :disabled="row.item.online_stock.length === 0"
-          @click="row.toggleDetails"
-        >
-          <span class="text-nowrap">{{ row.item.online_stock.length }}</span>
-        </b-button>
+        <div @click="changeRows(row.index, 'online')">
+          <b-button
+            variant="primary"
+            :disabled="row.item.online_stock.length === 0"
+            @click="row.toggleDetails"
+          >
+            <span class="text-nowrap">{{ row.item.online_stock.length }}</span>
+          </b-button>
+        </div>
       </template>
     </b-table>
     <div class="mx-2 mb-2">
@@ -142,6 +197,16 @@
         </b-col>
       </b-row>
     </div>
+    <b-modal
+      hide-footer
+      id="modal-transfer-to-other-shop"
+      scrollable
+      title="Register"
+      size="lg"
+      cancel-variant="outline-secondary"
+    >
+      <transfer-to-other-shop-wizard :productId="productId" />
+    </b-modal>
   </b-card>
 </template>
 
@@ -160,6 +225,8 @@ import {
   BDropdown,
   BDropdownItem,
   BPagination,
+  BModal,
+  VBModal,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import store from "@/store";
@@ -167,9 +234,14 @@ import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
 import useProductStocks from "./useProductStocks";
 import productStoreModule from "../../product/productStoreModule";
+import TransferToOtherShopWizard from "@views/apps/stock/stocks-list/TransferToOtherShopWizard.vue";
 
 export default {
+  directives: {
+    "b-modal": VBModal,
+  },
   components: {
+    BModal,
     BCard,
     BRow,
     BCol,
@@ -183,8 +255,21 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
-
     vSelect,
+    TransferToOtherShopWizard,
+  },
+  data() {
+    return {
+      stockClick: {},
+    };
+  },
+  methods: {
+    changeRows(index, type) {
+      this.stockClick[index] = type;
+    },
+    rows(index) {
+      return this.stockClick[index];
+    },
   },
   props: ["productId"],
   setup(props) {

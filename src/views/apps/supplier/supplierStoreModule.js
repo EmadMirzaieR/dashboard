@@ -41,6 +41,35 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchStocksHistory(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        supplierId = supplierId,
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/suppliers/supplier/${supplierId}/history/`)
+          .then(response => {
+            const { data } = response
+            const queryLowered = q.toLowerCase()
+
+            const filteredData = data.filter(
+              stock =>
+                /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
+                (stock.product.name.toLowerCase().includes(queryLowered))
+            )
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchSuppliersOption(ctx) {
       return new Promise((resolve, reject) => {
         axios

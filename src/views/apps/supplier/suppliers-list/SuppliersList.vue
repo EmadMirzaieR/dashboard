@@ -51,6 +51,7 @@
         class="position-relative"
         :items="fetchSuppliers"
         responsive
+        hover
         :fields="tableColumns"
         primary-key="id"
         :sort-by.sync="sortBy"
@@ -58,6 +59,43 @@
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
       >
+        <template #cell(show_details)="row">
+          <b-button
+            size="sm"
+            variant="outline-secondary"
+            @click="row.toggleDetails"
+          >
+            Details
+          </b-button>
+        </template>
+
+        <template #row-details="row">
+          <b-card>
+            <b-row>
+              <b-col md="4" class="mb-1">
+                <strong>Address : </strong>{{ row.item.address }}
+              </b-col>
+              <b-col md="4" class="mb-1">
+                <strong>Description : </strong>{{ row.item.description }}
+              </b-col>
+              <b-col md="4" class="mb-1">
+                <strong>Phone : </strong>{{ row.item.phone }}
+              </b-col>
+              <b-col md="4" class="mb-1">
+                <strong>Website : </strong>{{ row.item.website }}
+              </b-col>
+            </b-row>
+
+            <b-button
+              size="sm"
+              variant="outline-secondary"
+              @click="row.toggleDetails"
+            >
+              Hide Details
+            </b-button>
+          </b-card>
+        </template>
+
         <template #cell(is_active)="data">
           <b-badge
             pill
@@ -102,6 +140,16 @@
             >
               <feather-icon icon="EditIcon" />
               <span class="align-middle ml-50">Edit</span>
+            </b-dropdown-item>
+
+            <b-dropdown-item
+              :to="{
+                name: 'apps-suppliers-history',
+                params: { id: data.item.id },
+              }"
+            >
+              <feather-icon icon="ClockIcon" />
+              <span class="align-middle ml-50">History</span>
             </b-dropdown-item>
 
             <b-dropdown-item>
@@ -209,8 +257,17 @@ export default {
 
     vSelect,
   },
+  data() {
+    return {
+      selected,
+    };
+  },
   methods: {
+    onRowSelected(items) {
+      this.selected = items[0];
+    },
     deleteSupplier(id) {
+      console.log();
       this.$swal({
         title: "Accept Or Deny",
         icon: "warning",
@@ -325,4 +382,9 @@ export default {
 
 <style lang="scss">
 @import "@core/scss/vue/libs/vue-select.scss";
+.b-table-selectable {
+  .feather {
+    font-size: 1.3rem;
+  }
+}
 </style>

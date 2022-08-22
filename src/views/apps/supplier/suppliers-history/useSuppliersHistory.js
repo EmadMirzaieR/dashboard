@@ -5,25 +5,26 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useSuppliersList() {
+export default function useSuppliersHistory(supplierId) {
   // Use toast
   const toast = useToast()
 
-  const refSupplierListTable = ref(null)
+  const refStockListTable = ref(null)
 
   // Table Handlers
   const tableColumns = [
     { key: 'id', sortable: true },
-    { key: 'name', sortable: true },
-    { key: 'supplier_type', sortable: true },
-    { key: 'work_type', sortable: true },
-    { key: 'is_active', sortable: true },
-    { key: 'email', sortable: true },
-    { key: 'show_details'},    
+    { key: 'product', sortable: true },
+    { key: 'color', sortable: true },
+    { key: 'size', sortable: true },
+    { key: 'transfer_to_shop', sortable: true },
+    { key: 'quantity', sortable: true },
+    { key: 'status', sortable: true },
+    { key: 'transfer_type', sortable: true },
     { key: 'actions' },
   ]
   const perPage = ref(10)
-  const totalSuppliers = ref(0)
+  const totalStocks = ref(0)
   const currentPage = ref(1)
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
@@ -31,41 +32,42 @@ export default function useSuppliersList() {
   const isSortDirDesc = ref(false)
 
   const dataMeta = computed(() => {
-    const localItemsCount = refSupplierListTable.value ? refSupplierListTable.value.localItems.length : 0
+    const localItemsCount = refStockListTable.value ? refStockListTable.value.localItems.length : 0
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalSuppliers.value,
+      of: totalStocks.value,
     }
   })
 
   const refetchData = () => {
-    refSupplierListTable.value.refresh()
+    refStockListTable.value.refresh()
   }
 
   watch([currentPage, perPage, searchQuery], () => {
     refetchData()
   })
 
-  const fetchSuppliers = (ctx, callback) => {
+  const fetchStocksHistory = (ctx, callback) => {
     store
-      .dispatch('app-supplier/fetchSuppliers', {
+      .dispatch('app-supplier/fetchStocksHistory', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
+        supplierId: supplierId,
       })
       .then(response => {
         const { data, total } = response
         callback(data)
-        totalSuppliers.value = total
+        totalStocks.value = total
       })
-      .catch((e) => {
+      .catch(() => {
         toast({
           component: ToastificationContent,
           props: {
-            title: 'Error fetching suppliers list',
+            title: 'Error fetching stocks list',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
@@ -77,36 +79,19 @@ export default function useSuppliersList() {
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const resolveTrueFalseVariant = item => {
-    if (item === true) return 'success'
-    return 'danger'
-  }
-  const resolveWorkType = item => {
-    if (item === 1) return 'Provider'
-    if (item === 2) return 'Buyer'
-    if (item === 3) return 'Distributor'
-    return 'Other'
-  }
-  const resolveSupplierType = item => {
-    if (item === 1) return 'Company'
-    if (item === 2) return 'Person'
-  }
-
   return {
-    fetchSuppliers,
+    fetchStocksHistory,
     tableColumns,
     perPage,
     currentPage,
-    totalSuppliers,
+    totalStocks,
     dataMeta,
     perPageOptions,
     searchQuery,
     sortBy,
     isSortDirDesc,
-    refSupplierListTable,
-    resolveTrueFalseVariant,
-    resolveSupplierType,
-    resolveWorkType,
+    refStockListTable,
+
     refetchData,
   }
 }

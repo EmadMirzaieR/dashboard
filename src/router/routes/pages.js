@@ -231,6 +231,11 @@ export default [
     component: () => import('@/views/apps/stock/stocks-history/StocksHistory.vue'),
   },
   {
+    path: '/apps/suppliers/history/:id',
+    name: 'apps-suppliers-history',
+    component: () => import('@/views/apps/supplier/suppliers-history/SuppliersHistory.vue'),
+  },
+  {
     path: '/apps/stocks/transfer',
     name: 'apps-stocks-transfer',
     component: () => import('@/views/apps/stock/stocks-transfer/StocksTransfer.vue'),
