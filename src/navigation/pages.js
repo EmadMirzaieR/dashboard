@@ -30,11 +30,6 @@ export default [
     route: 'apps-suppliers-list',
   },
   {
-    title: 'Invoices',
-    icon: 'CheckIcon',
-    route: 'apps-invoices-list',
-  },
-  {
     title: 'Verbal',
     icon: 'ShoppingBagIcon',
     route: 'apps-verbal-list',

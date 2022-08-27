@@ -166,26 +166,6 @@ export default [
     component: () => import('@/views/apps/shop/shops-edit/ShopsEdit.vue'),
   },
   {
-    path: '/apps/invoice/list',
-    name: 'apps-invoices-list',
-    component: () => import('@/views/apps/invoice/invoice-list/InvoiceList.vue'),
-  },
-  {
-    path: '/apps/invoice/preview/:id',
-    name: 'apps-invoices-preview',
-    component: () => import('@/views/apps/invoice/invoice-preview/InvoicePreview.vue'),
-  },
-  {
-    path: '/apps/invoice/add/',
-    name: 'apps-invoices-add',
-    component: () => import('@/views/apps/invoice/invoice-add/InvoiceAdd.vue'),
-  },
-  {
-    path: '/apps/invoice/edit/:id',
-    name: 'apps-invoices-edit',
-    component: () => import('@/views/apps/invoice/invoice-edit/InvoiceEdit.vue'),
-  },
-  {
     path: '/apps/comments/pending',
     name: 'apps-comments-pending',
     component: () => import('@/views/apps/comment/comments-list/CommentsListPending.vue'),
