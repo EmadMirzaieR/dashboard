@@ -1,6 +1,6 @@
 export default [
   {
-    title: 'List',
+    title: 'Product List',
     icon: 'ShoppingCartIcon',
     route: 'apps-products-list',
   },

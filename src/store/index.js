@@ -17,6 +17,7 @@ import userStoreModule from '@/views/apps/user/userStoreModule'
 import discountStoreModule from '@/views/apps/discount/discountStoreModule'
 import supplierStoreModule from '@/views/apps/supplier/supplierStoreModule'
 import logStoreModule from '@/views/apps/log/logStoreModule'
+import orderStoreModule from '@/views/apps/order/orderStoreModule'
 
 Vue.use(Vuex)
 
@@ -37,6 +38,7 @@ export default new Vuex.Store({
     'app-discount': discountStoreModule,
     'app-supplier': supplierStoreModule,
     'app-log': logStoreModule,
+    'app-order': orderStoreModule,
   },
   strict: process.env.DEV,
 })

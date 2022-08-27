@@ -4,6 +4,7 @@ import others from '../others'
 import product from '../product'
 import stock from '../stock'
 import discount from '../discount'
+import order from '../order'
 
 export default [
     {
@@ -26,6 +27,11 @@ export default [
         header: 'Product',
     },
     ...product
+    ,
+    {
+        header: 'Order',
+    },
+    ...order
     ,
     {
         header: 'Stock',

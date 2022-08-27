@@ -29,6 +29,7 @@ import others from '../others'
 import product from '../product'
 import stock from '../stock'
 import discount from '../discount'
+import order from '../order'
 
 // Array of sections
 export default [{
@@ -57,6 +58,13 @@ export default [{
     icon: 'FileTextIcon',
     children: [
         ...product
+    ],
+},
+{
+    header: 'Order',
+    icon: 'FileTextIcon',
+    children: [
+        ...order
     ],
 },
 {

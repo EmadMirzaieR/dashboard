@@ -1,6 +1,6 @@
 export default [
   {
-    title: 'List',
+    title: 'Stock List',
     icon: 'BoxIcon',
     route: 'apps-stocks-list',
   },

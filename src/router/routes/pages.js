@@ -250,4 +250,9 @@ export default [
     name: 'apps-stocks-view',
     component: () => import('@/views/apps/stock/stocks-view/StocksView.vue'),
   },
+  {
+    path: '/apps/orders/list-pending',
+    name: 'apps-orders-list-pending',
+    component: () => import('@/views/apps/order/orders-list-pending/OrdersListPending.vue'),
+  }
 ]
