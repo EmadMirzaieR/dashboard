@@ -67,7 +67,8 @@
     "vue-tree-halower": "1.8.3",
     "vue2-leaflet": "2.5.2",
     "vuedraggable": "2.24.3",
-    "vuex": "3.6.0"
+    "vuex": "3.6.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.10/xlsx-0.18.10.tgz"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.9",

@@ -21,11 +21,22 @@
             />
             <label>entries</label>
           </b-col>
+          <b-col cols="12" md="6">
+            <div class="d-flex align-items-center justify-content-end">
+              <b-button variant="outline-secondary" @click="downloadExcel">
+                <span class="text-nowrap">Download Excel</span>
+              </b-button>
+              <b-button variant="outline-primary" @click="print">
+                <span class="text-nowrap">Print</span>
+              </b-button>
+            </div>
+          </b-col>
         </b-row>
       </div>
 
       <b-table
         ref="refLogListTable"
+        id="refLogListTable"
         class="position-relative"
         :items="fetchLogsList"
         responsive
@@ -41,13 +52,13 @@
             {{ data.item.object_type }}
           </b-badge>
         </template>
-        
+
         <template #cell(full_name)="data">
-          {{data.item.user.first_name}} {{data.item.user.last_name}}
+          {{ data.item.user.first_name }} {{ data.item.user.last_name }}
         </template>
-        
+
         <template #cell(created_at)="data">
-          {{new Date(data.item.created_at)}}
+          {{ new Date(data.item.created_at) }}
         </template>
       </b-table>
       <div class="mx-2 mb-2">
@@ -166,7 +177,8 @@ export default {
       isSortDirDesc,
       refLogListTable,
       refetchData,
-
+      downloadExcel,
+      print,
       // UI
     } = useLogsList();
 
@@ -183,6 +195,8 @@ export default {
       isSortDirDesc,
       refLogListTable,
       refetchData,
+      downloadExcel,
+      print,
     };
   },
 };
