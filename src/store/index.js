@@ -16,6 +16,7 @@ import featureStoreModule from '@/views/apps/feature/featureStoreModule'
 import userStoreModule from '@/views/apps/user/userStoreModule'
 import discountStoreModule from '@/views/apps/discount/discountStoreModule'
 import supplierStoreModule from '@/views/apps/supplier/supplierStoreModule'
+import logStoreModule from '@/views/apps/log/logStoreModule'
 
 Vue.use(Vuex)
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     'app-user': userStoreModule,
     'app-discount': discountStoreModule,
     'app-supplier': supplierStoreModule,
+    'app-log': logStoreModule,
   },
   strict: process.env.DEV,
 })

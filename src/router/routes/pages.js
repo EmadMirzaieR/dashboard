@@ -216,6 +216,11 @@ export default [
     },
   },
   {
+    path: '/apps/logs/list',
+    name: 'apps-logs-list',
+    component: () => import('@/views/apps/log/logs-list/LogsList.vue'),
+  },
+  {
     path: '/apps/stocks/list',
     name: 'apps-stocks-list',
     component: () => import('@/views/apps/stock/stocks-list/StocksList.vue'),

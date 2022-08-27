@@ -45,6 +45,11 @@ export default [
     route: 'apps-comments-pending',
   },
   {
+    title: 'Log',
+    icon: 'ListIcon',
+    route: 'apps-logs-list',
+  },
+  {
     title: 'FAQ',
     icon: 'HelpCircleIcon',
     route: 'apps-faqs-list',
