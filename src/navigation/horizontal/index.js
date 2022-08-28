@@ -31,6 +31,7 @@ import stock from '../stock'
 import discount from '../discount'
 import order from '../order'
 import affiliate from '../affiliate'
+import customer from '../customer'
 
 // Array of sections
 export default [
@@ -46,6 +47,13 @@ export default [
         icon: 'FileTextIcon',
         children: [
             ...pages
+        ],
+    },
+    {
+        header: 'Customer',
+        icon: 'FileTextIcon',
+        children: [
+            ...customer
         ],
     },
     {

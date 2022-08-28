@@ -1,20 +1,5 @@
 <template>
   <div>
-    <user-list-add-new
-      :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
-      :is-active-options="isActiveOptions"
-      :is-staff-options="isStaffOptions"
-      @refetch-data="refetchData"
-    />
-
-    <!-- Filters -->
-    <users-list-filters
-      :is-active-filter.sync="isActiveFilter"
-      :is-staff-filter.sync="isStaffFilter"
-      :is-active-options="isActiveOptions"
-      :is-staff-options="isStaffOptions"
-    />
-
     <!-- Table Container Card -->
     <b-card no-body class="mb-0">
       <div class="m-2">
@@ -45,21 +30,15 @@
                 class="d-inline-block mr-1"
                 placeholder="Search..."
               />
-              <b-button
-                variant="primary"
-                @click="isAddNewUserSidebarActive = true"
-              >
-                <span class="text-nowrap">Add User</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
       </div>
 
       <b-table
-        ref="refUserListTable"
+        ref="refCustomersCartListTable"
         class="position-relative"
-        :items="fetchUsers"
+        :items="fetchCustomersCarts"
         responsive
         :fields="tableColumns"
         primary-key="id"
@@ -68,59 +47,12 @@
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
       >
-        <template #cell(is_active)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveUserIsActiveStaffVariant(data.item.is_active)}`"
-            class="text-capitalize"
-          >
-            {{ data.item.is_active == true ? "Active" : "Inactive" }}
-          </b-badge>
+        <template #cell(name)="data">
+          {{ data.item.first_name + " " + data.item.last_name }}
         </template>
 
-        <template #cell(is_staff)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveUserIsActiveStaffVariant(data.item.is_staff)}`"
-            class="text-capitalize"
-          >
-            {{ data.item.is_staff == true ? "Staff" : "NotStaff" }}
-          </b-badge>
-        </template>
-
-        <!-- Column: Actions -->
-        <template #cell(actions)="data">
-          <b-dropdown
-            variant="link"
-            no-caret
-            :right="$store.state.appConfig.isRTL"
-          >
-            <template #button-content>
-              <feather-icon
-                icon="MoreVerticalIcon"
-                size="16"
-                class="align-middle text-body"
-              />
-            </template>
-            <b-dropdown-item
-              :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-            >
-              <feather-icon icon="FileTextIcon" />
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
-
-            <b-dropdown-item
-              :to="{ name: 'apps-users-edit', params: { id: data.item.id } }"
-            >
-              <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
-
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
-          </b-dropdown>
+        <template #cell(last_login)="data">
+          {{ new Date(data.item.last_login) }}
         </template>
       </b-table>
       <div class="mx-2 mb-2">
@@ -151,7 +83,7 @@
           >
             <b-pagination
               v-model="currentPage"
-              :total-rows="totalUsers"
+              :total-rows="totalCustomersCarts"
               :per-page="perPage"
               first-number
               last-number
@@ -193,16 +125,11 @@ import vSelect from "vue-select";
 import store from "@/store";
 import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
-import UsersListFilters from "./UsersListFilters.vue";
-import useUsersList from "./useUsersList";
-import userStoreModule from "../userStoreModule";
-import UserListAddNew from "./UserListAddNew.vue";
+import useCustomersCartsList from "./useCustomersCartsList";
+import customerStoreModule from "../customerStoreModule";
 
 export default {
   components: {
-    UsersListFilters,
-    UserListAddNew,
-
     BCard,
     BRow,
     BCol,
@@ -219,82 +146,57 @@ export default {
 
     vSelect,
   },
+  methods: {},
   setup() {
-    const USER_APP_STORE_MODULE_NAME = "app-user";
+    const CustomersCart_APP_STORE_MODULE_NAME = "app-customer";
 
     // Register module
-    if (!store.hasModule(USER_APP_STORE_MODULE_NAME))
-      store.registerModule(USER_APP_STORE_MODULE_NAME, userStoreModule);
+    if (!store.hasModule(CustomersCart_APP_STORE_MODULE_NAME))
+      store.registerModule(
+        CustomersCart_APP_STORE_MODULE_NAME,
+        customerStoreModule
+      );
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(USER_APP_STORE_MODULE_NAME))
-        store.unregisterModule(USER_APP_STORE_MODULE_NAME);
+      if (store.hasModule(CustomersCart_APP_STORE_MODULE_NAME))
+        store.unregisterModule(CustomersCart_APP_STORE_MODULE_NAME);
     });
 
-    const isAddNewUserSidebarActive = ref(false);
-
-    const isActiveOptions = [
-      { label: "Active", value: true},
-      { label: "InActive", value: false },
-    ];
-
-    const isStaffOptions = [
-      { label: "Staff", value: true},
-      { label: "NotStaff", value: false },
-    ];
-
     const {
-      fetchUsers,
+      fetchCustomersCarts,
       tableColumns,
       perPage,
       currentPage,
-      totalUsers,
+      totalCustomersCarts,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refUserListTable,
+      refCustomersCartListTable,
       refetchData,
 
       // UI
-      resolveUserIsActiveStaffVariant,
-
-      // Extra Filters
-      isActiveFilter,
-      isStaffFilter,
-    } = useUsersList();
+    } = useCustomersCartsList();
 
     return {
       // Sidebar
-      isAddNewUserSidebarActive,
-
-      fetchUsers,
+      fetchCustomersCarts,
       tableColumns,
       perPage,
       currentPage,
-      totalUsers,
+      totalCustomersCarts,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refUserListTable,
+      refCustomersCartListTable,
       refetchData,
 
       // Filter
       avatarText,
-
-      // UI
-      resolveUserIsActiveStaffVariant,
-
-      isActiveOptions,
-      isStaffOptions,
-
-      // Extra Filters
-      isActiveFilter,
-      isStaffFilter,
     };
   },
 };

@@ -6,6 +6,7 @@ import stock from '../stock'
 import discount from '../discount'
 import order from '../order'
 import affiliate from '../affiliate'
+import customer from '../customer'
 
 export default [
     {
@@ -19,6 +20,11 @@ export default [
         header: 'Pages',
     },
     ...pages,
+    {
+        header: 'Customer',
+    },
+    ...customer
+    ,
     {
         header: 'Discount',
     },

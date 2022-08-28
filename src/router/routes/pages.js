@@ -252,6 +252,16 @@ export default [
     component: () => import('@/views/apps/affiliate/affiliate-accounts-list/AffiliateAccountsList.vue'),
   },
   {
+    path: '/apps/customers/carts/list',
+    name: 'apps-customers-carts-list',
+    component: () => import('@/views/apps/customer/customersCarts-list/CustomersCartsList.vue'),
+  },
+  {
+    path: '/apps/customers/orders/list',
+    name: 'apps-customers-orders-list',
+    component: () => import('@/views/apps/customer/customersOrders-list/CustomersOrdersList.vue'),
+  },
+  {
     path: '/apps/verbal',
     name: 'apps-verbal',
     component: () => import('@/views/apps/verbal/verbal-list/VerbalList.vue'),

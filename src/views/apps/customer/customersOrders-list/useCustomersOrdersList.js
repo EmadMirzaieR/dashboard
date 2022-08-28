@@ -5,70 +5,72 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useUsersList() {
+export default function useCustomersOrdersList() {
   // Use toast
   const toast = useToast()
 
-  const refUserListTable = ref(null)
+  const refCustomersOrderListTable = ref(null)
 
   // Table Handlers
   const tableColumns = [
     { key: 'id', sortable: true },
+    { key: 'name', sortable: true },
     { key: 'email', sortable: true },
-    { key: 'first_name', sortable: true },
-    { key: 'last_name', sortable: true },
-    { key: 'is_active', sortable: true },
-    { key: 'is_staff', sortable: true },
-    { key: 'actions' },
+    { key: 'phone_number', sortable: true },
+    { key: 'last_login', sortable: true },
+    { key: 'order_count', sortable: true },
+    { key: 'complete_order', sortable: true },
+    { key: 'pending_order', sortable: true },
+    { key: 'cancel_order', sortable: true },
+    { key: 'total_price_buy', sortable: true },
+    { key: 'total_discount_buy', sortable: true },
+    { key: 'final_pay', sortable: true },
   ]
+
   const perPage = ref(10)
-  const totalUsers = ref(0)
+  const totalCustomersOrders = ref(0)
   const currentPage = ref(1)
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
   const isSortDirDesc = ref(false)
-  const isActiveFilter = ref(null)
-  const isStaffFilter = ref(null)
 
   const dataMeta = computed(() => {
-    const localItemsCount = refUserListTable.value ? refUserListTable.value.localItems.length : 0
+    const localItemsCount = refCustomersOrderListTable.value ? refCustomersOrderListTable.value.localItems.length : 0
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalUsers.value,
+      of: totalCustomersOrders.value,
     }
   })
 
   const refetchData = () => {
-    refUserListTable.value.refresh()
+    refCustomersOrderListTable.value.refresh()
   }
 
-  watch([currentPage, perPage, searchQuery, isActiveFilter, isStaffFilter], () => {
+  watch([currentPage, perPage, searchQuery], () => {
     refetchData()
   })
 
-  const fetchUsers = (ctx, callback) => {
+  const fetchCustomersOrders = (ctx, callback) => {
     store
-      .dispatch('app-user/fetchUsers', {
+      .dispatch('app-customer/fetchCustomersOrders', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
-        isActive: isActiveFilter.value,
-        isStaff: isStaffFilter.value,
       })
       .then(response => {
         const { data, total } = response
         callback(data)
-        totalUsers.value = total
+        totalCustomersOrders.value = total
       })
       .catch(() => {
         toast({
           component: ToastificationContent,
           props: {
-            title: 'Error fetching users list',
+            title: 'Error fetching customersOrders list',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
@@ -76,33 +78,19 @@ export default function useUsersList() {
       })
   }
 
-  // *===============================================---*
-  // *--------- UI ---------------------------------------*
-  // *===============================================---*
-
-  const resolveUserIsActiveStaffVariant = status => {
-    if (status === true) return 'success'
-    return 'danger'
-  }
 
   return {
-    fetchUsers,
+    fetchCustomersOrders,
     tableColumns,
     perPage,
     currentPage,
-    totalUsers,
+    totalCustomersOrders,
     dataMeta,
     perPageOptions,
     searchQuery,
     sortBy,
     isSortDirDesc,
-    refUserListTable,
-
-    resolveUserIsActiveStaffVariant,
+    refCustomersOrderListTable,
     refetchData,
-
-    // Extra Filters
-    isActiveFilter,
-    isStaffFilter,
   }
 }

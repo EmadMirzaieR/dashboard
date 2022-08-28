@@ -5,11 +5,6 @@ export default [
     route: 'apps-users-list',
   },
   {
-    title: 'Customers',
-    icon: 'UsersIcon',
-    route: 'apps-customers-list',
-  },
-  {
     title: 'Shops',
     icon: 'ShoppingBagIcon',
     route: 'apps-shops-list',
