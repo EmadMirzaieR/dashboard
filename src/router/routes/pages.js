@@ -239,5 +239,16 @@ export default [
     path: '/apps/orders/list',
     name: 'apps-orders-list',
     component: () => import('@/views/apps/order/orders-list/OrdersList.vue'),
+  },
+  {
+    path: '/apps/affiliates/links/list',
+    name: 'apps-affiliates-links-list',
+    component: () => import('@/views/apps/affiliate/affiliate-links-list/AffiliateLinksList.vue'),
+
+  },
+  {
+    path: '/apps/affiliates/accounts/list',
+    name: 'apps-affiliates-accounts-list',
+    component: () => import('@/views/apps/affiliate/affiliate-accounts-list/AffiliateAccountsList.vue'),
   }
 ]

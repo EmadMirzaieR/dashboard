@@ -30,6 +30,7 @@ import product from '../product'
 import stock from '../stock'
 import discount from '../discount'
 import order from '../order'
+import affiliate from '../affiliate'
 
 // Array of sections
 export default [{
@@ -72,6 +73,13 @@ export default [{
     icon: 'FileTextIcon',
     children: [
         ...stock
+    ],
+},
+{
+    header: 'Affiliate',
+    icon: 'FileTextIcon',
+    children: [
+        ...affiliate
     ],
 },
 {
