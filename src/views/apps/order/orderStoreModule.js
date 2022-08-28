@@ -28,6 +28,38 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchOrders(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        status = null,
+        orderType = null
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/orders-dashboard/list-orders/', {})
+          .then(response => {
+            const { data } = response
+
+            const filteredData = data.filter(
+              order =>
+              /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
+              (
+                (status === null ? true : order.status === status) &&
+                (orderType === null ? true : order.order_type === orderType)
+              )
+            )
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
     changeStatusOrder(ctx, { id, status }) {
       return new Promise((resolve, reject) => {
         axios

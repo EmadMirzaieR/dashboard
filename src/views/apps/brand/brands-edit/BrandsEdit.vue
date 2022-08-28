@@ -44,16 +44,16 @@ export default {
   setup() {
     const brandData = ref(null);
 
-    const Brand_APP_STORE_MODULE_NAME = "app-brand";
+    const BRAND_APP_STORE_MODULE_NAME = "app-brand";
 
     // Register module
-    if (!store.hasModule(Brand_APP_STORE_MODULE_NAME))
-      store.registerModule(Brand_APP_STORE_MODULE_NAME, brandStoreModule);
+    if (!store.hasModule(BRAND_APP_STORE_MODULE_NAME))
+      store.registerModule(BRAND_APP_STORE_MODULE_NAME, brandStoreModule);
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(Brand_APP_STORE_MODULE_NAME))
-        store.unregisterModule(Brand_APP_STORE_MODULE_NAME);
+      if (store.hasModule(BRAND_APP_STORE_MODULE_NAME))
+        store.unregisterModule(BRAND_APP_STORE_MODULE_NAME);
     });
 
     store

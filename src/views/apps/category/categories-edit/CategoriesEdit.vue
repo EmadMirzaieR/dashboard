@@ -45,16 +45,16 @@ export default {
   setup() {
     const categoryData = ref(null);
 
-    const Category_APP_STORE_MODULE_NAME = "app-category";
+    const CATEGORY_APP_STORE_MODULE_NAME = "app-category";
 
     // Register module
-    if (!store.hasModule(Category_APP_STORE_MODULE_NAME))
-      store.registerModule(Category_APP_STORE_MODULE_NAME, categoryStoreModule);
+    if (!store.hasModule(CATEGORY_APP_STORE_MODULE_NAME))
+      store.registerModule(CATEGORY_APP_STORE_MODULE_NAME, categoryStoreModule);
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(Category_APP_STORE_MODULE_NAME))
-        store.unregisterModule(Category_APP_STORE_MODULE_NAME);
+      if (store.hasModule(CATEGORY_APP_STORE_MODULE_NAME))
+        store.unregisterModule(CATEGORY_APP_STORE_MODULE_NAME);
     });
 
     store

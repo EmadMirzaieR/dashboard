@@ -234,5 +234,10 @@ export default [
     path: '/apps/orders/list-pending',
     name: 'apps-orders-list-pending',
     component: () => import('@/views/apps/order/orders-list-pending/OrdersListPending.vue'),
+  },
+  {
+    path: '/apps/orders/list',
+    name: 'apps-orders-list',
+    component: () => import('@/views/apps/order/orders-list/OrdersList.vue'),
   }
 ]
