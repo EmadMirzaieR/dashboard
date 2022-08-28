@@ -55,6 +55,7 @@
                 :items="row.item.order_items"
                 :fields="[
                   'id',
+                  'stock.shop.name',
                   'stock.product.name',
                   'stock.color.name',
                   'stock.size.name',
