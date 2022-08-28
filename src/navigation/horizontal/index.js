@@ -33,59 +33,60 @@ import order from '../order'
 import affiliate from '../affiliate'
 
 // Array of sections
-export default [{
-    header: 'Dashboards',
-    icon: 'HomeIcon',
-    children: [
-        ...dashboard,
-    ],
-},
-{
-    header: 'Pages',
-    icon: 'FileTextIcon',
-    children: [
-        ...pages
-    ],
-},
-{
-    header: 'Discount',
-    icon: 'FileTextIcon',
-    children: [
-        ...discount
-    ],
-},
-{
-    header: 'Product',
-    icon: 'FileTextIcon',
-    children: [
-        ...product
-    ],
-},
-{
-    header: 'Order',
-    icon: 'FileTextIcon',
-    children: [
-        ...order
-    ],
-},
-{
-    header: 'Stock',
-    icon: 'FileTextIcon',
-    children: [
-        ...stock
-    ],
-},
-{
-    header: 'Affiliate',
-    icon: 'FileTextIcon',
-    children: [
-        ...affiliate
-    ],
-},
-{
-    header: 'Others',
-    icon: 'MoreHorizontalIcon',
-    children: [
-        ...others
-    ],
-},]
+export default [
+    {
+        header: 'Dashboards',
+        icon: 'HomeIcon',
+        children: [
+            ...dashboard,
+        ],
+    },
+    {
+        header: 'Pages',
+        icon: 'FileTextIcon',
+        children: [
+            ...pages
+        ],
+    },
+    {
+        header: 'Discount',
+        icon: 'FileTextIcon',
+        children: [
+            ...discount
+        ],
+    },
+    {
+        header: 'Product',
+        icon: 'FileTextIcon',
+        children: [
+            ...product
+        ],
+    },
+    {
+        header: 'Order',
+        icon: 'FileTextIcon',
+        children: [
+            ...order
+        ],
+    },
+    {
+        header: 'Stock',
+        icon: 'FileTextIcon',
+        children: [
+            ...stock
+        ],
+    },
+    {
+        header: 'Affiliate',
+        icon: 'FileTextIcon',
+        children: [
+            ...affiliate
+        ],
+    },
+    {
+        header: 'Others',
+        icon: 'MoreHorizontalIcon',
+        children: [
+            ...others
+        ],
+    },]

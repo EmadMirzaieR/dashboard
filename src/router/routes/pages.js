@@ -250,5 +250,10 @@ export default [
     path: '/apps/affiliates/accounts/list',
     name: 'apps-affiliates-accounts-list',
     component: () => import('@/views/apps/affiliate/affiliate-accounts-list/AffiliateAccountsList.vue'),
-  }
+  },
+  {
+    path: '/apps/verbal',
+    name: 'apps-verbal',
+    component: () => import('@/views/apps/verbal/verbal-list/VerbalList.vue'),
+  },
 ]
