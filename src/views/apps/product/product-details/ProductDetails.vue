@@ -259,7 +259,6 @@ export default {
           store
             .dispatch("app-product/deleteProduct", { id })
             .then((response) => {
-              console.log(response);
               if (response.status == 204) {
                 this.$swal({
                   icon: "success",

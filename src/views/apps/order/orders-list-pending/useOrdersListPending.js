@@ -4,6 +4,7 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { downloadExcel, print } from '@/@core/utils/utils'
 
 export default function useOrdersListPending() {
   // Use toast
@@ -78,11 +79,18 @@ export default function useOrdersListPending() {
   // *===============================================---*
 
   const resolveStatusVariant = status => {
-    console.log(status);
     if (status === 0) return 'PENDING'
     if (status === 1) return 'PROCESSING'
     if (status === 2) return 'DELIVERED'
     return 'CANCELED'
+  }
+
+  const downloadExcelTable = () => {
+    downloadExcel('refOrderListPendingTable', 'delivery-pending')
+  }
+
+  const printTable = () => {
+    print('refOrderListPendingTable', 'logs')
   }
 
   return {
@@ -99,5 +107,7 @@ export default function useOrdersListPending() {
     refOrderListPendingTable,
     resolveStatusVariant,
     refetchData,
+    downloadExcelTable,
+    printTable,
   }
 }

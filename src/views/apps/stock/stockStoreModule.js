@@ -100,7 +100,6 @@ export default {
       })
     },
     addStock(ctx, stockData) {
-      console.log(stockData);
       return new Promise((resolve, reject) => {
         axios
           .post('/stocks-dashboard/transfer-products/create/', stockData)
@@ -196,7 +195,6 @@ export default {
       })
     },
     addStockOnline(ctx, stockData) {
-      console.log(stockData);
       return new Promise((resolve, reject) => {
         axios
           .post('/stocks_online/create/', stockData)

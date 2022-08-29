@@ -141,7 +141,6 @@ export default {
   },
   methods: {
     getUsers() {
-      console.log(this.$props.shopData);
       store.dispatch("app-user/fetchUsersOption").then((response) => {
         this.usersOption = response;
       });

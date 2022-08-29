@@ -23,10 +23,10 @@
           </b-col>
           <b-col cols="12" md="6">
             <div class="d-flex align-items-center justify-content-end">
-              <b-button variant="outline-secondary" @click="downloadExcel">
+              <b-button variant="outline-secondary" @click="downloadExcelTable">
                 <span class="text-nowrap">Download Excel</span>
               </b-button>
-              <b-button variant="outline-primary" @click="print">
+              <b-button variant="outline-primary" @click="printTable">
                 <span class="text-nowrap">Print</span>
               </b-button>
             </div>
@@ -177,8 +177,8 @@ export default {
       isSortDirDesc,
       refLogListTable,
       refetchData,
-      downloadExcel,
-      print,
+      downloadExcelTable,
+      printTable,
       // UI
     } = useLogsList();
 
@@ -195,8 +195,8 @@ export default {
       isSortDirDesc,
       refLogListTable,
       refetchData,
-      downloadExcel,
-      print,
+      downloadExcelTable,
+      printTable,
     };
   },
 };

@@ -4,6 +4,7 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { downloadExcel, print } from '@/@core/utils/utils'
 
 export default function useOrdersList() {
   // Use toast
@@ -92,6 +93,14 @@ export default function useOrdersList() {
     return 'danger'
   }
 
+  const downloadExcelTable = () => {
+    downloadExcel('refOrderListTable', 'orders')
+  }
+
+  const printTable = () => {
+    print('refOrderListTable', 'orders')
+  }
+
   return {
     fetchOrders,
     tableColumns,
@@ -109,5 +118,7 @@ export default function useOrdersList() {
     // Extra Filters
     statusFilter,
     orderTypeFilter,
+    downloadExcelTable,
+    printTable,
   }
 }

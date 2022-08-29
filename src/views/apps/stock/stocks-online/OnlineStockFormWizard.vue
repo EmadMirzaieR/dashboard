@@ -122,7 +122,6 @@ export default {
         .dispatch("app-stock/addStock", this.stock)
         .then((response) => {
           if (response.status == 201) {
-            console.log(response.data);
           }
         })
         .catch((error) => {});

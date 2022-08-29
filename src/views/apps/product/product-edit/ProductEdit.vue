@@ -106,7 +106,6 @@ export default {
               fromGallery: true,
             };
           });
-          console.log(filteredData);
           gallery.value = filteredData;
         })
         .catch((error) => {

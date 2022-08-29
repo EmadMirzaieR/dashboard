@@ -4,6 +4,7 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { downloadExcel, print } from '@/@core/utils/utils'
 
 export default function useCustomersOrdersList() {
   // Use toast
@@ -78,6 +79,14 @@ export default function useCustomersOrdersList() {
       })
   }
 
+  const downloadExcelTable = () => {
+    downloadExcel('refCustomersOrderListTable', 'customers-orders')
+  }
+
+  const printTable = () => {
+    print('refCustomersOrderListTable', 'customers-orders')
+  }
+
 
   return {
     fetchCustomersOrders,
@@ -92,5 +101,7 @@ export default function useCustomersOrdersList() {
     isSortDirDesc,
     refCustomersOrderListTable,
     refetchData,
+    downloadExcelTable,
+    printTable,
   }
 }

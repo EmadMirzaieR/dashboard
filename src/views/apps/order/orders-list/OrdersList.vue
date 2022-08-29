@@ -32,8 +32,20 @@
         </b-row>
       </div>
 
+      <b-col cols="12" md="6">
+            <div class="d-flex align-items-center justify-content-end">
+              <b-button variant="outline-secondary" @click="downloadExcelTable">
+                <span class="text-nowrap">Download Excel</span>
+              </b-button>
+              <b-button variant="outline-primary" @click="printTable">
+                <span class="text-nowrap">Print</span>
+              </b-button>
+            </div>
+          </b-col>
+
       <b-table
         ref="refOrderListTable"
+        id="refOrderListTable"
         class="position-relative"
         :items="fetchOrders"
         responsive
@@ -67,7 +79,7 @@
               >
                 <template #cell(status)="data">
                   <b-badge pill class="text-capitalize">
-                    {{ statusDetail(data.item.status) }}
+                    {{ getStatus(data.item.status) }}
                   </b-badge>
                 </template>
               </b-table>
@@ -221,7 +233,7 @@ export default {
       if (status == 3) return "Expired";
       return "";
     },
-    statusDetail(status) {
+    getStatus(status) {
       if (status == 0) return "Pending";
       if (status == 1) return "Completed";
       if (status == 4) return "FINISHED_BEFORE_PAYMENT";
@@ -271,6 +283,8 @@ export default {
       // Extra Filters
       statusFilter,
       orderTypeFilter,
+      downloadExcelTable,
+      printTable,
     } = useOrdersList();
 
     return {
@@ -298,6 +312,8 @@ export default {
       // Extra Filters
       statusFilter,
       orderTypeFilter,
+      downloadExcelTable,
+      printTable,
     };
   },
 };

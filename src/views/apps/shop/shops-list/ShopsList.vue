@@ -25,6 +25,17 @@
             />
             <label>entries</label>
           </b-col>
+          
+          <b-col cols="12" md="6">
+            <div class="d-flex align-items-center justify-content-end">
+              <b-button variant="outline-secondary" @click="downloadExcelTable">
+                <span class="text-nowrap">Download Excel</span>
+              </b-button>
+              <b-button variant="outline-primary" @click="printTable">
+                <span class="text-nowrap">Print</span>
+              </b-button>
+            </div>
+          </b-col>
 
           <!-- Search -->
           <b-col cols="12" md="6">
@@ -47,6 +58,7 @@
 
       <b-table
         ref="refShopListTable"
+        id="refShopListTable"
         class="position-relative"
         :items="fetchShops"
         responsive
@@ -63,7 +75,7 @@
             :variant="`light-${resolveShopStatusVariant(data.item.status)}`"
             class="text-capitalize"
           >
-            {{ data.item.status }}
+            {{ getStatus(data.item.status) }}
           </b-badge>
         </template>
 
@@ -193,6 +205,11 @@ export default {
     vSelect,
   },
   methods: {
+    getStatus(status) {
+      if (status === 0) return "InActive";
+      if (status === 1) return "Active";
+      if (status === 2) return "Deleted";
+    },
     deleteShop(id) {
       this.$swal({
         title: "Accept Or Deny",
@@ -208,7 +225,6 @@ export default {
       }).then((result) => {
         if (result.value) {
           store.dispatch("app-shop/deleteShop", { id }).then((response) => {
-            console.log(response);
             if (response.status == 200) {
               this.$swal({
                 icon: "success",
@@ -264,6 +280,8 @@ export default {
       refShopListTable,
       refetchData,
       resolveShopStatusVariant,
+      downloadExcelTable,
+      printTable,
       // UI
     } = useShopsList();
 
@@ -287,6 +305,8 @@ export default {
       // Filter
       avatarText,
       resolveShopStatusVariant,
+      downloadExcelTable,
+      printTable,
     };
   },
 };

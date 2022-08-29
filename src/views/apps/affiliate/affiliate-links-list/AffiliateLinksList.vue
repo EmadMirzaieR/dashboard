@@ -1,7 +1,40 @@
 <template>
   <b-card no-body class="mb-0">
+    <div class="m-2">
+      <!-- Table Top -->
+      <b-row>
+        <!-- Per Page -->
+        <b-col
+          cols="12"
+          md="6"
+          class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
+        >
+          <label>Show</label>
+          <v-select
+            v-model="perPage"
+            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+            :options="perPageOptions"
+            :clearable="false"
+            class="per-page-selector d-inline-block mx-50"
+          />
+          <label>entries</label>
+        </b-col>
+
+        <b-col cols="12" md="6">
+          <div class="d-flex align-items-center justify-content-end">
+            <b-button variant="outline-secondary" @click="downloadExcelTable">
+              <span class="text-nowrap">Download Excel</span>
+            </b-button>
+            <b-button variant="outline-primary" @click="printTable">
+              <span class="text-nowrap">Print</span>
+            </b-button>
+          </div>
+        </b-col>
+      </b-row>
+    </div>
     <b-table
       ref="refAffiliateLinksListTable"
+      id="refAffiliateLinksListTable"
       class="position-relative"
       :items="fetchAffiliateLinksList"
       responsive
@@ -148,6 +181,8 @@ export default {
 
       // UI
       resolveStatusVariant,
+      downloadExcelTable,
+      printTable,
     } = useAffiliateLinksList();
 
     return {
@@ -170,6 +205,8 @@ export default {
 
       // UI
       resolveStatusVariant,
+      downloadExcelTable,
+      printTable,
     };
   },
 };

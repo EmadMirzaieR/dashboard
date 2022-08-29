@@ -109,15 +109,13 @@ export default {
   computed: {},
   methods: {
     formSubmitted() {
-      console.log(this.stock);
-      // store
-      //   .dispatch("app-stock/addStock", this.stock)
-      //   .then((response) => {
-      //     if (response.status == 201) {
-      //       console.log(response.data);
-      //     }
-      //   })
-      //   .catch((error) => {});
+      store
+        .dispatch("app-stock/addStock", this.stock)
+        .then((response) => {
+          if (response.status == 201) {
+          }
+        })
+        .catch((error) => {});
     },
     colorCheck() {
       return this.stock.color ? true : false;

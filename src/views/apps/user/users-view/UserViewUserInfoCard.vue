@@ -175,8 +175,8 @@ export default {
     userRole(role) {
       if (role == 0) return "Customer";
       if (role == 1) return "Admin";
-      if (role == 2) return "Cachier";
-      if (role == 3) return "Store Keeper";
+      if (role == 2) return "Cashier";
+      if (role == 3) return "Stock Keeper";
     },
   },
   setup() {

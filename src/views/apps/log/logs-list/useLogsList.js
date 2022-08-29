@@ -4,8 +4,7 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import { read, utils, writeFileXLSX } from 'xlsx';
-
+import { print, downloadExcel } from '@/@core/utils/utils'
 
 export default function useLogsList() {
   // Use toast
@@ -79,17 +78,12 @@ export default function useLogsList() {
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const downloadExcel = (ctx, callback) => {
-    const wb = utils.table_to_book(document.getElementById('refLogListTable'))
-    writeFileXLSX(wb, "logs.xlsx");
+  const downloadExcelTable = () => {
+    downloadExcel('refLogListTable', 'logs')
   }
 
-  const print = (ctx, callback) => {
-    var divToPrint = document.getElementById("refLogListTable");
-    var newWin = window.open("");
-    newWin.document.write(divToPrint.outerHTML);
-    newWin.print();
-    newWin.close();
+  const printTable = () => {
+    print('refLogListTable', 'logs')
   }
 
   return {
@@ -104,9 +98,8 @@ export default function useLogsList() {
     sortBy,
     isSortDirDesc,
     refLogListTable,
-    downloadExcel,
-    print,
-
     refetchData,
+    downloadExcelTable,
+    printTable
   }
 }

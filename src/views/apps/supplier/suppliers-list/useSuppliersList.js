@@ -4,6 +4,7 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { downloadExcel, print } from '@/@core/utils/utils'
 
 export default function useSuppliersList() {
   // Use toast
@@ -92,6 +93,14 @@ export default function useSuppliersList() {
     if (item === 2) return 'Person'
   }
 
+  const downloadExcelTable = () => {
+    downloadExcel('refSupplierListTable', 'suppliers')
+  }
+
+  const printTable = () => {
+    print('refSupplierListTable', 'suppliers')
+  }
+
   return {
     fetchSuppliers,
     tableColumns,
@@ -108,5 +117,7 @@ export default function useSuppliersList() {
     resolveSupplierType,
     resolveWorkType,
     refetchData,
+    downloadExcelTable,
+    printTable,
   }
 }

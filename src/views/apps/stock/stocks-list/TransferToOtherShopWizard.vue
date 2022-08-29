@@ -97,7 +97,6 @@ export default {
   computed: {},
   methods: {
     formSubmitted() {
-      console.log(this.stock);
       // store
       //   .dispatch("app-stock/addStock", this.stock)
       //   .then((response) => {

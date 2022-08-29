@@ -4,12 +4,13 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { downloadExcel, print } from '@/@core/utils/utils'
 
 export default function useStocksHistory() {
   // Use toast
   const toast = useToast()
 
-  const refStockListTable = ref(null)
+  const refStockListHistoryTable = ref(null)
 
   // Table Handlers
   const tableColumns = [
@@ -32,7 +33,7 @@ export default function useStocksHistory() {
   const isSortDirDesc = ref(false)
 
   const dataMeta = computed(() => {
-    const localItemsCount = refStockListTable.value ? refStockListTable.value.localItems.length : 0
+    const localItemsCount = refStockListHistoryTable.value ? refStockListHistoryTable.value.localItems.length : 0
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
@@ -41,7 +42,7 @@ export default function useStocksHistory() {
   })
 
   const refetchData = () => {
-    refStockListTable.value.refresh()
+    refStockListHistoryTable.value.refresh()
   }
 
   watch([currentPage, perPage, searchQuery], () => {
@@ -77,6 +78,13 @@ export default function useStocksHistory() {
   // *===============================================---*
   // *--------- UI ---------------------------------------*
   // *===============================================---*
+  const downloadExcelTable = () => {
+    downloadExcel('refStockListHistoryTable', 'stocks-history')
+  }
+
+  const printTable = () => {
+    print('refStockListHistoryTable', 'stocks-history')
+  }
 
   return {
     fetchStocksHistory,
@@ -89,7 +97,9 @@ export default function useStocksHistory() {
     searchQuery,
     sortBy,
     isSortDirDesc,
-    refStockListTable,
+    refStockListHistoryTable,
+    downloadExcelTable,
+    printTable,
 
     refetchData,
   }

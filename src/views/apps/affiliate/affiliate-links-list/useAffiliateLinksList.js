@@ -4,6 +4,7 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { downloadExcel, print } from '@/@core/utils/utils'
 
 export default function useAffiliateLinksList() {
   // Use toast
@@ -74,15 +75,22 @@ export default function useAffiliateLinksList() {
   // *===============================================---*
   // *--------- UI ---------------------------------------*
   // *===============================================---*
-
+  
   const resolveStatusVariant = status => {
-    console.log(status);
     if (status === 0) return 'PENDING'
     if (status === 1) return 'PROCESSING'
     if (status === 2) return 'DELIVERED'
     return 'CANCELED'
   }
 
+  const downloadExcelTable = () => {
+    downloadExcel('refAffiliateLinksListTable', 'affiliate-links')
+  }
+
+  const printTable = () => {
+    print('refAffiliateLinksListTable', 'affiliate-links')
+  }
+  
   return {
     fetchAffiliateLinksList,
     tableColumns,
@@ -97,5 +105,7 @@ export default function useAffiliateLinksList() {
     refAffiliateLinksListTable,
     resolveStatusVariant,
     refetchData,
+    downloadExcelTable,
+    printTable,
   }
 }

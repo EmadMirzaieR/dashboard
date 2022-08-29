@@ -4,6 +4,7 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { downloadExcel, print } from '@/@core/utils/utils'
 
 export default function useAffiliateAccountsList() {
   // Use toast
@@ -81,6 +82,14 @@ export default function useAffiliateAccountsList() {
     return 'danger'
   }
 
+  const downloadExcelTable = () => {
+    downloadExcel('refAffiliateAccountsListTable', 'affiliate-accounts')
+  }
+
+  const printTable = () => {
+    print('refAffiliateAccountsListTable', 'affiliate-accounts')
+  }
+
   return {
     fetchAffiliateAccounts,
     tableColumns,
@@ -95,5 +104,7 @@ export default function useAffiliateAccountsList() {
     refAffiliateAccountsListTable,
     resolveTrueFalseVariant,
     refetchData,
+    downloadExcelTable,
+    printTable,
   }
 }

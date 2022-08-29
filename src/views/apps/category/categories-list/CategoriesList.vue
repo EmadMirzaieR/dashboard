@@ -39,6 +39,16 @@
             />
             <label>entries</label>
           </b-col>
+          <b-col cols="12" md="6">
+            <div class="d-flex align-items-center justify-content-end">
+              <b-button variant="outline-secondary" @click="downloadExcelTable">
+                <span class="text-nowrap">Download Excel</span>
+              </b-button>
+              <b-button variant="outline-primary" @click="printTable">
+                <span class="text-nowrap">Print</span>
+              </b-button>
+            </div>
+          </b-col>
 
           <!-- Search -->
           <b-col cols="12" md="6">
@@ -61,6 +71,7 @@
 
       <b-table
         ref="refCategoryListTable"
+        id="refCategoryListTable"
         class="position-relative"
         :items="fetchCategories"
         responsive
@@ -325,6 +336,8 @@ export default {
       isActiveFilter,
       isDeletedFilter,
       isNavbarFilter,
+      downloadExcelTable,
+      printTable,
     } = useCategoriesList();
 
     return {
@@ -358,6 +371,8 @@ export default {
       isActiveFilter,
       isDeletedFilter,
       isNavbarFilter,
+      downloadExcelTable,
+      printTable,
     };
   },
 };

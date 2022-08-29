@@ -1,7 +1,20 @@
 <template>
   <b-card no-body class="mb-0">
+    <b-row>
+      <b-col cols="12">
+        <div class="d-flex align-items-center justify-content-end">
+          <b-button variant="outline-secondary" @click="downloadExcelTable">
+            <span class="text-nowrap">Download Excel</span>
+          </b-button>
+          <b-button variant="outline-primary" @click="printTable">
+            <span class="text-nowrap">Print</span>
+          </b-button>
+        </div>
+      </b-col>
+    </b-row>
     <b-table
       ref="refOrderListPendingTable"
+      id="refOrderListPendingTable"
       class="position-relative"
       :items="fetchOrderListPending"
       responsive
@@ -238,6 +251,8 @@ export default {
 
       // UI
       resolveStatusVariant,
+      downloadExcelTable,
+      printTable,
     } = useOrdersListPending();
 
     return {
@@ -260,6 +275,8 @@ export default {
 
       // UI
       resolveStatusVariant,
+      downloadExcelTable,
+      printTable,
     };
   },
 };

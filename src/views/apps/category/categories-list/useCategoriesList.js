@@ -4,6 +4,7 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { downloadExcel, print } from '@/@core/utils/utils'
 
 export default function useCategoriesList() {
   // Use toast
@@ -88,6 +89,14 @@ export default function useCategoriesList() {
     return 'danger'
   }
 
+  const downloadExcelTable = () => {
+    downloadExcel('refCategoryListTable', 'categories')
+  }
+
+  const printTable = () => {
+    print('refCategoryListTable', 'categories')
+  }
+
   return {
     fetchCategories,
     tableColumns,
@@ -106,5 +115,7 @@ export default function useCategoriesList() {
     isActiveFilter,
     isDeletedFilter,
     isNavbarFilter,
+    downloadExcelTable,
+    printTable,
   }
 }

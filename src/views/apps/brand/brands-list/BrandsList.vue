@@ -36,7 +36,16 @@
             />
             <label>entries</label>
           </b-col>
-
+          <b-col cols="12" md="6">
+            <div class="d-flex align-items-center justify-content-end">
+              <b-button variant="outline-secondary" @click="downloadExcelTable">
+                <span class="text-nowrap">Download Excel</span>
+              </b-button>
+              <b-button variant="outline-primary" @click="printTable">
+                <span class="text-nowrap">Print</span>
+              </b-button>
+            </div>
+          </b-col>
           <!-- Search -->
           <b-col cols="12" md="6">
             <div class="d-flex align-items-center justify-content-end">
@@ -58,6 +67,7 @@
 
       <b-table
         ref="refBrandListTable"
+        id="refBrandListTable"
         class="position-relative"
         :items="fetchBrands"
         responsive
@@ -309,6 +319,8 @@ export default {
       // Extra Filters
       isActiveFilter,
       isDeletedFilter,
+      downloadExcelTable,
+      printTable,
     } = useBrandsList();
 
     return {
@@ -340,6 +352,8 @@ export default {
       // Extra Filters
       isActiveFilter,
       isDeletedFilter,
+      downloadExcelTable,
+      printTable,
     };
   },
 };

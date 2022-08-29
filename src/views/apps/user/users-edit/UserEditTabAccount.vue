@@ -66,8 +66,8 @@
               :options="[
                 { label: 'Customer', value: 0 },
                 { label: 'Admin', value: 1 },
-                { label: 'Cachier', value: 2 },
-                { label: 'Store Keeper', value: 3 },
+                { label: 'Cashier', value: 2 },
+                { label: 'Stock Keeper', value: 3 },
               ]"
               :reduce="(val) => val.value"
               :clearable="false"
