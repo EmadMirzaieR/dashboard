@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="8">
+      <b-col cols="12" sm="12" md="8" >
         <b-card no-body class="mb-0">
           <div class="m-2">
             <b-row>
@@ -126,7 +126,7 @@
           </div>
         </b-card>
       </b-col>
-      <b-col cols="4">
+      <b-col cols="12" sm="8" md="4" >
         <b-card>
           <div class="mb-5">
             <b-row>
@@ -191,7 +191,6 @@
       <b-form class="list-view product-checkout">
         <!-- Left Form -->
         <b-card no-body>
-          <b-card-body>
             <b-row>
               <b-col cols="12" md="6">
                 <b-form-group
@@ -264,13 +263,11 @@
                 <b-button
                   variant="primary"
                   class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-                  @click="finishCart"
                 >
                   Finish
                 </b-button>
               </b-col>
             </b-row>
-          </b-card-body>
         </b-card>
       </b-form>
     </b-modal>
@@ -297,6 +294,7 @@ import {
   BModal,
   VBModal,
   BFormGroup,
+  BForm,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import store from "@/store";
@@ -327,6 +325,7 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
+    BForm,
 
     vSelect,
   },
