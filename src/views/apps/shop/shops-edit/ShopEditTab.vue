@@ -22,12 +22,13 @@
 
         <b-col cols="12" md="4">
           <b-form-group label="Owner" label-for="owner">
-            <b-form-select
-              :value="shopData.owner.id"
-              @input="inputOwner"
+            <v-select
+              v-model="shopData.owner"
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="usersOption"
-              :select-size="4"
-            />
+              label="text"
+            >
+            </v-select>
           </b-form-group>
         </b-col>
 
@@ -101,7 +102,7 @@ import {
   BCardTitle,
   BFormCheckbox,
   BFormSelect,
-  BFormTextarea
+  BFormTextarea,
 } from "bootstrap-vue";
 import { avatarText } from "@core/utils/filter";
 import vSelect from "vue-select";
@@ -126,7 +127,7 @@ export default {
     BFormCheckbox,
     vSelect,
     BFormSelect,
-    BFormTextarea
+    BFormTextarea,
   },
   props: {
     shopData: {
@@ -157,7 +158,14 @@ export default {
     const previewEl = ref(null);
 
     const onSubmit = () => {
-      props.shopData.owner = store
+      const { value } = props.shopData.owner;
+      const a = props.shopData.staffs;
+      const s = a.map((item) => item.value);
+
+      props.shopData.staffs = s;
+      props.shopData.owner = value;
+
+      store
         .dispatch("app-shop/editShop", {
           id: router.currentRoute.params.id,
           shopData: props.shopData,

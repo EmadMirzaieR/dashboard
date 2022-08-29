@@ -65,11 +65,18 @@ export default {
           return {
             text: item.first_name + " " + item.last_name,
             email: item.email,
-            value: item.id
+            value: item.id,
           };
         });
 
         shopData.value.staffs = s;
+        shopData.value.owner = {
+          text:
+            shopData.value.owner.first_name +
+            " " +
+            shopData.value.owner.last_name,
+          value: shopData.value.owner.id,
+        };
       })
       .catch((error) => {
         if (error.response.status === 404) {

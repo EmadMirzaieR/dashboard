@@ -82,7 +82,7 @@
           <validation-provider
             #default="validationContext"
             name="Description"
-            rules=""
+            rules="required"
           >
             <b-form-group label="Description" label-for="description">
               <b-form-textarea
@@ -104,11 +104,13 @@
             rules="required"
           >
             <b-form-group label="Owner" label-for="owner">
-              <b-form-select
+              <v-select
                 v-model="shopData.owner"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                 :options="usersOption"
-                :select-size="4"
-              />
+                label="text"
+              >
+              </v-select>
               <b-form-invalid-feedback>
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
@@ -241,7 +243,7 @@ import {
   BFormInvalidFeedback,
   BButton,
   BFormSelect,
-  BFormTextarea
+  BFormTextarea,
 } from "bootstrap-vue";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { ref } from "@vue/composition-api";
@@ -266,7 +268,7 @@ export default {
     ValidationProvider,
     ValidationObserver,
     BFormSelect,
-    BFormTextarea
+    BFormTextarea,
   },
   directives: {
     Ripple,
@@ -317,10 +319,12 @@ export default {
     };
 
     const onSubmit = () => {
-      const a = shopData.value.staffs
-      const s = a.map(item=>item.value)
+      const { value } = shopData.value.owner;
+      const a = shopData.value.staffs;
+      const s = a.map((item) => item.value);
 
-      shopData.value.staffs = s
+      shopData.value.staffs = s;
+      shopData.value.owner = value;
 
       store.dispatch("app-shop/addShop", shopData.value).then(() => {
         emit("refetch-data");
