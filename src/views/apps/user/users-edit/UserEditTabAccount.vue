@@ -64,7 +64,7 @@
               v-model="userData.role"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="[
-                { label: 'Customer', value: 0 },
+                { label: 'Normal', value: 0 },
                 { label: 'Admin', value: 1 },
                 { label: 'Cashier', value: 2 },
                 { label: 'Stock Keeper', value: 3 },

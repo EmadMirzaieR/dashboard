@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     userRole(role) {
-      if (role == 0) return "Customer";
+      if (role == 0) return "Normal";
       if (role == 1) return "Admin";
       if (role == 2) return "Cashier";
       if (role == 3) return "Stock Keeper";

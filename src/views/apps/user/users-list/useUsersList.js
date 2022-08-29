@@ -18,6 +18,7 @@ export default function useUsersList() {
     { key: 'email', sortable: true },
     { key: 'first_name', sortable: true },
     { key: 'last_name', sortable: true },
+    { key: 'role', sortable: true },
     { key: 'is_active', sortable: true },
     { key: 'is_staff', sortable: true },
     { key: 'actions' },

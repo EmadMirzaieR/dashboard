@@ -1,56 +1,48 @@
 import dashboard from '../dashboard'
-import pages from '../pages'
-import others from '../others'
-import product from '../product'
-import stock from '../stock'
-import discount from '../discount'
-import order from '../order'
 import affiliate from '../affiliate'
-import customer from '../customer'
+import userManagement from '../userManagement'
+import branchManagement from '../branchManagement'
+import providerManagement from '../providerManagement'
+import productManagement from '../productManagement'
+import salesManagement from '../salesManagement'
+import systemManagement from '../systemManagement'
 
 export default [
     {
-        title: 'Dashboards',
-        icon: 'HomeIcon',
-        children: [
-            ...dashboard
-        ],
+        header: 'Dashboard',
     },
-    {
-        header: 'Pages',
-    },
-    ...pages,
-    {
-        header: 'Customer',
-    },
-    ...customer
+    ...dashboard
     ,
     {
-        header: 'Discount',
+        header: 'Users Management',
     },
-    ...discount
+    ...userManagement,
+    {
+        header: 'Branches Management',
+    },
+    ...branchManagement
     ,
     {
-        header: 'Product',
+        header: 'Providers Management',
     },
-    ...product
+    ...providerManagement
     ,
     {
-        header: 'Order',
+        header: 'Product Management',
     },
-    ...order
+    ...productManagement
     ,
     {
-        header: 'Stock',
+        header: 'Sales Management',
     },
-    ...stock,
+    ...salesManagement
+    ,
     {
         header: 'Affiliate',
     },
-    ...affiliate
-    ,
+    ...affiliate,
     {
-        header: 'Others',
+        header: 'System Management',
     },
-    ...others
+    ...systemManagement
 ]

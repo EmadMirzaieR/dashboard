@@ -106,6 +106,12 @@
           </b-badge>
         </template>
 
+        <template #cell(role)="data">
+          <b-badge pill class="text-capitalize">
+            {{ getRole(data.item.role) }}
+          </b-badge>
+        </template>
+
         <!-- Column: Actions -->
         <template #cell(actions)="data">
           <b-dropdown
@@ -237,6 +243,14 @@ export default {
 
     vSelect,
   },
+  methods: {
+    getRole(role) {
+      if (role == 0) return "Normal";
+      if (role == 1) return "Admin";
+      if (role == 2) return "Cashier";
+      if (role == 3) return "Stock Keeper";
+    }
+  },
   setup() {
     const USER_APP_STORE_MODULE_NAME = "app-user";
 
@@ -263,7 +277,7 @@ export default {
     ];
 
     const roleOptions = [
-      { label: "Customer", value: 0 },
+      { label: "Normal", value: 0 },
       { label: "Admin", value: 1 },
       { label: "Cashier", value: 2 },
       { label: "Stock Keeper", value: 3 },

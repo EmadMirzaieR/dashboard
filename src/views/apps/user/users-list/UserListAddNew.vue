@@ -172,32 +172,6 @@
 
           <validation-provider
             #default="validationContext"
-            name="Is Superuser"
-            rules=""
-          >
-            <b-form-group
-              label="Is Superuser"
-              label-for="is_superuser"
-              :state="getValidationState(validationContext)"
-            >
-              <v-select
-                v-model="userData.is_superuser"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="isSuperuserOptions"
-                :reduce="(val) => val.value"
-                :clearable="false"
-                input-id="is_superuser"
-              />
-              <b-form-invalid-feedback
-                :state="getValidationState(validationContext)"
-              >
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>    
-          
-                <validation-provider
-            #default="validationContext"
             name="Role"
             rules=""
           >
@@ -310,7 +284,7 @@ export default {
         { label: "Basicuser", value: false },
       ],
       roleOptions: [
-        { label: "Customer", value: 0 },
+        { label: "Normal", value: 0 },
         { label: "Admin", value: 1 },
         { label: "Cashier", value: 2 },
         { label: "Stock Keeper", value: 3 },
