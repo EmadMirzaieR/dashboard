@@ -29,7 +29,8 @@ export default function useUsersList() {
   const sortBy = ref('id')
   const isSortDirDesc = ref(false)
   const isActiveFilter = ref(null)
-  const isStaffFilter = ref(null)
+  const isStaffFilter = ref(true)
+  const roleFilter = ref(null)
 
   const dataMeta = computed(() => {
     const localItemsCount = refUserListTable.value ? refUserListTable.value.localItems.length : 0
@@ -44,7 +45,7 @@ export default function useUsersList() {
     refUserListTable.value.refresh()
   }
 
-  watch([currentPage, perPage, searchQuery, isActiveFilter, isStaffFilter], () => {
+  watch([currentPage, perPage, searchQuery, isActiveFilter, isStaffFilter, roleFilter], () => {
     refetchData()
   })
 
@@ -58,6 +59,7 @@ export default function useUsersList() {
         sortDesc: isSortDirDesc.value,
         isActive: isActiveFilter.value,
         isStaff: isStaffFilter.value,
+        role: roleFilter.value,
       })
       .then(response => {
         const { data, total } = response
@@ -104,5 +106,6 @@ export default function useUsersList() {
     // Extra Filters
     isActiveFilter,
     isStaffFilter,
+    roleFilter,
   }
 }

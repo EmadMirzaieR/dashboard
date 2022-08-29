@@ -13,10 +13,7 @@
           :class="item.customClass"
         >
           <div class="d-flex flex-wrap">
-            <b-button
-              :to="{ name: 'apps-users-edit', params: { id: 1 } }"
-              variant="secondary-outline"
-            >
+            <b-button :to="{ name: item.url }" variant="secondary-outline">
               <b-media no-body>
                 <b-media-aside class="mr-2">
                   <b-avatar size="48" :variant="item.color">

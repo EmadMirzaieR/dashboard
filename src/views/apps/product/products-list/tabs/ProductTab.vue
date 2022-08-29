@@ -35,7 +35,7 @@
     </b-col>
     <b-col md="6">
       <b-form-group label="description" label-for="description">
-        <b-form-input id="description" v-model="productData.description" />
+        <b-form-textarea id="description" v-model="productData.description" />
       </b-form-group>
     </b-col>
     <b-col md="6">
@@ -62,6 +62,7 @@ import {
   BButton,
   BInputGroup,
   BInputGroupAppend,
+  BFormTextarea
 } from "bootstrap-vue";
 import store from "@/store";
 
@@ -82,6 +83,7 @@ export default {
     BButton,
     BInputGroup,
     BInputGroupAppend,
+    BFormTextarea
   },
   props: {
     productData: {

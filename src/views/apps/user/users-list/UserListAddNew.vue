@@ -194,6 +194,32 @@
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
             </b-form-group>
+          </validation-provider>    
+          
+                <validation-provider
+            #default="validationContext"
+            name="Role"
+            rules=""
+          >
+            <b-form-group
+              label="Role"
+              label-for="role"
+              :state="getValidationState(validationContext)"
+            >
+              <v-select
+                v-model="userData.role"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                :options="roleOptions"
+                :reduce="(val) => val.value"
+                :clearable="false"
+                input-id="role"
+              />
+              <b-form-invalid-feedback
+                :state="getValidationState(validationContext)"
+              >
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
           </validation-provider>
 
           <!-- Form Actions -->
@@ -283,6 +309,12 @@ export default {
         { label: "Superuser", value: true },
         { label: "Basicuser", value: false },
       ],
+      roleOptions: [
+        { label: "Customer", value: 0 },
+        { label: "Admin", value: 1 },
+        { label: "Cachier", value: 2 },
+        { label: "Store Keeper", value: 3 },
+      ],
     };
   },
   setup(props, { emit }) {
@@ -294,6 +326,7 @@ export default {
       is_active: true,
       is_staff: true,
       is_superuser: false,
+      role: 0,
     };
 
     const userData = ref(JSON.parse(JSON.stringify(blankUserData)));

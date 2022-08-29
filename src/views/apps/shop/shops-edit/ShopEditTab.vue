@@ -16,7 +16,7 @@
 
         <b-col cols="12" md="4">
           <b-form-group label="Description" label-for="description">
-            <b-form-input id="description" v-model="shopData.description" />
+            <b-form-textarea id="description" v-model="shopData.description" />
           </b-form-group>
         </b-col>
 
@@ -28,6 +28,29 @@
               :options="usersOption"
               :select-size="4"
             />
+          </b-form-group>
+        </b-col>
+
+        <b-col cols="12" md="6">
+          <b-form-group label="Staffs" label-for="staffs">
+            <v-select
+              v-model="shopData.staffs"
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              :options="usersOption"
+              label="text"
+              multiple
+            >
+              <template #option="{ text, email }">
+                <feather-icon icon="UserIcon" size="16" class="align-middle" />
+                <span> {{ text }}</span>
+                <feather-icon
+                  icon="MailIcon"
+                  size="16"
+                  class="align-middle ml-50"
+                />
+                <span> {{ email }}</span>
+              </template>
+            </v-select>
           </b-form-group>
         </b-col>
 
@@ -78,6 +101,7 @@ import {
   BCardTitle,
   BFormCheckbox,
   BFormSelect,
+  BFormTextarea
 } from "bootstrap-vue";
 import { avatarText } from "@core/utils/filter";
 import vSelect from "vue-select";
@@ -102,6 +126,7 @@ export default {
     BFormCheckbox,
     vSelect,
     BFormSelect,
+    BFormTextarea
   },
   props: {
     shopData: {

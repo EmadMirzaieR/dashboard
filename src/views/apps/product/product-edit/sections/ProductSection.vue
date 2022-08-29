@@ -51,7 +51,7 @@
         </b-col>
         <b-col md="6">
           <b-form-group label="description" label-for="description">
-            <b-form-input
+            <b-form-textarea
               @change="descriptionChange"
               id="description"
               :value="productData.description"
@@ -98,6 +98,7 @@ import {
   BCardBody,
   BCardFooter,
   BSpinner,
+  BFormTextarea
 } from "bootstrap-vue";
 import store from "@/store";
 
@@ -122,6 +123,7 @@ export default {
     BCardBody,
     BCardFooter,
     BSpinner,
+    BFormTextarea
   },
   props: {
     productData: {

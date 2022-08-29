@@ -180,7 +180,6 @@
         </b-card>
       </b-col>
     </b-row>
-    {{ cart }}
     <b-modal
       hide-footer
       id="modal-finish-cart"

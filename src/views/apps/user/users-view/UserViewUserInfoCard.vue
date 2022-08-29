@@ -121,6 +121,15 @@
             </td>
           </tr>
           <tr>
+            <th class="pb-50">
+              <feather-icon icon="CheckIcon" class="mr-75" />
+              <span class="font-weight-bold">Role</span>
+            </th>
+            <td class="pb-50">
+              {{ userRole(userData.role) }}
+            </td>
+          </tr>
+          <tr>
             <th>
               <feather-icon icon="ClockIcon" class="mr-75" />
               <span class="font-weight-bold">Date Joined</span>
@@ -160,6 +169,14 @@ export default {
     userData: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    userRole(role) {
+      if (role == 0) return "Customer";
+      if (role == 1) return "Admin";
+      if (role == 2) return "Cachier";
+      if (role == 3) return "Store Keeper";
     },
   },
   setup() {

@@ -2,7 +2,7 @@
   <section id="dashboard-ecommerce">
     <b-row class="match-height">
       <b-col cols="12">
-        <ecommerce-statistics :data="data.statisticsItems" />
+        <ecommerce-statistics :data="section1" />
       </b-col>
     </b-row>
 
@@ -355,12 +355,48 @@ export default {
           },
         ],
       },
+      onlineData: {},
+      section1: [],
     };
   },
   created() {
-    this.$http.get("/landing-dashboard/ecommerc/").then((response) => {
-      console.log(response.data);
-      // this.data = response.data;
+    this.$http.get("/dashboard/").then((response) => {
+      this.onlineData = response.data[0];
+
+      this.section1 = [
+        {
+          icon: "TrendingUpIcon",
+          color: "light-primary",
+          title: this.onlineData.all_stocks_quantity_count,
+          subtitle: "Stocks",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-stocks-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-info",
+          title: this.onlineData.all_customers_count,
+          subtitle: "Customers",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-users-list",
+        },
+        {
+          icon: "BoxIcon",
+          color: "light-danger",
+          title: this.onlineData.all_prodcuts_count,
+          subtitle: "Products",
+          customClass: "mb-2 mb-sm-0",
+          url: "apps-products-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-success",
+          title: this.onlineData.all_users_count,
+          subtitle: "Users",
+          customClass: "",
+          url: "apps-users-list",
+        },
+      ];
     });
   },
 };

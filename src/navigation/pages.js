@@ -28,6 +28,8 @@ export default [
     title: 'Verbal',
     icon: 'ShoppingBagIcon',
     route: 'apps-verbal',
+    action: 'read',
+    resource: 'Cashier',    
   },
   {
     title: 'Pending Comments',

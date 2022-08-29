@@ -15,7 +15,8 @@ export default {
         sortBy = 'id',
         sortDesc = false,
         isActive = null,
-        isStaff = null
+        isStaff = null,
+        role = null
       } = queryParams
       return new Promise((resolve, reject) => {
         axios
@@ -32,7 +33,8 @@ export default {
                   user.last_name.toLowerCase().includes(queryLowered) ||
                   user.email.toLowerCase().includes(queryLowered)) &&
                 (isActive === null ? true : user.is_active === isActive) &&
-                (isStaff === null ? true : user.is_staff === isStaff),
+                (isStaff === null ? true : user.is_staff === isStaff)&&
+                (role === null ? true : user.role === role),
             )
 
             const sortedData = filteredData.sort(sortCompare(sortBy))
@@ -58,6 +60,7 @@ export default {
             const users = filteredData.map((user) => {
               return {
                 text: `${user.first_name} ${user.last_name}`,
+                email: user.email,
                 value: user.id,
               };
             });

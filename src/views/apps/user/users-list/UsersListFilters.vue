@@ -27,6 +27,17 @@
             @input="(val) => $emit('update:isStaffFilter', val)"
           />
         </b-col>
+        <b-col cols="12" md="4" class="mb-md-0 mb-2">
+          <label>Role</label>
+          <v-select
+            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+            :value="roleFilter"
+            :options="roleOptions"
+            class="w-100"
+            :reduce="(val) => val.value"
+            @input="(val) => $emit('update:roleFilter', val)"
+          />
+        </b-col>
       </b-row>
     </b-card-body>
   </b-card>
@@ -54,11 +65,19 @@ export default {
       type: [Boolean, null],
       default: null,
     },
+    roleFilter: {
+      type: [Number, null],
+      default: null,
+    },
     isActiveOptions: {
       type: Array,
       required: true,
     },
     isStaffOptions: {
+      type: Array,
+      required: true,
+    },
+    roleOptions: {
       type: Array,
       required: true,
     },

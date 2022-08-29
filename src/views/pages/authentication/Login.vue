@@ -270,7 +270,7 @@ export default {
                 lastName: data.user.last_name,
                 avatar: data.avatar,
                 email: data.user.email,
-                role: "admin",
+                role: response.data.user.role,
                 user_role: response.data.user.role,
                 shop: response.data.shop,
                 ability: [
@@ -278,6 +278,10 @@ export default {
                     action: "manage",
                     subject: "all",
                   },
+                  // {
+                  //   action: "read",
+                  //   subject: "ecc",
+                  // },
                 ],
               };
 

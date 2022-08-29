@@ -60,6 +60,16 @@ export default {
       .dispatch("app-shop/fetchShop", { id: router.currentRoute.params.id })
       .then((response) => {
         shopData.value = response.data;
+        const a = shopData.value.staffs;
+        const s = a.map((item) => {
+          return {
+            text: item.first_name + " " + item.last_name,
+            email: item.email,
+            value: item.id
+          };
+        });
+
+        shopData.value.staffs = s;
       })
       .catch((error) => {
         if (error.response.status === 404) {

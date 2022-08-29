@@ -265,5 +265,9 @@ export default [
     path: '/apps/verbal',
     name: 'apps-verbal',
     component: () => import('@/views/apps/verbal/verbal-list/VerbalList.vue'),
+    meta: {
+      resource: 'Cashier',
+      action: 'read',
+    },
   },
 ]

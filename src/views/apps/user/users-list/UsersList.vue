@@ -4,6 +4,7 @@
       :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
       :is-active-options="isActiveOptions"
       :is-staff-options="isStaffOptions"
+      :role-options="roleOptions"
       @refetch-data="refetchData"
     />
 
@@ -11,8 +12,10 @@
     <users-list-filters
       :is-active-filter.sync="isActiveFilter"
       :is-staff-filter.sync="isStaffFilter"
+      :role-filter.sync="roleFilter"
       :is-active-options="isActiveOptions"
       :is-staff-options="isStaffOptions"
+      :role-options="roleOptions"
     />
 
     <!-- Table Container Card -->
@@ -71,7 +74,9 @@
         <template #cell(is_active)="data">
           <b-badge
             pill
-            :variant="`light-${resolveUserIsActiveStaffVariant(data.item.is_active)}`"
+            :variant="`light-${resolveUserIsActiveStaffVariant(
+              data.item.is_active
+            )}`"
             class="text-capitalize"
           >
             {{ data.item.is_active == true ? "Active" : "Inactive" }}
@@ -81,7 +86,9 @@
         <template #cell(is_staff)="data">
           <b-badge
             pill
-            :variant="`light-${resolveUserIsActiveStaffVariant(data.item.is_staff)}`"
+            :variant="`light-${resolveUserIsActiveStaffVariant(
+              data.item.is_staff
+            )}`"
             class="text-capitalize"
           >
             {{ data.item.is_staff == true ? "Staff" : "NotStaff" }}
@@ -235,13 +242,20 @@ export default {
     const isAddNewUserSidebarActive = ref(false);
 
     const isActiveOptions = [
-      { label: "Active", value: true},
+      { label: "Active", value: true },
       { label: "InActive", value: false },
     ];
 
     const isStaffOptions = [
-      { label: "Staff", value: true},
+      { label: "Staff", value: true },
       { label: "NotStaff", value: false },
+    ];
+
+    const roleOptions = [
+      { label: "Customer", value: 0 },
+      { label: "Admin", value: 1 },
+      { label: "Cachier", value: 2 },
+      { label: "Store Keeper", value: 3 },
     ];
 
     const {
@@ -264,6 +278,7 @@ export default {
       // Extra Filters
       isActiveFilter,
       isStaffFilter,
+      roleFilter,
     } = useUsersList();
 
     return {
@@ -291,10 +306,12 @@ export default {
 
       isActiveOptions,
       isStaffOptions,
+      roleOptions,
 
       // Extra Filters
       isActiveFilter,
       isStaffFilter,
+      roleFilter,
     };
   },
 };

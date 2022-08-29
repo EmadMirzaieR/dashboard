@@ -34,7 +34,7 @@
                 'actions',
               ]"
             >
-              <template #cell(actions)="data">
+              <template #cell(actions)="">
                 <b-dropdown
                   variant="link"
                   no-caret
@@ -54,7 +54,7 @@
                     >
                   </b-dropdown-item>
 
-                  <b-dropdown-item>
+                  <b-dropdown-item v-b-modal.modal-transfer-to-online-shop>
                     <feather-icon icon="ChevronsUpIcon" />
                     <span class="align-middle ml-50"
                       >Transfer To Online Shop</span
@@ -93,7 +93,7 @@
                 'actions',
               ]"
             >
-              <template #cell(actions)="data">
+              <template #cell(actions)="">
                 <b-dropdown
                   variant="link"
                   no-caret
@@ -106,7 +106,7 @@
                       class="align-middle text-body"
                     />
                   </template>
-                  <b-dropdown-item>
+                  <b-dropdown-item v-b-modal.modal-transfer-to-offline-shop>
                     <feather-icon icon="ChevronsUpIcon" />
                     <span class="align-middle ml-50"
                       >Transfer To Offline Shop</span
@@ -205,7 +205,26 @@
       size="lg"
       cancel-variant="outline-secondary"
     >
-      <transfer-to-other-shop-wizard :productId="productId" />
+    </b-modal>    
+    
+    <b-modal
+      hide-footer
+      id="modal-transfer-to-offline-shop"
+      scrollable
+      title="Register"
+      size="lg"
+      cancel-variant="outline-secondary"
+    >
+    </b-modal>   
+    
+     <b-modal
+      hide-footer
+      id="modal-transfer-to-online-shop"
+      scrollable
+      title="Register"
+      size="lg"
+      cancel-variant="outline-secondary"
+    >
     </b-modal>
   </b-card>
 </template>
