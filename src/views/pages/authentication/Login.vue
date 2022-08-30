@@ -271,7 +271,6 @@ export default {
                 avatar: data.avatar,
                 email: data.user.email,
                 role: response.data.user.role,
-                user_role: response.data.user.role,
                 shop: response.data.shop,
                 ability: [
                   {

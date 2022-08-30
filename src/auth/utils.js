@@ -25,14 +25,14 @@ export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
 
 //  Customer
 //  Admin
-//  Cachier
+//  Cashier
 //  Store Keeper
 
 
 export const getHomeRouteForLoggedInUser = userRole => {
-  if (userRole === 'Admin') return '/'
-  if (userRole === 'Store keeper') return { name: 'apps-stocks-list' }
-  if (userRole === 'Cachier') return { name: 'apps-verbal' }
+  if (userRole === 'ADMIN') return '/'
+  if (userRole === 'STOCK_KEEPER') return { name: 'apps-stocks-list' }
+  if (userRole === 'CASHIER') return { name: 'apps-verbal' }
   return '/'
   // return { name: 'auth-login' }
 }
