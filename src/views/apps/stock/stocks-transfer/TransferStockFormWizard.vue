@@ -29,7 +29,7 @@
       <tab-content title="From Shop">
         <from-shop-tab :stock="stock" />
       </tab-content>
-      
+
       <tab-content title="To Shop">
         <to-shop-tab :stock="stock" />
       </tab-content>
@@ -130,7 +130,18 @@ export default {
           if (response.status == 201) {
           }
         })
-        .catch((error) => {});
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-left",
+            props: {
+              title: "Error",
+              variant: "danger",
+              icon: "AlertOctagonIcon",
+              text: error.response.data,
+            },
+          });
+        });
     },
     colorCheck() {
       return this.stock.color ? true : false;

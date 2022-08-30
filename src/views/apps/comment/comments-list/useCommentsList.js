@@ -60,7 +60,7 @@ export default function useCommentsList(productId) {
         callback(data)
         totalComments.value = total
       })
-      .catch((e) => {
+      .catch(() => {
         toast({
           component: ToastificationContent,
           props: {
@@ -87,7 +87,7 @@ export default function useCommentsList(productId) {
         callback(data)
         totalComments.value = total
       })
-      .catch((e) => {
+      .catch(() => {
         toast({
           component: ToastificationContent,
           props: {

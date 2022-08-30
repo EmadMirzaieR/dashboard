@@ -59,7 +59,7 @@ export default function useCouponsList() {
         callback(data)
         totalCoupons.value = total
       })
-      .catch((e) => {
+      .catch(() => {
         toast({
           component: ToastificationContent,
           props: {

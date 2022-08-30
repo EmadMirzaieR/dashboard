@@ -1,11 +1,25 @@
 <template>
   <b-row>
     <b-col md="6">
+      <b-row>
+        <b-col cols="12">
+          <b-input-group class="input-group-merge mb-1">
+            <b-form-input
+              @input="searchFilter"
+              placeholder="Search Suppliers"
+            />
+            <b-input-group-append is-text>
+              <feather-icon icon="SearchIcon" class="text-muted" />
+            </b-input-group-append>
+          </b-input-group>
+        </b-col>
+      </b-row>
       <b-form-group label="Buy From" label-for="buy_from">
         <b-form-select
-          v-model="stock.buy_from"
-          :options="suppliersOption"
+          v-model="selected"
+          :options="optionSuppliers"
           :select-size="4"
+          @change="selectSupplier"
         />
       </b-form-group>
     </b-col>
@@ -25,7 +39,7 @@
     </b-col>
     <b-col md="6">
       <b-form-group label="Quantity" label-for="quantity">
-        <b-form-input id="quantity" type="number" v-model="stock.quantity" />
+        <b-form-input id="quantity" min="0" type="number" v-model="stock.quantity" />
       </b-form-group>
     </b-col>
     <b-col md="6">
@@ -40,6 +54,7 @@
     <b-col md="6">
       <b-form-group label="Transfer Price" label-for="transfer_price">
         <b-form-input
+        min="0"
           id="transfer_price"
           type="number"
           v-model="stock.transfer_price"
@@ -48,7 +63,7 @@
     </b-col>
     <b-col md="6">
       <b-form-group label="Transfer Note" label-for="transfer_note">
-        <b-form-input id="transfer_note" v-model="stock.transfer_note" />
+        <b-form-textarea id="transfer_note" v-model="stock.transfer_note" />
       </b-form-group>
     </b-col>
   </b-row>
@@ -66,6 +81,7 @@ import {
   BButton,
   BInputGroup,
   BInputGroupAppend,
+  BFormTextarea
 } from "bootstrap-vue";
 import flatPickr from "vue-flatpickr-component";
 import store from "@/store";
@@ -84,6 +100,7 @@ export default {
     BInputGroup,
     BInputGroupAppend,
     flatPickr,
+    BFormTextarea
   },
   props: {
     stock: {
@@ -93,15 +110,38 @@ export default {
   },
   data() {
     return {
-      suppliersOption: [],
+      optionSuppliers: [],
+      selected: null,
+      allOptionSuppliers: [],
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    searchFilter(value) {
+      const filteredData = this.allOptionSuppliers.filter((item) =>
+        item.text.toLowerCase().includes(value)
+      );
+      this.optionSuppliers = filteredData;
+    },
+    selectSupplier(value) {
+      this.$props.stock.buy_from = value;
+    },
+    showSupplier(value) {
+      const filteredData = this.optionSuppliers.filter(
+        (item) => item.value == value
+      );
+
+      if (filteredData.length != 0) {
+        return filteredData[0].text;
+      }
+      return "";
+    },
+  },
   async created() {
     const options = await store.dispatch("app-supplier/fetchSuppliersOption");
 
-    this.suppliersOption = options;
+    this.allOptionSuppliers = options;
+    this.optionSuppliers = options;
   },
 };
 </script>

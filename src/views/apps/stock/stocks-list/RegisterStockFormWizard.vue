@@ -88,12 +88,7 @@ export default {
     ShopTab,
     TransferTab,
   },
-  props: {
-    isAddNewStockSidebarActive: {
-      type: Boolean,
-      required: true,
-    },
-  },
+  props: {},
   data() {
     return {
       stock: {
@@ -122,9 +117,28 @@ export default {
         .dispatch("app-stock/addStock", this.stock)
         .then((response) => {
           if (response.status == 201) {
+            this.$toast({
+              component: ToastificationContent,
+              position: "top-left",
+              props: {
+                title: "",
+                variant: "success",
+              },
+            });
           }
         })
-        .catch((error) => {});
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-left",
+            props: {
+              title: "Error",
+              variant: "danger",
+              icon: "AlertOctagonIcon",
+              text: error.response.data,
+            },
+          });
+        });
     },
     colorCheck() {
       return this.stock.color ? true : false;

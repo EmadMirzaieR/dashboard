@@ -83,6 +83,7 @@ import Ripple from "vue-ripple-directive";
 import { useInputImageRenderer } from "@core/comp-functions/forms/form-utils";
 import { ref } from "@vue/composition-api";
 import AvatarCropper from "vue-avatar-cropper";
+import ToastificationContentVue from '@/@core/components/toastification/ToastificationContent.vue';
 
 export default {
   components: {
@@ -139,7 +140,7 @@ export default {
             .then((response) => {
               if (response.data.status == false) {
                 this.$toast({
-                  component: ToastificationContent,
+                  component: ToastificationContentVue,
                   position: "top-right",
                   props: {
                     title: "Error",
@@ -179,8 +180,17 @@ export default {
           this.imageUploaded = true;
           this.newImage = response.data.image;
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContentVue,
+            position: "top-left",
+            props: {
+              title: "Error",
+              variant: "danger",
+              icon: "AlertOctagonIcon",
+              text: error.response.data,
+            },
+          });
         });
     },
   },

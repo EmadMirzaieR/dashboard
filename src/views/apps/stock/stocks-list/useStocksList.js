@@ -63,16 +63,7 @@ export default function useStocksList() {
         callback(data)
         totalStocks.value = total
       })
-      .catch(() => {
-        toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Error fetching stocks list',
-            icon: 'AlertTriangleIcon',
-            variant: 'danger',
-          },
-        })
-      })
+      .catch(() => { })
   }
 
   // *===============================================---*

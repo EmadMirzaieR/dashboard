@@ -130,6 +130,7 @@ import {
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import { useInputImageRenderer } from "@core/comp-functions/forms/form-utils";
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import { ref } from "@vue/composition-api";
 import AvatarCropper from "vue-avatar-cropper";
 
@@ -235,8 +236,17 @@ export default {
           this.spinner = false;
           window.location.reload(true);
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-left",
+            props: {
+              title: "Error",
+              variant: "danger",
+              icon: "AlertOctagonIcon",
+              text: error.response.data,
+            },
+          });
         });
     },
   },

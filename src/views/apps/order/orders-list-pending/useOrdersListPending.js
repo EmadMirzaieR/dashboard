@@ -63,7 +63,7 @@ export default function useOrdersListPending() {
         callback(data)
         totalOrders.value = total
       })
-      .catch((e) => {
+      .catch(() => {
         toast({
           component: ToastificationContent,
           props: {

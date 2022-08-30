@@ -113,9 +113,29 @@ export default {
         .dispatch("app-stock/addStock", this.stock)
         .then((response) => {
           if (response.status == 201) {
+            this.$toast({
+            component: ToastificationContent,
+            position: "top-left",
+            props: {
+              title: "Error",
+              variant: "success",
+              icon: "AlertOctagonIcon",
+            },
+          });
           }
         })
-        .catch((error) => {});
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-left",
+            props: {
+              title: "Error",
+              variant: "danger",
+              icon: "AlertOctagonIcon",
+              text: error.response.data,
+            },
+          });
+        });
     },
     colorCheck() {
       return this.stock.color ? true : false;

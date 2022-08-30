@@ -306,6 +306,17 @@ export default {
                 });
             })
             .catch((error) => {
+              console.log('fff');
+              this.$toast({
+                component: ToastificationContent,
+                position: "top-left",
+                props: {
+                  title: "Error",
+                  variant: "danger",
+                  icon: "AlertOctagonIcon",
+                  text: error.response.data,
+                },
+              });
               this.$refs.loginForm.setErrors(error.response.data.error);
             });
         }

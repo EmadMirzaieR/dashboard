@@ -69,10 +69,26 @@
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
       >
-
-      
         <template #cell(product)="data">
           {{ data.item.product.name }}
+        </template>
+
+        <template #cell(online_offline_status)="data">
+          <b-badge
+            pill
+            :variant="`light-${
+              data.item.online_offline_status === 1 ? 'info' : 'danger'
+            }`"
+            class="text-capitalize"
+          >
+            {{ getOnOffStatus(data.item.online_offline_status) }}
+          </b-badge>
+        </template>
+
+        <template #cell(status)="data">
+          <b-badge pill class="text-capitalize">
+            {{ getStatus(data.item.status) }}
+          </b-badge>
         </template>
 
         <template #cell(color)="data">
@@ -208,6 +224,17 @@ export default {
     BPagination,
 
     vSelect,
+  },
+  methods: {
+    getStatus(status) {
+      if (status === 0) return "UnAvailable";
+      if (status === 1) return "Available";
+      if (status === 2) return "Out Of Stock";
+    },
+    getOnOffStatus(status) {
+      if (status === 1) return "Online";
+      if (status === 2) return "Offline";
+    },
   },
   setup() {
     const Stock_APP_STORE_MODULE_NAME = "app-stock";

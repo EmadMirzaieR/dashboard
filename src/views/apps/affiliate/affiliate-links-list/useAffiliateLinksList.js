@@ -61,7 +61,7 @@ export default function useAffiliateLinksList() {
         callback(data)
         totalAffiliateLinks.value = total
       })
-      .catch((e) => {
+      .catch(() => {
         toast({
           component: ToastificationContent,
           props: {

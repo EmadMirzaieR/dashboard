@@ -62,7 +62,7 @@ export default function useSuppliersList() {
         callback(data)
         totalSuppliers.value = total
       })
-      .catch((e) => {
+      .catch(() => {
         toast({
           component: ToastificationContent,
           props: {
