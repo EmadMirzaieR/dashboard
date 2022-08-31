@@ -2,18 +2,22 @@
   <section id="dashboard-ecommerce">
     <b-row class="match-height">
       <b-col cols="12">
-        <ecommerce-statistics :data="section1" />
+        <ecommerce-statistics :title="'Customers'" :data="section1" />
       </b-col>
     </b-row>
 
     <b-row class="match-height">
+      <b-col cols="12">
+        <ecommerce-statistics :title="'Carts'" :data="carts" />
+      </b-col>
+    </b-row>
+
+    <!-- <b-row class="match-height">
       <b-col lg="4">
         <b-row class="match-height">
-          <!-- Bar Chart - Orders -->
           <b-col lg="6" md="3" cols="6">
-            <ecommerce-order-chart :data="data.statisticsOrder" />
+            <ecommerce-cart-chart :data="data.statisticsOrder" />
           </b-col>
-          <!--/ Bar Chart - Orders -->
           <b-col lg="6" md="3" cols="6">
             <ecommerce-profit-chart :data="data.statisticsProfit" />
           </b-col>
@@ -23,43 +27,43 @@
         </b-row>
       </b-col>
 
-      <!-- Revenue Report Card -->
       <b-col lg="8">
         <ecommerce-revenue-report :data="data.revenue" />
       </b-col>
-      <!--/ Revenue Report Card -->
     </b-row>
+    -->
 
     <b-row class="match-height">
       <!-- Company Table Card -->
-      <b-col lg="8">
-        <ecommerce-company-table :table-data="data.companyTable" />
+      <b-col lg="12">
+        <ecommerce-company-table :title="'Top Customer'" :data="topCustomer" />
       </b-col>
-      <!--/ Company Table Card -->
+    </b-row>
 
-      <!-- Developer Meetup Card -->
-      <b-col lg="4" md="6">
-        <ecommerce-meetup :data="data.meetup" />
+    <b-row class="match-height">
+      <b-col cols="12">
+        <ecommerce-statistics :title="'Orders'" :data="orders" />
       </b-col>
-      <!--/ Developer Meetup Card -->
+    </b-row>
+    <b-row class="match-height">
+      <b-col cols="12">
+        <ecommerce-statistics :title="'Products'" :data="products" />
+      </b-col>
+    </b-row>
 
-      <!-- Browser States Card -->
-      <b-col lg="4" md="6">
-        <ecommerce-browser-states />
+    <b-row class="match-height">
+      <b-col lg="12">
+        <ecommerce-supplier-table :title="'Suppliers'" :data="supplier" />
       </b-col>
-      <!--/ Browser States Card -->
+    </b-row>
 
-      <!-- Goal Overview Card -->
-      <b-col lg="4" md="6">
-        <ecommerce-goal-overview :data="data.goalOverview" />
+    <b-row class="match-height">
+      <b-col lg="12">
+        <ecommerce-exproduct-table
+          :title="'Expensive Products'"
+          :data="exproduct"
+        />
       </b-col>
-      <!--/ Goal Overview Card -->
-
-      <!-- Transaction Card -->
-      <b-col lg="4" md="6">
-        <ecommerce-transactions :data="data.transactionData" />
-      </b-col>
-      <!--/ Transaction Card -->
     </b-row>
   </section>
 </template>
@@ -75,6 +79,8 @@ import EcommerceOrderChart from "./EcommerceOrderChart.vue";
 import EcommerceProfitChart from "./EcommerceProfitChart.vue";
 import EcommerceEarningsChart from "./EcommerceEarningsChart.vue";
 import EcommerceCompanyTable from "./EcommerceCompanyTable.vue";
+import EcommerceExproductTable from "./EcommerceExproductTable.vue";
+import EcommerceSupplierTable from "./EcommerceSupplierTable.vue";
 import EcommerceMeetup from "./EcommerceMeetup.vue";
 import EcommerceBrowserStates from "./EcommerceBrowserStates.vue";
 import EcommerceGoalOverview from "./EcommerceGoalOverview.vue";
@@ -92,9 +98,11 @@ export default {
     EcommerceEarningsChart,
     EcommerceCompanyTable,
     EcommerceMeetup,
+    EcommerceExproductTable,
     EcommerceBrowserStates,
     EcommerceGoalOverview,
     EcommerceTransactions,
+    EcommerceSupplierTable,
   },
   data() {
     return {
@@ -357,46 +365,208 @@ export default {
       },
       onlineData: {},
       section1: [],
+      topCustomer: [],
+      supplier: [],
+      orders: [],
+      exproduct: [],
     };
   },
   created() {
-    this.$http.get("/dashboard/").then((response) => {
-      this.onlineData = response.data[0];
+    this.$http.get("/landing-dashboard/ecommerc/").then((response) => {
+      this.onlineData = response.data.section_one_customer;
 
       this.section1 = [
         {
           icon: "TrendingUpIcon",
           color: "light-primary",
-          title: this.onlineData.all_stocks_quantity_count,
-          subtitle: "Stocks",
+          title: this.onlineData.all_customer,
+          subtitle: "All",
           customClass: "mb-2 mb-xl-0",
           url: "apps-stocks-list",
         },
         {
           icon: "UserIcon",
           color: "light-info",
-          title: this.onlineData.all_customers_count,
-          subtitle: "Customers",
+          title: this.onlineData.count_customer_has_pending,
+          subtitle: "With Pending Order",
           customClass: "mb-2 mb-xl-0",
           url: "apps-users-list",
         },
         {
           icon: "BoxIcon",
           color: "light-danger",
-          title: this.onlineData.all_prodcuts_count,
-          subtitle: "Products",
+          title: this.onlineData.customer_has_order,
+          subtitle: "With Order",
+          customClass: "mb-2 mb-sm-0",
+          url: "apps-products-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-info",
+          title: this.onlineData.count_customer_has_completed,
+          subtitle: "With Complete Order",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-users-list",
+        },
+        {
+          icon: "BoxIcon",
+          color: "light-danger",
+          title: this.onlineData.customer_has_item_in_shopping_cart,
+          subtitle: "Pending Cart",
           customClass: "mb-2 mb-sm-0",
           url: "apps-products-list",
         },
         {
           icon: "UserIcon",
           color: "light-success",
-          title: this.onlineData.all_users_count,
-          subtitle: "Users",
+          title: this.onlineData.all_staff_count,
+          subtitle: "Staff",
           customClass: "",
           url: "apps-users-list",
         },
       ];
+
+      this.topCustomer =
+        response.data.section_seven_top_customer.top_customer_query_set;
+
+      const order = response.data.section_five_orders;
+      const product = response.data.section_four_products;
+      const cart = response.data.section_six_carts;
+
+      this.orders = [
+        {
+          icon: "TrendingUpIcon",
+          color: "light-primary",
+          title: order.count_orders,
+          subtitle: "Total Completed",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-stocks-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-info",
+          title: order.total_sell,
+          subtitle: "Total Sell",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-users-list",
+        },
+        {
+          icon: "BoxIcon",
+          color: "light-danger",
+          title: order.month_sell,
+          subtitle: "In Month",
+          customClass: "mb-2 mb-sm-0",
+          url: "apps-products-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-info",
+          title: order.today_sell,
+          subtitle: "Today",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-users-list",
+        },
+        {
+          icon: "BoxIcon",
+          color: "light-danger",
+          title: order.seven_days_sell,
+          subtitle: "Last 7 Days",
+          customClass: "mb-2 mb-sm-0",
+          url: "apps-products-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-success",
+          title: order.fourteen_days_sell,
+          subtitle: "Last 14 Days",
+          customClass: "",
+          url: "apps-users-list",
+        },
+      ];
+
+      this.carts = [
+        {
+          icon: "TrendingUpIcon",
+          color: "light-primary",
+          title: cart.all_pending_cart_count,
+          subtitle: "Pending",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-stocks-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-info",
+          title: cart.all_confirmed_cart_count,
+          subtitle: "Confirmed",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-users-list",
+        },
+        {
+          icon: "BoxIcon",
+          color: "light-danger",
+          title: cart.all_cancelled_cart_items_count,
+          subtitle: "Cancel Items",
+          customClass: "mb-2 mb-sm-0",
+          url: "apps-products-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-info",
+          title: cart.all_pending_cart_items_count,
+          subtitle: "Pending Items",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-users-list",
+        },
+      ];
+
+      this.products = [
+        {
+          icon: "TrendingUpIcon",
+          color: "light-primary",
+          title: product.count_products,
+          subtitle: "Count",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-stocks-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-info",
+          title: product.count_stocks_offline,
+          subtitle: "Verbal",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-users-list",
+        },
+        {
+          icon: "BoxIcon",
+          color: "light-danger",
+          title: product.stock_offline_total_price,
+          subtitle: "Verbal Price",
+          customClass: "mb-2 mb-sm-0",
+          url: "apps-products-list",
+        },
+        {
+          icon: "UserIcon",
+          color: "light-info",
+          title: product.count_stocks_online,
+          subtitle: "Online",
+          customClass: "mb-2 mb-xl-0",
+          url: "apps-users-list",
+        },
+        {
+          icon: "BoxIcon",
+          color: "light-danger",
+          title: product.stock_online_total_price,
+          subtitle: "Online Price",
+          customClass: "mb-2 mb-sm-0",
+          url: "apps-products-list",
+        },
+      ];
+
+      this.supplier = response.data.section_two_suppliers.suppliers_data;
+      this.exproduct =
+        response.data.section_nine_expensive_product.top_product_query_set;
+
+
     });
   },
 };

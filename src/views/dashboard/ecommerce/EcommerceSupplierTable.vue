@@ -1,13 +1,13 @@
 <template>
   <b-card v-if="data" no-body class="card-company-table">
     <b-card-header>
-      <b-card-title>Top Customer</b-card-title>
+      <b-card-title>Top Suppliers</b-card-title>
     </b-card-header>
     <b-table :items="data" responsive :fields="fields" class="mb-0">
       <!-- company -->
-      <template #cell(name)="data">
+      <!-- <template #cell(name)="data">
         {{ data.item.first_name }} {{ data.item.last_name }}
-      </template>
+      </template> -->
 
       <!-- category -->
       <template #cell(category)="data">
@@ -86,10 +86,10 @@ export default {
     return {
       fields: [
         { key: "id" },
-        { key: "name", label: "Name" },
-        { key: "phone_number", label: "Phone" },
-        { key: "total_orders" },
-        { key: "total_buy" },
+        { key: "name" },
+        { key: "times_supplied" },
+        { key: "quantity" },
+        { key: "value_price" },
       ],
     };
   },

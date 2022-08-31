@@ -1,7 +1,7 @@
 <template>
   <b-card v-if="data" no-body class="card-statistics">
     <b-card-header>
-      <b-card-title>Statistics</b-card-title>
+      <b-card-title>{{title}}</b-card-title>
     </b-card-header>
     <b-card-body class="statistics-body">
       <b-row>
@@ -72,6 +72,10 @@ export default {
     data: {
       type: Array,
       default: () => [],
+    },
+    title: {
+      type: String,
+      default: "",
     },
   },
 };

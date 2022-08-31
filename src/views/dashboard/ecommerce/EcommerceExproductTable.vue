@@ -1,13 +1,10 @@
 <template>
   <b-card v-if="data" no-body class="card-company-table">
     <b-card-header>
-      <b-card-title>Top Customer</b-card-title>
+      <b-card-title>Expensive Products</b-card-title>
     </b-card-header>
     <b-table :items="data" responsive :fields="fields" class="mb-0">
       <!-- company -->
-      <template #cell(name)="data">
-        {{ data.item.first_name }} {{ data.item.last_name }}
-      </template>
 
       <!-- category -->
       <template #cell(category)="data">
@@ -17,7 +14,8 @@
           </b-avatar>
           <span>{{ data.item.avatarTitle }}</span>
         </div>
-      </template>
+      </template>   
+      
 
       <!-- views -->
       <template #cell(views)="data">
@@ -87,9 +85,9 @@ export default {
       fields: [
         { key: "id" },
         { key: "name", label: "Name" },
-        { key: "phone_number", label: "Phone" },
-        { key: "total_orders" },
-        { key: "total_buy" },
+        { key: "color__name", label: "Color" },
+        { key: "size__name", label:"Size" },
+        { key: "total_purchase_price" },
       ],
     };
   },

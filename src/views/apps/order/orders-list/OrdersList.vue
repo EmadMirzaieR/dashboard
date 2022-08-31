@@ -29,10 +29,7 @@
             />
             <label>entries</label>
           </b-col>
-        </b-row>
-      </div>
-
-      <b-col cols="12" md="6">
+          <b-col cols="12" md="6">
             <div class="d-flex align-items-center justify-content-end">
               <b-button variant="outline-secondary" @click="downloadExcelTable">
                 <span class="text-nowrap">Download Excel</span>
@@ -42,6 +39,8 @@
               </b-button>
             </div>
           </b-col>
+        </b-row>
+      </div>
 
       <b-table
         ref="refOrderListTable"

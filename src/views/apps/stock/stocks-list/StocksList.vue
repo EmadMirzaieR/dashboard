@@ -117,12 +117,12 @@
               />
             </template>
 
-            <b-dropdown-item
+            <!-- <b-dropdown-item
               :to="{ name: 'apps-stocks-edit', params: { id: data.item.id } }"
             >
               <feather-icon icon="EditIcon" />
               <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
+            </b-dropdown-item> -->
 
             <b-dropdown-item>
               <feather-icon icon="TrashIcon" />
