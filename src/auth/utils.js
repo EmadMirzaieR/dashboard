@@ -30,9 +30,10 @@ export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
 
 
 export const getHomeRouteForLoggedInUser = userRole => {
-  if (userRole === 'ADMIN') return '/'
-  if (userRole === 'STOCK_KEEPER') return { name: 'apps-stocks-list' }
-  if (userRole === 'CASHIER') return { name: 'apps-verbal' }
-  return '/'
-  // return { name: 'auth-login' }
+  console.log(userRole);
+  if (userRole == 'ADMIN') return '/'
+  if (userRole == 'STOCK_KEEPER') return { name: 'apps-stocks-list' }
+  if (userRole == 'CASHIER') return { name: 'apps-verbal' }
+  // return '/'
+  return { name: 'auth-login' }
 }

@@ -272,17 +272,34 @@ export default {
                 email: data.user.email,
                 role: response.data.user.role,
                 shop: response.data.shop,
-                ability: [
-                  {
-                    action: "manage",
-                    subject: "all",
-                  },
-                  // {
-                  //   action: "read",
-                  //   subject: "ecc",
-                  // },
-                ],
+                ability: [],
               };
+
+              const admin = [
+                {
+                  action: "manage",
+                  subject: "all",
+                },
+              ];
+              const stockKeeper = [
+                {
+                  action: "read",
+                  subject: "stockKeeper",
+                },
+              ];
+              const cashier = [
+                {
+                  action: "read",
+                  subject: "verbal",
+                },
+              ];
+
+              if (response.data.user.role == "ADMIN")
+                userData.ability = [...admin];
+              if (response.data.user.role == "STOCK_KEEPER")
+                userData.ability = [...stockKeeper];
+              if (response.data.user.role == "CASHIER")
+                userData.ability = [...cashier];
 
               localStorage.setItem("userData", JSON.stringify(userData));
               this.$ability.update(userData.ability);
@@ -305,7 +322,7 @@ export default {
                 });
             })
             .catch((error) => {
-              console.log('fff');
+              console.log("fff");
               this.$toast({
                 component: ToastificationContent,
                 position: "top-left",
