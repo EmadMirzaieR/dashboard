@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="12" sm="12" md="8" >
+      <b-col cols="12" sm="12" md="8">
         <b-card no-body class="mb-0">
           <div class="m-2">
             <b-row>
@@ -126,7 +126,7 @@
           </div>
         </b-card>
       </b-col>
-      <b-col cols="12" sm="8" md="4" >
+      <b-col cols="12" sm="8" md="4">
         <b-card>
           <div class="mb-5">
             <b-row>
@@ -191,85 +191,98 @@
       <b-form class="list-view product-checkout">
         <!-- Left Form -->
         <b-card no-body>
-            <b-row>
-              <b-col cols="12" md="6">
-                <b-form-group
-                  label="Email"
-                  label-for="customer_email"
-                  class="mb-2"
-                >
-                  <b-form-input
-                    id="customer_email"
-                    v-model="verbal.customer_email"
-                    trim
-                  />
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" md="6">
-                <b-form-group
-                  label="First Name"
-                  label-for="customer_first_name"
-                  class="mb-2"
-                >
-                  <b-form-input
-                    id="customer_first_name"
-                    v-model="verbal.customer_first_name"
-                    trim
-                  />
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" md="6">
-                <b-form-group
-                  label="Last Name"
-                  label-for="customer_last_name"
-                  class="mb-2"
-                >
-                  <b-form-input
-                    id="customer_last_name"
-                    v-model="verbal.customer_last_name"
-                    trim
-                  />
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" md="6">
-                <b-form-group
-                  label="Phone"
-                  label-for="customer_phone"
-                  class="mb-2"
-                >
-                  <b-form-input
-                    id="customer_phone"
-                    v-model="verbal.customer_phone"
-                    trim
-                  />
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" md="6">
-                <b-form-group
-                  label="Referral Code"
-                  label-for="referral_code"
-                  class="mb-2"
-                >
-                  <b-form-input
-                    id="referral_code"
-                    v-model="verbal.referral_code"
-                    trim
-                  />
-                </b-form-group>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="12" md="4">
-                <b-button
-                  variant="primary"
-                  class="mb-1 mb-sm-0 mr-0 mr-sm-1"
-                >
-                  Finish
-                </b-button>
-              </b-col>
-            </b-row>
+          <b-row>
+            <b-col cols="12" md="6">
+              <b-form-group
+                label="Email"
+                label-for="customer_email"
+                class="mb-2"
+              >
+                <b-form-input
+                  id="customer_email"
+                  v-model="verbal.customer_email"
+                  trim
+                />
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" md="6">
+              <b-form-group
+                label="First Name"
+                label-for="customer_first_name"
+                class="mb-2"
+              >
+                <b-form-input
+                  id="customer_first_name"
+                  v-model="verbal.customer_first_name"
+                  trim
+                />
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" md="6">
+              <b-form-group
+                label="Last Name"
+                label-for="customer_last_name"
+                class="mb-2"
+              >
+                <b-form-input
+                  id="customer_last_name"
+                  v-model="verbal.customer_last_name"
+                  trim
+                />
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" md="6">
+              <b-form-group
+                label="Phone"
+                label-for="customer_phone"
+                class="mb-2"
+              >
+                <b-form-input
+                  id="customer_phone"
+                  v-model="verbal.customer_phone"
+                  trim
+                />
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" md="6">
+              <b-form-group
+                label="Referral Code"
+                label-for="referral_code"
+                class="mb-2"
+              >
+                <b-form-input
+                  id="referral_code"
+                  v-model="verbal.referral_code"
+                  trim
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="12" md="4">
+              <b-button
+                v-b-modal.modal-order
+                @click="finish"
+                variant="primary"
+                class="mb-1 mb-sm-0 mr-0 mr-sm-1"
+              >
+                Finish
+              </b-button>
+            </b-col>
+          </b-row>
         </b-card>
       </b-form>
+    </b-modal>
+
+    <b-modal
+      hide-footer
+      id="modal-order"
+      scrollable
+      title="order"
+      size="lg"
+      cancel-variant="outline-secondary"
+    >
+      <verbal-preview :invoice="invoice"></verbal-preview>
     </b-modal>
   </div>
 </template>
@@ -302,6 +315,7 @@ import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
 import useVerbal from "./useVerbal";
 import verbalStoreModule from "../verbalStoreModule";
+import VerbalPreview from "../verbal-preview/VerbalPreview.vue";
 
 export default {
   directives: {
@@ -326,13 +340,57 @@ export default {
     BDropdownItem,
     BPagination,
     BForm,
-
+    VerbalPreview,
     vSelect,
   },
   computed: {},
-  methods: {},
+  methods: {
+    finish() {
+      const a = this.cart.map((item) => {
+        return {
+          stock: item.id,
+          quantity: item.count,
+        };
+      });
+
+      const shopId = JSON.parse(localStorage.getItem("userData")).shop.id;
+
+      this.verbal.order_items = [...a];
+      this.verbal.shop = shopId;
+
+      store
+        .dispatch("app-verbal/addVerbal", this.verbal)
+        .then((response) => {
+          if (response.status == 201) {
+            this.invoice = response.data;
+            this.$toast({
+              component: ToastificationContent,
+              position: "top-left",
+              props: {
+                title: "",
+                variant: "success",
+              },
+            });
+          }
+        })
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-left",
+            props: {
+              title: "Error",
+              variant: "danger",
+              icon: "AlertOctagonIcon",
+              text: error.response.data,
+            },
+          });
+        });
+    },
+  },
   data() {
-    return {};
+    return {
+      invoice: {},
+    };
   },
   setup() {
     const VERBAL_APP_STORE_MODULE_NAME = "app-verbal";

@@ -28,6 +28,7 @@ export default {
           .get(`/verbal/stocks/${shopId}/`)
           .then(response => {
             const { data } = response
+            console.log(data);
             const queryLowered = q.toLowerCase()
 
             const filteredData = data.filter(
@@ -42,6 +43,14 @@ export default {
             if (sortDesc) sortedData.reverse()
             resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
           })
+          .catch(error => reject(error))
+      })
+    },
+    addVerbal(ctx, verbal) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/verbal/', verbal)
+          .then(response => resolve(response))
           .catch(error => reject(error))
       })
     },
