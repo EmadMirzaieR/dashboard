@@ -77,6 +77,11 @@
         show-empty
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordered
       >
         <template #cell(is_active)="data">
           <b-badge
@@ -210,6 +215,8 @@ import BrandsListFilters from "./BrandsListFilters.vue";
 import useBrandsList from "./useBrandsList";
 import brandStoreModule from "../brandStoreModule";
 import BrandListAddNew from "./BrandListAddNew.vue";
+import router from "@/router";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
 export default {
   components: {
@@ -247,29 +254,33 @@ export default {
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {
-          store.dispatch("app-brand/deleteBrand", { id }).then((response) => {
-            if (response.status == 204) {
-              this.$swal({
-                icon: "success",
-                text: "Deleted",
-                confirmButtonText: "OK",
-                customClass: {
-                  confirmButton: "btn btn-primary",
-                },
-              });
-              this.refetchData();
-            } else {
+          store
+            .dispatch("app-brand/deleteBrand", { id })
+            .then((response) => {
               this.$toast({
                 component: ToastificationContent,
                 position: "top-right",
                 props: {
-                  title: "Error",
-                  variant: "danger",
-                  text: "Error",
+                  title: "SuccessFul",
+                  variant: "success",
+                  text: "Brand Was Deleted",
                 },
               });
-            }
-          });
+              this.refetchData();
+            })
+            .catch((error) => {
+              error.response.data.message.forEach((message) => {
+                this.$toast({
+                  component: ToastificationContent,
+                  position: "top-right",
+                  props: {
+                    title: "Error",
+                    variant: "danger",
+                    text: message,
+                  },
+                });
+              });
+            });
         }
       });
     },
@@ -298,6 +309,13 @@ export default {
       { label: "Deleted", value: true },
       { label: "NotDeleted", value: false },
     ];
+
+    const onRowSelected = (item) => {
+      router.push({
+        name: "apps-brands-edit",
+        params: { id: item[0].id },
+      });
+    };
 
     const {
       fetchBrands,
@@ -354,6 +372,7 @@ export default {
       isDeletedFilter,
       downloadExcelTable,
       printTable,
+      onRowSelected,
     };
   },
 };
