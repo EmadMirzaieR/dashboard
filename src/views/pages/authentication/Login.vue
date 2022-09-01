@@ -259,81 +259,91 @@ export default {
               password: this.password,
             })
             .then(async (response) => {
-              useJwt.setToken(response.data.access);
-              useJwt.setRefreshToken(response.data.refresh);
-              const { data } = await this.$http.get("accounts/profile/detail/");
+              const resData = response.data;
 
-              const userData = {
-                id: data.user.id,
-                fullName: `${data.user.first_name} ${data.user.last_name}`,
-                firstName: data.user.first_name,
-                lastName: data.user.last_name,
-                avatar: data.avatar,
-                email: data.user.email,
-                role: response.data.user.role,
-                shop: response.data.shop,
-                ability: [],
-              };
+              if (!(resData.user === undefined)) {
+                useJwt.setToken(resData.access);
+                useJwt.setRefreshToken(resData.refresh);
+                const { data } = await this.$http.get(
+                  "accounts/profile/detail/"
+                );
 
-              const admin = [
-                {
-                  action: "manage",
-                  subject: "all",
-                },
-              ];
-              const stockKeeper = [
-                {
-                  action: "read",
-                  subject: "stockKeeper",
-                },
-              ];
-              const cashier = [
-                {
-                  action: "read",
-                  subject: "verbal",
-                },
-              ];
+                const userData = {
+                  id: data.user.id,
+                  fullName: `${data.user.first_name} ${data.user.last_name}`,
+                  firstName: data.user.first_name,
+                  lastName: data.user.last_name,
+                  avatar: data.avatar,
+                  email: data.user.email,
+                  role: resData.user.role,
+                  shop: resData.shop,
+                  ability: [],
+                };
 
-              if (response.data.user.role == "ADMIN")
-                userData.ability = [...admin];
-              if (response.data.user.role == "STOCK_KEEPER")
-                userData.ability = [...stockKeeper];
-              if (response.data.user.role == "CASHIER")
-                userData.ability = [...cashier];
+                const admin = [
+                  {
+                    action: "manage",
+                    subject: "all",
+                  },
+                ];
+                const stockKeeper = [
+                  {
+                    action: "read",
+                    subject: "stockKeeper",
+                  },
+                ];
+                const cashier = [
+                  {
+                    action: "read",
+                    subject: "verbal",
+                  },
+                ];
 
-              localStorage.setItem("userData", JSON.stringify(userData));
-              this.$ability.update(userData.ability);
+                if (resData.user.role == "ADMIN") userData.ability = [...admin];
+                if (resData.user.role == "STOCK_KEEPER")
+                  userData.ability = [...stockKeeper];
+                if (resData.user.role == "CASHIER")
+                  userData.ability = [...cashier];
 
-              this.$router
-                .replace(getHomeRouteForLoggedInUser(userData.role))
-                .then(() => {
-                  this.$toast({
-                    component: ToastificationContent,
-                    position: "top-right",
-                    props: {
-                      title: `Welcome ${
-                        userData.fullName || userData.username
-                      }`,
-                      icon: "CoffeeIcon",
-                      variant: "success",
-                      text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
-                    },
+                localStorage.setItem("userData", JSON.stringify(userData));
+                this.$ability.update(userData.ability);
+
+                this.$router
+                  .replace(getHomeRouteForLoggedInUser(userData.role))
+                  .then(() => {
+                    this.$toast({
+                      component: ToastificationContent,
+                      position: "top-right",
+                      props: {
+                        title: `Welcome ${
+                          userData.fullName || userData.username
+                        }`,
+                        icon: "CoffeeIcon",
+                        variant: "success",
+                        text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+                      },
+                    });
                   });
+              } else {
+                let errorMessage = "";
+                if (resData.status == "fail")
+                  errorMessage = "You Are Not Authorized";
+                if (resData.status == "normal") errorMessage = resData.message;
+
+                this.$toast({
+                  component: ToastificationContent,
+                  position: "top-right",
+                  props: {
+                    title: `Error`,
+                    icon: "CircleIcon",
+                    variant: "danger",
+                    text: errorMessage,
+                  },
                 });
-            })
+              }
+            }) //todo correct 401 not showing toast problem
             .catch((error) => {
-              console.log("fff");
-              this.$toast({
-                component: ToastificationContent,
-                position: "top-left",
-                props: {
-                  title: "Error",
-                  variant: "danger",
-                  icon: "AlertOctagonIcon",
-                  text: error.response.data,
-                },
-              });
-              this.$refs.loginForm.setErrors(error.response.data.error);
+              console.log(error);
             });
         }
       });

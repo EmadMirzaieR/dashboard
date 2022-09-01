@@ -12,29 +12,7 @@
       </b-col>
     </b-row>
 
-    <!-- <b-row class="match-height">
-      <b-col lg="4">
-        <b-row class="match-height">
-          <b-col lg="6" md="3" cols="6">
-            <ecommerce-cart-chart :data="data.statisticsOrder" />
-          </b-col>
-          <b-col lg="6" md="3" cols="6">
-            <ecommerce-profit-chart :data="data.statisticsProfit" />
-          </b-col>
-          <b-col lg="12" md="6">
-            <ecommerce-earnings-chart :data="data.earningsChart" />
-          </b-col>
-        </b-row>
-      </b-col>
-
-      <b-col lg="8">
-        <ecommerce-revenue-report :data="data.revenue" />
-      </b-col>
-    </b-row>
-    -->
-
     <b-row class="match-height">
-      <!-- Company Table Card -->
       <b-col lg="12">
         <ecommerce-company-table :title="'Top Customer'" :data="topCustomer" />
       </b-col>
