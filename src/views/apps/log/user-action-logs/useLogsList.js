@@ -4,75 +4,68 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import { downloadExcel, print } from '@/@core/utils/utils'
+import { print, downloadExcel } from '@/@core/utils/utils'
 
-export default function useUsersList() {
+export default function useLogsList(userId) {
   // Use toast
   const toast = useToast()
 
-  const refUserListTable = ref(null)
+  const refUserActionLogsTable = ref(null)
 
   // Table Handlers
   const tableColumns = [
     { key: 'id', sortable: true },
-    { key: 'email', sortable: true },
-    { key: 'first_name', sortable: true },
-    { key: 'last_name', sortable: true },
-    { key: 'role', sortable: true },
-    { key: 'is_active', sortable: true },
-    { key: 'is_staff', sortable: true },
-    { key: 'actions' },
+    { key: 'message', sortable: true },
+    { key: 'action', sortable: true },
+    { key: 'object_type', sortable: true },
+    { key: 'object_id', sortable: true },
+    { key: 'created_at', label: "time", sortable: true },
   ]
   const perPage = ref(10)
-  const totalUsers = ref(0)
+  const totalLogs = ref(0)
   const currentPage = ref(1)
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
   const isSortDirDesc = ref(true)
-  const isActiveFilter = ref(null)
-  const isStaffFilter = ref(true)
-  const roleFilter = ref(null)
 
   const dataMeta = computed(() => {
-    const localItemsCount = refUserListTable.value ? refUserListTable.value.localItems.length : 0
+    const localItemsCount = refUserActionLogsTable.value ? refUserActionLogsTable.value.localItems.length : 0
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalUsers.value,
+      of: totalLogs.value,
     }
   })
 
   const refetchData = () => {
-    refUserListTable.value.refresh()
+    refUserActionLogsTable.value.refresh()
   }
 
-  watch([currentPage, perPage, searchQuery, isActiveFilter, isStaffFilter, roleFilter], () => {
+  watch([currentPage, perPage, searchQuery], () => {
     refetchData()
   })
 
-  const fetchUsers = (ctx, callback) => {
+  const fetchLogsList = (ctx, callback) => {
     store
-      .dispatch('app-user/fetchUsers', {
+      .dispatch('app-log/fetchUserActionLogs', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
-        isActive: isActiveFilter.value,
-        isStaff: isStaffFilter.value,
-        role: roleFilter.value,
+        id: userId,
       })
       .then(response => {
         const { data, total } = response
         callback(data)
-        totalUsers.value = total
+        totalLogs.value = total
       })
       .catch(() => {
         toast({
           component: ToastificationContent,
           props: {
-            title: 'Error fetching users list',
+            title: 'Error fetching logs list',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
@@ -80,44 +73,32 @@ export default function useUsersList() {
       })
   }
 
-  const downloadExcelTable = () => {
-    downloadExcel('refUserListTable', 'staffs')
-  }
-
-  const printTable = () => {
-    print('refUserListTable', 'staffs')
-  }
-
   // *===============================================---*
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const resolveUserIsActiveStaffVariant = status => {
-    if (status === true) return 'success'
-    return 'danger'
+  const downloadExcelTable = () => {
+    downloadExcel('refUserActionLogsTable', 'logs')
+  }
+
+  const printTable = () => {
+    print('refUserActionLogsTable', 'logs')
   }
 
   return {
-    fetchUsers,
+    fetchLogsList,
     tableColumns,
     perPage,
     currentPage,
-    totalUsers,
+    totalLogs,
     dataMeta,
     perPageOptions,
     searchQuery,
     sortBy,
     isSortDirDesc,
-    refUserListTable,
-
-    resolveUserIsActiveStaffVariant,
+    refUserActionLogsTable,
     refetchData,
-
-    // Extra Filters
-    isActiveFilter,
-    isStaffFilter,
-    roleFilter,
     downloadExcelTable,
-    printTable,
+    printTable
   }
 }

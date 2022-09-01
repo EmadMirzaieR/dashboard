@@ -81,6 +81,11 @@
         show-empty
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordered
       >
         <template #cell(is_active)="data">
           <b-badge
@@ -221,6 +226,7 @@ import UsersListFilters from "./UsersListFilters.vue";
 import useUsersList from "./useUsersList";
 import userStoreModule from "../userStoreModule";
 import UserListAddNew from "./UserListAddNew.vue";
+import router from "@/router";
 
 export default {
   components: {
@@ -249,7 +255,7 @@ export default {
       if (role == 1) return "Admin";
       if (role == 2) return "Cashier";
       if (role == 3) return "Stock Keeper";
-    }
+    },
   },
   setup() {
     const USER_APP_STORE_MODULE_NAME = "app-user";
@@ -282,6 +288,13 @@ export default {
       { label: "Cashier", value: 2 },
       { label: "Stock Keeper", value: 3 },
     ];
+
+    const onRowSelected = (item) => {
+      router.push({
+        name: "apps-users-view",
+        params: { id: item[0].id },
+      });
+    };
 
     const {
       fetchUsers,
@@ -341,6 +354,7 @@ export default {
       roleFilter,
       downloadExcelTable,
       printTable,
+      onRowSelected,
     };
   },
 };
