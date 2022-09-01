@@ -1,119 +1,121 @@
 <template>
-  <b-card>
-    <b-row>
-      <!-- User Info: Left col -->
-      <b-col
-        cols="12"
-        md="6"
-        xl="6"
-        class="d-flex justify-content-between flex-column"
-      >
-        <!-- User Avatar & Action Buttons -->
-        <div class="d-flex justify-content-start">
-          <b-avatar :src="userData.avatar" size="104px" rounded />
-          <div class="d-flex flex-column ml-1">
-            <div class="mb-1">
-              <h4 class="mb-0">
-                {{ userData.first_name + " " + userData.last_name }}
-              </h4>
-              <span class="card-text">{{ userData.email }}</span>
-            </div>
-            <div class="d-flex flex-wrap">
-              <b-button
-                :to="{ name: 'apps-users-edit', params: { id: userData.id } }"
-                variant="primary"
-              >
-                Edit
-              </b-button>
+  <div>
+    <b-card>
+      <b-row>
+        <!-- User Info: Left col -->
+        <b-col
+          cols="12"
+          md="6"
+          xl="6"
+          class="d-flex justify-content-between flex-column"
+        >
+          <!-- User Avatar & Action Buttons -->
+          <div class="d-flex justify-content-start">
+            <b-avatar :src="userData.avatar" size="104px" rounded />
+            <div class="d-flex flex-column ml-1">
+              <div class="mb-1">
+                <h4 class="mb-0">
+                  {{ userData.first_name + " " + userData.last_name }}
+                </h4>
+                <span class="card-text">{{ userData.email }}</span>
+              </div>
+              <div class="d-flex flex-wrap">
+                <b-button
+                  :to="{ name: 'apps-users-edit', params: { id: userData.id } }"
+                  variant="primary"
+                >
+                  Edit
+                </b-button>
+              </div>
             </div>
           </div>
-        </div>
-      </b-col>
-      <!-- Right Col: Table -->
-      <b-col cols="12" md="6" xl="6">
-        <table class="mt-2 mt-xl-0 w-100">
-          <tr>
-            <th class="pb-50">
-              <feather-icon icon="MailIcon" class="mr-75" />
-              <span class="font-weight-bold">Email</span>
-            </th>
-            <td class="pb-50">
-              {{ userData.email }}
-            </td>
-          </tr>
-          <tr>
-            <th class="pb-50">
-              <feather-icon icon="UserIcon" class="mr-75" />
-              <span class="font-weight-bold">First Name</span>
-            </th>
-            <td class="pb-50 text-capitalize">
-              {{ userData.first_name }}
-            </td>
-          </tr>
-          <tr>
-            <th class="pb-50">
-              <feather-icon icon="UserIcon" class="mr-75" />
-              <span class="font-weight-bold">Last Name</span>
-            </th>
-            <td class="pb-50 text-capitalize">
-              {{ userData.last_name }}
-            </td>
-          </tr>
-          <tr>
-            <th class="pb-50">
-              <feather-icon icon="CheckIcon" class="mr-75" />
-              <span class="font-weight-bold">Is Active</span>
-            </th>
-            <td class="pb-50">
-              {{ userData.is_active ? "Yes" : "No" }}
-            </td>
-          </tr>
-          <tr>
-            <th class="pb-50">
-              <feather-icon icon="CheckIcon" class="mr-75" />
-              <span class="font-weight-bold">Is Staff</span>
-            </th>
-            <td class="pb-50">
-              {{ userData.is_staff ? "Yes" : "No" }}
-            </td>
-          </tr>
-          <tr>
-            <th class="pb-50">
-              <feather-icon icon="CheckIcon" class="mr-75" />
-              <span class="font-weight-bold">Role</span>
-            </th>
-            <td class="pb-50">
-              {{ userRole(userData.role) }}
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <feather-icon icon="ClockIcon" class="mr-75" />
-              <span class="font-weight-bold">Date Joined</span>
-            </th>
-            <td>
-              {{ new Date(userData.date_joined) }}
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <feather-icon icon="ClockIcon" class="mr-75" />
-              <span class="font-weight-bold">Last Login</span>
-            </th>
-            <td>
-              {{ new Date(userData.last_login) }}
-            </td>
-          </tr>
-        </table>
-      </b-col>
-    </b-row>
+        </b-col>
+        <!-- Right Col: Table -->
+        <b-col cols="12" md="6" xl="6">
+          <table class="mt-2 mt-xl-0 w-100">
+            <tr>
+              <th class="pb-50">
+                <feather-icon icon="MailIcon" class="mr-75" />
+                <span class="font-weight-bold">Email</span>
+              </th>
+              <td class="pb-50">
+                {{ userData.email }}
+              </td>
+            </tr>
+            <tr>
+              <th class="pb-50">
+                <feather-icon icon="UserIcon" class="mr-75" />
+                <span class="font-weight-bold">First Name</span>
+              </th>
+              <td class="pb-50 text-capitalize">
+                {{ userData.first_name }}
+              </td>
+            </tr>
+            <tr>
+              <th class="pb-50">
+                <feather-icon icon="UserIcon" class="mr-75" />
+                <span class="font-weight-bold">Last Name</span>
+              </th>
+              <td class="pb-50 text-capitalize">
+                {{ userData.last_name }}
+              </td>
+            </tr>
+            <tr>
+              <th class="pb-50">
+                <feather-icon icon="CheckIcon" class="mr-75" />
+                <span class="font-weight-bold">Is Active</span>
+              </th>
+              <td class="pb-50">
+                {{ userData.is_active ? "Yes" : "No" }}
+              </td>
+            </tr>
+            <tr>
+              <th class="pb-50">
+                <feather-icon icon="CheckIcon" class="mr-75" />
+                <span class="font-weight-bold">Is Staff</span>
+              </th>
+              <td class="pb-50">
+                {{ userData.is_staff ? "Yes" : "No" }}
+              </td>
+            </tr>
+            <tr>
+              <th class="pb-50">
+                <feather-icon icon="CheckIcon" class="mr-75" />
+                <span class="font-weight-bold">Role</span>
+              </th>
+              <td class="pb-50">
+                {{ userRole(userData.role) }}
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <feather-icon icon="ClockIcon" class="mr-75" />
+                <span class="font-weight-bold">Date Joined</span>
+              </th>
+              <td>
+                {{ new Date(userData.date_joined) }}
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <feather-icon icon="ClockIcon" class="mr-75" />
+                <span class="font-weight-bold">Last Login</span>
+              </th>
+              <td>
+                {{ getTime(userData.last_login) }}
+              </td>
+            </tr>
+          </table>
+        </b-col>
+      </b-row>
+    </b-card>
     <b-row>
       <b-col cols="12" xl="6">
         <b-card>
           <b-card-header class="pb-50">
             <h5>User Actions</h5>
           </b-card-header>
-          <user-action-logs :userId="userData.id"/>
+          <user-action-logs :userId="userData.id" />
         </b-card>
       </b-col>
       <b-col cols="12" xl="6">
@@ -121,11 +123,11 @@
           <b-card-header class="pb-50">
             <h5>User Changes</h5>
           </b-card-header>
-          <user-change-logs :userId="userData.id"/>
+          <user-change-logs :userId="userData.id" />
         </b-card>
       </b-col>
     </b-row>
-  </b-card>
+  </div>
 </template>
 
 <script>
@@ -159,6 +161,11 @@ export default {
     },
   },
   methods: {
+    getTime(time) {
+      if (time == null) return "Not Yet Legged In";
+
+      return new Date(time);
+    },
     userRole(role) {
       if (role == 0) return "Normal";
       if (role == 1) return "Admin";
