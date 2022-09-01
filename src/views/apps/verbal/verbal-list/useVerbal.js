@@ -5,7 +5,7 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useVerbal() {
+export default function useVerbal(shopId) {
   // Use toast
   const toast = useToast()
 
@@ -14,8 +14,8 @@ export default function useVerbal() {
   // Table Handlers
   const tableColumns = [
     { key: 'image', sortable: true },
-    { key: 'count'},
-    { key: 'add'},
+    { key: 'count' },
+    { key: 'add' },
     { key: 'product', sortable: true },
     { key: 'color', sortable: true },
     { key: 'size', sortable: true },
@@ -56,6 +56,7 @@ export default function useVerbal() {
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
+        shopId: shopId
       })
       .then(response => {
         const { data, total } = response

@@ -79,7 +79,7 @@ export default [
     path: '/apps/category/list',
     name: 'apps-categories-list',
     component: () => import('@/views/apps/category/categories-list/CategoriesList.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -88,7 +88,7 @@ export default [
     path: '/apps/categories/edit/:id',
     name: 'apps-categories-edit',
     component: () => import('@/views/apps/category/categories-edit/CategoriesEdit.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -97,7 +97,7 @@ export default [
     path: '/apps/color/list',
     name: 'apps-colors-list',
     component: () => import('@/views/apps/color/colors-list/ColorsList.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -106,7 +106,7 @@ export default [
     path: '/apps/colors/edit/:id',
     name: 'apps-colors-edit',
     component: () => import('@/views/apps/color/colors-edit/ColorsEdit.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -115,7 +115,7 @@ export default [
     path: '/apps/size/list',
     name: 'apps-sizes-list',
     component: () => import('@/views/apps/size/sizes-list/SizesList.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -124,7 +124,7 @@ export default [
     path: '/apps/sizes/edit/:id',
     name: 'apps-sizes-edit',
     component: () => import('@/views/apps/size/sizes-edit/SizesEdit.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -133,7 +133,7 @@ export default [
     path: '/apps/feature/list',
     name: 'apps-features-list',
     component: () => import('@/views/apps/feature/features-list/FeaturesList.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -142,7 +142,7 @@ export default [
     path: '/apps/features/edit/:id',
     name: 'apps-features-edit',
     component: () => import('@/views/apps/feature/features-edit/FeaturesEdit.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -181,7 +181,7 @@ export default [
     path: '/apps/brands/list',
     name: 'apps-brands-list',
     component: () => import('@/views/apps/brand/brands-list/BrandsList.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -190,7 +190,7 @@ export default [
     path: '/apps/brands/edit/:id',
     name: 'apps-brands-edit',
     component: () => import('@/views/apps/brand/brands-edit/BrandsEdit.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -268,7 +268,7 @@ export default [
     path: '/apps/stocks/online',
     name: 'apps-stocks-online',
     component: () => import('@/views/apps/stock/stocks-online/StocksOnline.vue'),
-    meta:{
+    meta: {
       resource: 'stockKeeper',
       action: 'read'
     }
@@ -337,12 +337,21 @@ export default [
     component: () => import('@/views/apps/customer/customersOrders-list/CustomersOrdersList.vue'),
   },
   {
-    path: '/apps/verbal',
+    path: '/apps/shop/verbal',
+    name: 'apps-shop-verbal',
+    component: () => import('@/views/apps/verbal/shop-verbal/ShopVerbal.vue'),
+    meta: {
+      resource: 'verbal',
+      action: 'read',
+    },
+  },
+  {
+    path: '/apps/shop/:id/verbal',
     name: 'apps-verbal',
     component: () => import('@/views/apps/verbal/verbal-list/VerbalList.vue'),
     meta: {
       resource: 'verbal',
-      action: 'read',
+      action: 'read'
     },
   },
 ]

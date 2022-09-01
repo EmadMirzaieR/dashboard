@@ -4,10 +4,6 @@ import { paginateArray, sortCompare } from '@/@core/utils/utils'
 export default {
   namespaced: true,
   state: {
-    shopId: (() => {
-      const userData = JSON.parse(localStorage.getItem('userData'))
-      return userData && userData.shop ? userData.shop.id : 0
-    })(),
   },
   getters: {},
   mutations: {},
@@ -18,12 +14,11 @@ export default {
         perPage = 10,
         page = 1,
         sortBy = 'id',
-        sortDesc = false
+        sortDesc = false,
+        shopId = 0
       } = queryParams
       return new Promise((resolve, reject) => {
 
-        const userData = JSON.parse(localStorage.getItem('userData'))
-        const shopId = userData && userData.shop ? userData.shop.id : 0
         axios
           .get(`/verbal/stocks/${shopId}/`)
           .then(response => {

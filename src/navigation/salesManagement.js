@@ -32,7 +32,7 @@ export default [
   {
     title: 'Verbal',
     icon: 'ShoppingBagIcon',
-    route: 'apps-verbal',
+    route: 'apps-shop-verbal',
     resource: 'verbal',
     action: 'read',
   },

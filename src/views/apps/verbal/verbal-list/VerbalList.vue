@@ -136,7 +136,7 @@
                   v-b-modal.modal-finish-cart
                   variant="primary"
                 >
-                  Finish cart
+                  Customer Step
                 </b-button>
               </b-col>
               <b-col cols="12" md="6">
@@ -151,7 +151,7 @@
             no-body
           >
             <b-row>
-              <b-col cols="2">
+              <b-col cols="3">
                 <b-img width="50" :src="cartItem.stock.image" />
               </b-col>
               <b-col cols="3">
@@ -159,7 +159,7 @@
                   {{ cartItem.stock.product }}
                 </h6>
               </b-col>
-              <b-col cols="3">
+              <b-col cols="4">
                 <b-form-spinbutton
                   v-model="cartItem.count"
                   @change="makeTotal"
@@ -169,7 +169,6 @@
                   inline
                 />
               </b-col>
-              <b-col cols="2"> ${{ cartItem.stock.price }} </b-col>
               <b-col cols="2">
                 <b-button variant="light" @click="removeFromCart(cartItem.id)">
                   <feather-icon icon="XIcon" />
@@ -184,7 +183,7 @@
       hide-footer
       id="modal-finish-cart"
       scrollable
-      title="Finish Cart"
+      title="Customer Step"
       size="lg"
       cancel-variant="outline-secondary"
     >
@@ -316,6 +315,7 @@ import { avatarText } from "@core/utils/filter";
 import useVerbal from "./useVerbal";
 import verbalStoreModule from "../verbalStoreModule";
 import VerbalPreview from "../verbal-preview/VerbalPreview.vue";
+import router from "@/router";
 
 export default {
   directives: {
@@ -353,10 +353,8 @@ export default {
         };
       });
 
-      const shopId = JSON.parse(localStorage.getItem("userData")).shop.id;
-
       this.verbal.order_items = [...a];
-      this.verbal.shop = shopId;
+      this.verbal.shop = this.shopId;
 
       store
         .dispatch("app-verbal/addVerbal", this.verbal)
@@ -393,6 +391,8 @@ export default {
     };
   },
   setup() {
+    const shopId = ref(router.currentRoute.params.id);
+
     const VERBAL_APP_STORE_MODULE_NAME = "app-verbal";
 
     // Register module
@@ -476,9 +476,10 @@ export default {
       isSortDirDesc,
       refVerbalStockListTable,
       refetchData,
-    } = useVerbal();
+    } = useVerbal(shopId.value);
 
     return {
+      shopId,
       makeTotal,
       totalCart,
       verbal,

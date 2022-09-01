@@ -81,7 +81,7 @@ export default {
     fetchSelf(ctx) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`/accounts/profile/detail/`)
+          .get(`/dashboard/users/user-detail/`)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
