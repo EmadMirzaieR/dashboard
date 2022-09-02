@@ -1,6 +1,5 @@
 <template>
-  <component :is="shopData === undefined ? 'div' : 'b-card'">
-    <!-- Alert: No item found -->
+  <div>
     <b-alert variant="danger" :show="shopData === undefined">
       <h4 class="alert-heading">Error fetching shop data</h4>
       <div class="alert-body">
@@ -11,38 +10,108 @@
         for other shops.
       </div>
     </b-alert>
+    <b-card>
+      <b-card-header>
+        <h3>Shop Name: {{ shopData.name }}</h3>
+      </b-card-header>
+      <b-row class="match-height">
+        <b-col lg="4" md="6">
+          <shop-numbers :data="cols.col1" />
+        </b-col>
 
-    <b-tabs v-if="shopData" pills>
-      <b-tab active>
-        <template #title>
-          <feather-icon icon="ShopIcon" size="16" class="mr-0 mr-sm-50" />
-          <span class="d-none d-sm-inline">Shop</span>
-        </template>
+        <b-col lg="4" md="6">
+          <shop-numbers :data="cols.col2" />
+        </b-col>
+
+        <b-col lg="4" md="6">
+          <shop-numbers :data="cols.col3" />
+        </b-col>
+      </b-row>
+    </b-card>
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Edit">
         <shop-edit-tab :shop-data="shopData" class="mt-2 pt-75" />
-      </b-tab>
-    </b-tabs>
-  </component>
+      </app-collapse-item>
+    </app-collapse>
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Products">
+        <shop-products :shopId="shopData.id" class="mt-2 pt-75" />
+      </app-collapse-item>
+    </app-collapse>
+
+    <!-- <div class="m-1">
+      <b-row>
+        <category-logs :categoryId="categoryData.id"></category-logs>
+      </b-row>
+    </div> -->
+  </div>
 </template>
 
 <script>
-import { BTab, BTabs, BCard, BAlert, BLink } from "bootstrap-vue";
+import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
+import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
+import {
+  BRow,
+  BCol,
+  BTab,
+  BTabs,
+  BCard,
+  BAlert,
+  BLink,
+  BAvatar,
+  BCardHeader,
+  BImg,
+  BCardTitle,
+  BCardBody,
+  BMediaBody,
+  BMedia,
+  BMediaAside,
+  BDropdown,
+  BDropdownItem,
+} from "bootstrap-vue";
 import { ref, onUnmounted } from "@vue/composition-api";
 import router from "@/router";
 import store from "@/store";
 import shopStoreModule from "../shopStoreModule";
 import ShopEditTab from "./ShopEditTab.vue";
+import ShopNumbers from "./ShopNumbers.vue";
+import ShopProducts from "@views/apps/product/shop-products/ShopProducts.vue"
 
 export default {
   components: {
+    BRow,
+    BCol,
     BTab,
     BTabs,
     BCard,
     BAlert,
     BLink,
     ShopEditTab,
+    AppCollapse,
+    AppCollapseItem,
+    BAvatar,
+    BCardHeader,
+    BImg,
+    ShopNumbers,
+    BCardTitle,
+    BCardBody,
+    BMediaBody,
+    BMedia,
+    BMediaAside,
+    BDropdown,
+    BDropdownItem,
+    ShopProducts
   },
   setup() {
     const shopData = ref(null);
+
+    const cols = ref({
+      col1: [],
+      col2: [],
+      col3: [],
+    });
 
     const Shop_APP_STORE_MODULE_NAME = "app-shop";
 
@@ -56,10 +125,109 @@ export default {
         store.unregisterModule(Shop_APP_STORE_MODULE_NAME);
     });
 
+    const makeDetailCols = () => {
+      const totals = shopData.value;
+      cols.value.col1 = [
+        {
+          mode: "Purchases Times",
+          types: "Starbucks",
+          avatar: "TrendingUpIcon",
+          avatarVariant: "light-info",
+          payment: `${totals.total_purchases_times}`,
+          deduction: false,
+        },
+        {
+          mode: "Purchases Price",
+          types: "Add Money",
+          avatar: "DollarSignIcon",
+          avatarVariant: "light-success",
+          payment: `$${totals.total_purchases_price}`,
+          deduction: false,
+        },
+        {
+          mode: "Purchases Stocks",
+          types: "Add Money",
+          avatar: "TrendingUpIcon",
+          avatarVariant: "light-info",
+          payment: `${totals.total_purchases_stocks}`,
+          deduction: false,
+        },
+        {
+          mode: "Purchases Times Per Month",
+          types: "Ordered Food",
+          avatar: "TrendingUpIcon",
+          avatarVariant: "light-info",
+          payment: `${totals.total_purchases_times_per_month}`,
+          deduction: false,
+        },
+        {
+          mode: "Purchases Stocks Per Month",
+          types: "Refund",
+          avatar: "TrendingUpIcon",
+          avatarVariant: "light-info",
+          payment: `${totals.total_purchases_stocks_per_month}`,
+          deduction: false,
+        },
+      ];
+      cols.value.col2 = [
+        {
+          mode: "Sell Offline Price",
+          types: "Starbucks",
+          avatar: "DollarSignIcon",
+          avatarVariant: "light-success",
+          payment: `$${totals.total_sell_offline_price}`,
+          deduction: false,
+        },
+        {
+          mode: "Sell Offline Price Per Month",
+          types: "Add Money",
+          avatar: "DollarSignIcon",
+          avatarVariant: "light-success",
+          payment: `$${totals.total_sell_offline_price_per_month}`,
+          deduction: false,
+        },
+        {
+          mode: "Sell Online Price",
+          types: "Add Money",
+          avatar: "DollarSignIcon",
+          avatarVariant: "light-success",
+          payment: `$${totals.total_sell_online_price}`,
+          deduction: false,
+        },
+        {
+          mode: "Sell Online Price Per Month",
+          types: "Ordered Food",
+          avatar: "DollarSignIcon",
+          avatarVariant: "light-success",
+          payment: `$${totals.total_sell_online_price_per_month}`,
+          deduction: false,
+        },
+      ];
+      cols.value.col3 = [
+        {
+          mode: "Staff Count",
+          types: "Starbucks",
+          avatar: "TrendingUpIcon",
+          avatarVariant: "light-info",
+          payment: `${totals.staff_count}`,
+          deduction: false,
+        },
+        {
+          mode: "Shop Balance",
+          types: "Add Money",
+          avatar: "DollarSignIcon",
+          avatarVariant: "light-success",
+          payment: `$${totals.shop_balance}`,
+          deduction: totals.shop_balance <= 0 ? true : false,
+        },
+      ];
+    };
+
     store
       .dispatch("app-shop/fetchShop", { id: router.currentRoute.params.id })
       .then((response) => {
         shopData.value = response.data;
+        makeDetailCols();
         const a = shopData.value.staffs;
         const s = a.map((item) => {
           return {
@@ -86,10 +254,31 @@ export default {
 
     return {
       shopData,
+      cols,
     };
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "@core/scss/vue/pages/dashboard-ecommerce.scss";
+</style>
+
+<style  scoped>
+.image {
+  position: relative;
+}
+
+.text-overlay {
+  position: absolute;
+  padding: 1rem;
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgb(0, 0, 0);
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>

@@ -19,7 +19,6 @@ export default function useCategoriesList() {
     { key: 'slug', sortable: true },
     { key: 'description', sortable: true },
     { key: 'is_active', sortable: true },
-    { key: 'is_deleted', sortable: true },
     { key: 'is_navbar', sortable: true },
     { key: 'actions' },
   ]

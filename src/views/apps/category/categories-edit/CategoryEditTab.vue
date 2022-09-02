@@ -35,22 +35,6 @@
             />
           </b-form-group>
         </b-col>
-
-        <b-col cols="12" md="4">
-          <b-form-group label="Is Deleted" label-for="is_deleted">
-            <v-select
-              v-model="categoryData.is_deleted"
-              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              :options="[
-                { label: 'Deleted', value: true },
-                { label: 'NotDeleted', value: false },
-              ]"
-              :reduce="(val) => val.value"
-              :clearable="false"
-              input-id="is_deleted"
-            />
-          </b-form-group>
-        </b-col>
         <b-col cols="12" md="4">
           <b-form-group label="Is Navbar" label-for="is_navbar">
             <v-select

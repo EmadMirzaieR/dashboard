@@ -2,6 +2,13 @@
   <div>
     <b-form>
       <b-row>
+        <image-section
+          type="shop"
+          :id="shopData.id"
+          :image="shopData.image"
+        ></image-section>
+      </b-row>
+      <b-row class="mt-2">
         <b-col cols="12" md="4">
           <b-form-group label="Name" label-for="name">
             <b-form-input id="name" v-model="shopData.name" />
@@ -11,12 +18,6 @@
         <b-col cols="12" md="4">
           <b-form-group label="Slug" label-for="slug">
             <b-form-input id="slug" v-model="shopData.slug" />
-          </b-form-group>
-        </b-col>
-
-        <b-col cols="12" md="4">
-          <b-form-group label="Description" label-for="description">
-            <b-form-textarea id="description" v-model="shopData.description" />
           </b-form-group>
         </b-col>
 
@@ -32,7 +33,7 @@
           </b-form-group>
         </b-col>
 
-        <b-col cols="12" md="6">
+        <b-col cols="12" md="4">
           <b-form-group label="Staffs" label-for="staffs">
             <v-select
               v-model="shopData.staffs"
@@ -72,6 +73,12 @@
             <b-form-input id="email" v-model="shopData.email" />
           </b-form-group>
         </b-col>
+
+        <b-col cols="12" md="4">
+          <b-form-group label="Description" label-for="description">
+            <b-form-textarea id="description" v-model="shopData.description" />
+          </b-form-group>
+        </b-col>
       </b-row>
     </b-form>
 
@@ -109,6 +116,7 @@ import vSelect from "vue-select";
 import { ref } from "@vue/composition-api";
 import store from "@/store";
 import router from "@/router";
+import ImageSection from "@views/apps/product/product-edit/sections/ImageSection.vue";
 
 export default {
   components: {
@@ -128,6 +136,7 @@ export default {
     vSelect,
     BFormSelect,
     BFormTextarea,
+    ImageSection,
   },
   props: {
     shopData: {
@@ -145,6 +154,7 @@ export default {
       store.dispatch("app-user/fetchUsersOption").then((response) => {
         this.usersOption = response;
       });
+      console.log(this.$props.shopData.staffs);
     },
     inputOwner(value) {
       this.$props.shopData.owner = value;

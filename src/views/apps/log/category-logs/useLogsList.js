@@ -6,11 +6,11 @@ import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import { print, downloadExcel } from '@/@core/utils/utils'
 
-export default function useLogsList(brandId) {
+export default function useLogsList(categoryId) {
   // Use toast
   const toast = useToast()
 
-  const refBrandLogsTable = ref(null)
+  const refCategoryLogsTable = ref(null)
 
   // Table Handlers
   const tableColumns = [
@@ -32,7 +32,7 @@ export default function useLogsList(brandId) {
   const isSortDirDesc = ref(true)
 
   const dataMeta = computed(() => {
-    const localItemsCount = refBrandLogsTable.value ? refBrandLogsTable.value.localItems.length : 0
+    const localItemsCount = refCategoryLogsTable.value ? refCategoryLogsTable.value.localItems.length : 0
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
@@ -41,22 +41,22 @@ export default function useLogsList(brandId) {
   })
 
   const refetchData = () => {
-    refBrandLogsTable.value.refresh()
+    refCategoryLogsTable.value.refresh()
   }
 
   watch([currentPage, perPage, searchQuery], () => {
     refetchData()
   })
 
-  const fetchBrandLogs = (ctx, callback) => {
+  const fetchCategoryLogs = (ctx, callback) => {
     store
-      .dispatch('app-log/fetchBrandLogs', {
+      .dispatch('app-log/fetchCategoryLogs', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
-        id: brandId
+        id: categoryId
       })
       .then(response => {
         const { data, total } = response
@@ -80,15 +80,15 @@ export default function useLogsList(brandId) {
   // *===============================================---*
 
   const downloadExcelTable = () => {
-    downloadExcel('refBrandLogsTable', 'logs')
+    downloadExcel('refCategoryLogsTable', 'logs')
   }
 
   const printTable = () => {
-    print('refBrandLogsTable', 'logs')
+    print('refCategoryLogsTable', 'logs')
   }
 
   return {
-    fetchBrandLogs,
+    fetchCategoryLogs,
     tableColumns,
     perPage,
     currentPage,
@@ -98,7 +98,7 @@ export default function useLogsList(brandId) {
     searchQuery,
     sortBy,
     isSortDirDesc,
-    refBrandLogsTable,
+    refCategoryLogsTable,
     refetchData,
     downloadExcelTable,
     printTable

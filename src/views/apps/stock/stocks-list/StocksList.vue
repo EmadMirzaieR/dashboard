@@ -68,6 +68,11 @@
         show-empty
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordered
       >
         <template #cell(product)="data">
           {{ data.item.product.name }}
@@ -124,9 +129,14 @@
               <span class="align-middle ml-50">Edit</span>
             </b-dropdown-item> -->
 
+            <b-dropdown-item @click="hdhd">
+              <feather-icon icon="CheckIcon" />
+              <span class="align-middle ml-50">Available</span>
+            </b-dropdown-item>
+
             <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
+              <feather-icon icon="XIcon" />
+              <span class="align-middle ml-50">Not Available</span>
             </b-dropdown-item>
           </b-dropdown>
         </template>
@@ -204,6 +214,7 @@ import { avatarText } from "@core/utils/filter";
 import useStocksList from "./useStocksList";
 import stockStoreModule from "../stockStoreModule";
 import StockListAddNew from "./StockListAddNew.vue";
+import router from "@/router";
 
 export default {
   components: {
@@ -251,6 +262,13 @@ export default {
 
     const isAddNewStockSidebarActive = ref(false);
 
+    const onRowSelected = (item) => {
+      router.push({
+        name: "apps-shops-edit",
+        params: { id: item[0].id },
+      });
+    };
+
     const {
       fetchStocks,
       tableColumns,
@@ -291,6 +309,7 @@ export default {
 
       // Filter
       avatarText,
+      onRowSelected
     };
   },
 };

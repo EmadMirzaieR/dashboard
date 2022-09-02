@@ -18,8 +18,6 @@ export default function useBrandsList() {
     { key: 'name', sortable: true },
     { key: 'slug', sortable: true },
     { key: 'description', sortable: true },
-    { key: 'is_active', sortable: true },
-    { key: 'is_deleted', sortable: true },
     { key: 'actions' },
   ]
   const perPage = ref(10)

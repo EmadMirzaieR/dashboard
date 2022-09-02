@@ -96,58 +96,6 @@
             </b-form-group>
           </validation-provider>
 
-          <validation-provider
-            #default="validationContext"
-            name="Is Active"
-            rules=""
-          >
-            <b-form-group
-              label="Is Active"
-              label-for="is_active"
-              :state="getValidationState(validationContext)"
-            >
-              <v-select
-                v-model="brandData.is_active"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="isActiveOptions"
-                :reduce="(val) => val.value"
-                :clearable="false"
-                input-id="is_active"
-              />
-              <b-form-invalid-feedback
-                :state="getValidationState(validationContext)"
-              >
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <validation-provider
-            #default="validationContext"
-            name="Is Deleted"
-            rules=""
-          >
-            <b-form-group
-              label="Is Deleted"
-              label-for="is_deleted"
-              :state="getValidationState(validationContext)"
-            >
-              <v-select
-                v-model="brandData.is_deleted"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="isDeletedOptions"
-                :reduce="(val) => val.value"
-                :clearable="false"
-                input-id="is_deleted"
-              />
-              <b-form-invalid-feedback
-                :state="getValidationState(validationContext)"
-              >
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
           <!-- Form Actions -->
           <div class="d-flex mt-2">
             <b-button

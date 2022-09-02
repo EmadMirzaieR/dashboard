@@ -27,17 +27,41 @@ export default {
           .catch(error => reject(error))
       })
     },
-    fetchBrandLogsList(ctx, queryParams) {
+    fetchBrandLogs(ctx, queryParams) {
       const {
         q = '',
         perPage = 10,
         page = 1,
         sortBy = 'id',
         sortDesc = false,
+        id = 0
       } = queryParams
       return new Promise((resolve, reject) => {
         axios
-          .get('/dashboard/brands/')
+          .get(`/dashboard/brands/${id}`)
+          .then(response => {
+            const { data } = response
+            const filteredData = data.logs
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
+    fetchCategoryLogs(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/dashboard/categories/${id}`)
           .then(response => {
             const { data } = response
             const filteredData = data.logs

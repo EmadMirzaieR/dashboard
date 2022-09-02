@@ -7,14 +7,6 @@
       @refetch-data="refetchData"
     />
 
-    <!-- Filters -->
-    <brands-list-filters
-      :is-active-filter.sync="isActiveFilter"
-      :is-deleted-filter.sync="isDeletedFilter"
-      :is-active-options="isActiveOptions"
-      :is-deleted-options="isDeletedOptions"
-    />
-
     <!-- Table Container Card -->
     <b-card no-body class="mb-0">
       <div class="m-2">

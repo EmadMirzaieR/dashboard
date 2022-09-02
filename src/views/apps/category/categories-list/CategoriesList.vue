@@ -3,7 +3,6 @@
     <category-list-add-new
       :is-add-new-category-sidebar-active.sync="isAddNewCategorySidebarActive"
       :is-active-options="isActiveOptions"
-      :is-deleted-options="isDeletedOptions"
       :is-navbar-options="isNavbarOptions"
       @refetch-data="refetchData"
     />
@@ -14,7 +13,6 @@
       :is-deleted-filter.sync="isDeletedFilter"
       :is-navbar-filter.sync="isNavbarFilter"
       :is-active-options="isActiveOptions"
-      :is-deleted-options="isDeletedOptions"
       :is-navbar-options="isNavbarOptions"
     />
 
@@ -81,6 +79,11 @@
         show-empty
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordered
       >
         <template #cell(is_active)="data">
           <b-badge
@@ -221,6 +224,7 @@ import CategoriesListFilters from "./CategoriesListFilters.vue";
 import useCategoriesList from "./useCategoriesList";
 import categoryStoreModule from "../categoryStoreModule";
 import CategoryListAddNew from "./CategoryListAddNew.vue";
+import router from "@/router";
 
 export default {
   components: {
@@ -258,29 +262,31 @@ export default {
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {
-          store.dispatch("app-category/deleteCategory", { id }).then((response) => {
-            if (response.status == 204) {
-              this.$swal({
-                icon: "success",
-                text: "Deleted",
-                confirmButtonText: "OK",
-                customClass: {
-                  confirmButton: "btn btn-primary",
-                },
-              });
-              this.refetchData();
-            } else {
-              this.$toast({
-                component: ToastificationContent,
-                position: "top-right",
-                props: {
-                  title: "Error",
-                  variant: "danger",
-                  text: "Error",
-                },
-              });
-            }
-          });
+          store
+            .dispatch("app-category/deleteCategory", { id })
+            .then((response) => {
+              if (response.status == 204) {
+                this.$swal({
+                  icon: "success",
+                  text: "Deleted",
+                  confirmButtonText: "OK",
+                  customClass: {
+                    confirmButton: "btn btn-primary",
+                  },
+                });
+                this.refetchData();
+              } else {
+                this.$toast({
+                  component: ToastificationContent,
+                  position: "top-right",
+                  props: {
+                    title: "Error",
+                    variant: "danger",
+                    text: "Error",
+                  },
+                });
+              }
+            });
         }
       });
     },
@@ -305,15 +311,17 @@ export default {
       { label: "InActive", value: false },
     ];
 
-    const isDeletedOptions = [
-      { label: "Deleted", value: true },
-      { label: "NotDeleted", value: false },
-    ];
-
     const isNavbarOptions = [
       { label: "Navbar", value: true },
       { label: "NotNavbar", value: false },
     ];
+
+    const onRowSelected = (item) => {
+      router.push({
+        name: "apps-categories-edit",
+        params: { id: item[0].id },
+      });
+    };
 
     const {
       fetchCategories,
@@ -341,6 +349,7 @@ export default {
     } = useCategoriesList();
 
     return {
+      onRowSelected,
       // Sidebar
       isAddNewCategorySidebarActive,
 
@@ -364,7 +373,6 @@ export default {
       resolveTrueFalseVariant,
 
       isActiveOptions,
-      isDeletedOptions,
       isNavbarOptions,
 
       // Extra Filters

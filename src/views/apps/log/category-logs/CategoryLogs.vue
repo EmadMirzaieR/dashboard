@@ -3,7 +3,7 @@
     <!-- Table Container Card -->
     <b-card  >
       <b-card-header>
-        <h3>Brand Logs</h3>
+        <h3>Category Logs</h3>
       </b-card-header>
       <div class="m-2">
         <!-- Table Top -->
@@ -38,10 +38,10 @@
       </div>
 
       <b-table
-        ref="refBrandLogsTable"
-        id="refBrandLogsTable"
+        ref="refCategoryLogsTable"
+        id="refCategoryLogsTable"
         class="position-relative"
-        :items="fetchBrandLogs"
+        :items="fetchCategoryLogs"
         responsive
         :fields="tableColumns"
         primary-key="id"
@@ -154,7 +154,7 @@ export default {
 
     vSelect,
   },
-  props:["brandId"],
+  props:["categoryId"],
   setup(props) {
     const LOG_APP_STORE_MODULE_NAME = "app-log";
 
@@ -169,7 +169,7 @@ export default {
     });
 
     const {
-      fetchBrandLogs,
+      fetchCategoryLogs,
       tableColumns,
       perPage,
       currentPage,
@@ -179,15 +179,15 @@ export default {
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refBrandLogsTable,
+      refCategoryLogsTable,
       refetchData,
       downloadExcelTable,
       printTable,
       // UI
-    } = useLogsList(props.brandId);
+    } = useLogsList(props.categoryId);
 
     return {
-      fetchBrandLogs,
+      fetchCategoryLogs,
       tableColumns,
       perPage,
       currentPage,
@@ -197,7 +197,7 @@ export default {
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refBrandLogsTable,
+      refCategoryLogsTable,
       refetchData,
       downloadExcelTable,
       printTable,

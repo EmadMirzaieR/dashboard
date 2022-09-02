@@ -1,9 +1,5 @@
 <template>
   <div>
-    <shop-list-add-new
-      :is-add-new-shop-sidebar-active.sync="isAddNewShopSidebarActive"
-      @refetch-data="refetchData"
-    />
     <!-- Table Container Card -->
     <b-card no-body class="mb-0">
       <div class="m-2">
@@ -26,17 +22,6 @@
             <label>entries</label>
           </b-col>
 
-          <b-col cols="12" md="6">
-            <div class="d-flex align-items-center justify-content-end">
-              <b-button variant="outline-secondary" @click="downloadExcelTable">
-                <span class="text-nowrap">Download Excel</span>
-              </b-button>
-              <b-button variant="outline-primary" @click="printTable">
-                <span class="text-nowrap">Print</span>
-              </b-button>
-            </div>
-          </b-col>
-
           <!-- Search -->
           <b-col cols="12" md="6">
             <div class="d-flex align-items-center justify-content-end">
@@ -45,22 +30,15 @@
                 class="d-inline-block mr-1"
                 placeholder="Search..."
               />
-              <b-button
-                variant="primary"
-                @click="isAddNewShopSidebarActive = true"
-              >
-                <span class="text-nowrap">Add Shop</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
       </div>
 
       <b-table
-        ref="refShopListTable"
-        id="refShopListTable"
+        ref="refShopProductTable"
         class="position-relative"
-        :items="fetchShops"
+        :items="fetchShopProducts"
         responsive
         :fields="tableColumns"
         primary-key="id"
@@ -74,45 +52,50 @@
         striped
         bordered
       >
+        <!-- Column: ShopProduct -->
+        <template #cell(image)="data">
+          <b-media vertical-align="center">
+            <template #aside>
+              <b-avatar size="40" :src="data.item.image" square />
+            </template>
+          </b-media>
+        </template>
+
+        <!-- Column: Status -->
         <template #cell(status)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveShopStatusVariant(data.item.status)}`"
-            class="text-capitalize"
-          >
+          <b-badge pill class="text-capitalize">
             {{ getStatus(data.item.status) }}
           </b-badge>
         </template>
 
-        <!-- Column: Actions -->
-        <template #cell(actions)="data">
-          <b-dropdown
-            variant="link"
-            no-caret
-            :right="$store.state.appConfig.isRTL"
+        <!-- <template #cell(product_type)="data">
+          <b-badge
+            pill
+            :variant="`light-${getType(data.item.product_type)}`"
+            class="text-capitalize"
           >
-            <template #button-content>
-              <feather-icon
-                icon="MoreVerticalIcon"
-                size="16"
-                class="align-middle text-body"
-              />
-            </template>
+            {{ data.item.status }}
+          </b-badge>
+        </template> -->
 
-            <b-dropdown-item
-              :to="{ name: 'apps-shops-edit', params: { id: data.item.id } }"
+        <template #cell(star)="data">
+          <ul class="unstyled-list list-inline">
+            <li
+              v-for="star in 5"
+              :key="star"
+              class="ratings-list-item"
+              :class="{ 'ml-25': star - 1 }"
             >
-              <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
-
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span @click="deleteShop(data.item.id)" class="align-middle ml-50"
-                >Delete</span
-              >
-            </b-dropdown-item>
-          </b-dropdown>
+              <feather-icon
+                icon="StarIcon"
+                size="16"
+                :class="[
+                  { 'fill-current': star <= data.item.star },
+                  star <= data.item.star ? 'text-warning' : 'text-muted',
+                ]"
+              />
+            </li>
+          </ul>
         </template>
       </b-table>
       <div class="mx-2 mb-2">
@@ -143,7 +126,7 @@
           >
             <b-pagination
               v-model="currentPage"
-              :total-rows="totalShops"
+              :total-rows="totalShopProducts"
               :per-page="perPage"
               first-number
               last-number
@@ -185,15 +168,12 @@ import vSelect from "vue-select";
 import store from "@/store";
 import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
-import useShopsList from "./useShopsList";
-import shopStoreModule from "../shopStoreModule";
-import ShopListAddNew from "./ShopListAddNew.vue";
-import router from "@/router";
+import useShopProduct from "./useShopProduct";
+import productStoreModule from "../productStoreModule";
+import router from "@/router"
 
 export default {
   components: {
-    ShopListAddNew,
-
     BCard,
     BRow,
     BCol,
@@ -210,117 +190,77 @@ export default {
 
     vSelect,
   },
+  props: ["shopId"],
   methods: {
-    getStatus(status) {
-      if (status === 0) return "InActive";
-      if (status === 1) return "Active";
-      if (status === 2) return "Deleted";
-    },
-    deleteShop(id) {
-      this.$swal({
-        title: "Accept Or Deny",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Remove",
-        cancelButtonText: "Cancel",
-        customClass: {
-          confirmButton: "btn btn-primary",
-          cancelButton: "btn btn-outline-danger ml-1",
-        },
-        buttonsStyling: false,
-      }).then((result) => {
-        if (result.value) {
-          store.dispatch("app-shop/deleteShop", { id }).then((response) => {
-            if (response.status == 200) {
-              this.$swal({
-                icon: "success",
-                text: "Status Changed to Deleted",
-                confirmButtonText: "OK",
-                customClass: {
-                  confirmButton: "btn btn-primary",
-                },
-              });
-              this.refetchData();
-            } else {
-              this.$toast({
-                component: ToastificationContent,
-                position: "top-right",
-                props: {
-                  title: "Error",
-                  variant: "danger",
-                  text: "Error",
-                },
-              });
-            }
-          });
-        }
-      });
+    getStatus(num) {
+      if (typeof num !== "number") return num;
+      switch (num) {
+        case 0:
+          return "DRAFT";
+        case 1:
+          return "PUBLISHED";
+        case 2:
+          return "DELETED";
+      }
     },
   },
-  setup() {
-    const Shop_APP_STORE_MODULE_NAME = "app-shop";
+  setup(props) {
+    const ShopProduct_APP_STORE_MODULE_NAME = "app-product";
 
     // Register module
-    if (!store.hasModule(Shop_APP_STORE_MODULE_NAME))
-      store.registerModule(Shop_APP_STORE_MODULE_NAME, shopStoreModule);
+    if (!store.hasModule(ShopProduct_APP_STORE_MODULE_NAME))
+      store.registerModule(
+        ShopProduct_APP_STORE_MODULE_NAME,
+        productStoreModule
+      );
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(Shop_APP_STORE_MODULE_NAME))
-        store.unregisterModule(Shop_APP_STORE_MODULE_NAME);
+      if (store.hasModule(ShopProduct_APP_STORE_MODULE_NAME))
+        store.unregisterModule(ShopProduct_APP_STORE_MODULE_NAME);
     });
-
-    const isAddNewShopSidebarActive = ref(false);
 
     const onRowSelected = (item) => {
       router.push({
-        name: "apps-shops-edit",
+        name: "apps-product-details",
         params: { id: item[0].id },
       });
     };
 
     const {
-      fetchShops,
+      fetchShopProducts,
       tableColumns,
       perPage,
       currentPage,
-      totalShops,
+      totalShopProducts,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refShopListTable,
+      refShopProductTable,
       refetchData,
-      resolveShopStatusVariant,
-      downloadExcelTable,
-      printTable,
-      // UI
-    } = useShopsList();
+    } = useShopProduct(props.shopId);
 
     return {
       // Sidebar
-      isAddNewShopSidebarActive,
+      onRowSelected,
 
-      fetchShops,
+      fetchShopProducts,
       tableColumns,
       perPage,
       currentPage,
-      totalShops,
+      totalShopProducts,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refShopListTable,
+      refShopProductTable,
       refetchData,
 
       // Filter
       avatarText,
-      resolveShopStatusVariant,
-      downloadExcelTable,
-      printTable,
-      onRowSelected
     };
   },
 };
