@@ -1,13 +1,9 @@
 <template>
-  <div>
+  <div v-if="shopData">
     <b-alert variant="danger" :show="shopData === undefined">
       <h4 class="alert-heading">Error fetching shop data</h4>
       <div class="alert-body">
-        No shop found with this shop id. Check
-        <b-link class="alert-link" :to="{ name: 'apps-shops-list' }">
-          Shop List
-        </b-link>
-        for other shops.
+        No shop found with this shop id. Check for other shops.
       </div>
     </b-alert>
     <b-card>
@@ -41,11 +37,11 @@
       </app-collapse-item>
     </app-collapse>
 
-    <!-- <div class="m-1">
-      <b-row>
-        <category-logs :categoryId="categoryData.id"></category-logs>
-      </b-row>
-    </div> -->
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Staff">
+        <shop-staff :shopId="shopData.id" />
+      </app-collapse-item>
+    </app-collapse>
   </div>
 </template>
 
@@ -77,7 +73,8 @@ import store from "@/store";
 import shopStoreModule from "../shopStoreModule";
 import ShopEditTab from "./ShopEditTab.vue";
 import ShopNumbers from "./ShopNumbers.vue";
-import ShopProducts from "@views/apps/product/shop-products/ShopProducts.vue"
+import ShopProducts from "@views/apps/product/shop-products/ShopProducts.vue";
+import ShopStaff from "@views/apps/user/shop-staff/ShopStaff.vue";
 
 export default {
   components: {
@@ -102,7 +99,8 @@ export default {
     BMediaAside,
     BDropdown,
     BDropdownItem,
-    ShopProducts
+    ShopProducts,
+    ShopStaff,
   },
   setup() {
     const shopData = ref(null);

@@ -154,7 +154,6 @@ export default {
       store.dispatch("app-user/fetchUsersOption").then((response) => {
         this.usersOption = response;
       });
-      console.log(this.$props.shopData.staffs);
     },
     inputOwner(value) {
       this.$props.shopData.owner = value;

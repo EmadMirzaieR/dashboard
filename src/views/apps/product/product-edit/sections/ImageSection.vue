@@ -51,9 +51,6 @@
 
     <avatar-cropper
       @uploading="handleUploading"
-      @uploaded="handleUploaded"
-      @completed="handleCompleted"
-      @error="handlerError"
       :labels="{ submit: 'upload', cancel: 'cancel' }"
       :cropper-options="
         type == 'product' ? { aspectRatio: 1 } : { aspectRatio: 2 }

@@ -98,9 +98,6 @@
     </b-form>
     <avatar-cropper
       @uploading="handleUploading"
-      @uploaded="handleUploaded"
-      @completed="handleCompleted"
-      @error="handlerError"
       :labels="{ submit: 'upload', cancel: 'cancel' }"
       :output-options="{ width: 640, height: 640 }"
       trigger="#pick-avatar"
