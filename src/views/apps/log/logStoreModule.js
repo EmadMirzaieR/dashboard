@@ -96,6 +96,31 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchShopLogs(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/shops-dashboard/shops/${id}/`)
+          .then(response => {
+            const { data } = response
+            const filteredData = data.logs
+
+            console.log(filteredData);
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchUserActionLogs(ctx, queryParams) {
       const {
         q = '',

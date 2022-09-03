@@ -6,7 +6,7 @@ import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import { downloadExcel, print } from '@/@core/utils/utils'
 
-export default function useOrdersListPending() {
+export default function useOrdersListPending(shopId) {
   // Use toast
   const toast = useToast()
 
@@ -52,14 +52,15 @@ export default function useOrdersListPending() {
     refetchData()
   })
 
-  const fetchOrderListPending = (ctx, callback) => {
+  const fetchShopSells = (ctx, callback) => {
     store
-      .dispatch('app-order/fetchOrderListPending', {
+      .dispatch('app-order/fetchShopSells', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
+        id: shopId,
       })
       .then(response => {
         const { data, total } = response
@@ -97,7 +98,7 @@ export default function useOrdersListPending() {
   }
 
   return {
-    fetchOrderListPending,
+    fetchShopSells,
     tableColumns,
     perPage,
     currentPage,

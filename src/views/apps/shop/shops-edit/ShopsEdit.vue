@@ -42,6 +42,18 @@
         <shop-staff :shopId="shopData.id" />
       </app-collapse-item>
     </app-collapse>
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Sell">
+        <shop-sell :shopId="shopData.id" />
+      </app-collapse-item>
+    </app-collapse>
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Log">
+        <shop-logs :shopId="shopData.id" />
+      </app-collapse-item>
+    </app-collapse>
   </div>
 </template>
 
@@ -75,6 +87,8 @@ import ShopEditTab from "./ShopEditTab.vue";
 import ShopNumbers from "./ShopNumbers.vue";
 import ShopProducts from "@views/apps/product/shop-products/ShopProducts.vue";
 import ShopStaff from "@views/apps/user/shop-staff/ShopStaff.vue";
+import ShopSell from "@views/apps/order/shop-sell/ShopSell.vue";
+import ShopLogs from "@views/apps/log/shop-logs/ShopLogs.vue";
 
 export default {
   components: {
@@ -101,6 +115,8 @@ export default {
     BDropdownItem,
     ShopProducts,
     ShopStaff,
+    ShopSell,
+    ShopLogs
   },
   setup() {
     const shopData = ref(null);

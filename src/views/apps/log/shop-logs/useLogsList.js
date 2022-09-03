@@ -4,113 +4,103 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import { downloadExcel, print } from '@/@core/utils/utils'
+import { print, downloadExcel } from '@/@core/utils/utils'
 
-export default function useOrdersListPending() {
+export default function useLogsList(shopId) {
   // Use toast
   const toast = useToast()
 
-  const refOrderListPendingTable = ref(null)
+  const refShopLogsTable = ref(null)
 
   // Table Handlers
   const tableColumns = [
     { key: 'id', sortable: true },
-    { key: 'order', label: "order_id", sortable: true },
-    { key: 'stock.shop.name', label: "shop_name", sortable: true },
-    { key: 'stock.product.name', label: "product", sortable: true },
-    { key: 'stock.color.name', label: "color", sortable: true },
-    { key: 'stock.size.name', label: "size", sortable: true },
-    { key: 'quantity', sortable: true },
-    { key: 'total_price', sortable: true },
-    { key: 'total_discount', sortable: true },
-    { key: 'final_price', sortable: true },
-    { key: "delivery_status", label: 'status', sortable: true },
-    { key: 'actions' },
+    { key: 'full_name', sortable: true },
+    { key: 'user.phone_number', label: "phone", sortable: true },
+    { key: 'message', sortable: true },
+    { key: 'action', sortable: true },
+    { key: 'object_type', sortable: true },
+    { key: 'object_id', sortable: true },
+    { key: 'created_at', label: "time", sortable: true },
   ]
-  const perPage = ref(5)
-  const totalOrders = ref(0)
+  const perPage = ref(10)
+  const totalLogs = ref(0)
   const currentPage = ref(1)
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
-  const isSortDirDesc = ref(false)
+  const isSortDirDesc = ref(true)
 
   const dataMeta = computed(() => {
-    const localItemsCount = refOrderListPendingTable.value ? refOrderListPendingTable.value.localItems.length : 0
+    const localItemsCount = refShopLogsTable.value ? refShopLogsTable.value.localItems.length : 0
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalOrders.value,
+      of: totalLogs.value,
     }
   })
 
   const refetchData = () => {
-    refOrderListPendingTable.value.refresh()
+    refShopLogsTable.value.refresh()
   }
 
   watch([currentPage, perPage, searchQuery], () => {
     refetchData()
   })
 
-  const fetchOrderListPending = (ctx, callback) => {
+  const fetchShopLogs = (ctx, callback) => {
     store
-      .dispatch('app-order/fetchOrderListPending', {
+      .dispatch('app-log/fetchShopLogs', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
+        id: shopId
       })
       .then(response => {
         const { data, total } = response
         callback(data)
-        totalOrders.value = total
+        totalLogs.value = total
       })
       .catch(() => {
         toast({
           component: ToastificationContent,
           props: {
-            title: 'Error fetching orders list',
+            title: 'Error fetching logs list',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
         })
       })
   }
+
   // *===============================================---*
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const resolveStatusVariant = status => {
-    if (status === 0) return 'PENDING'
-    if (status === 1) return 'PROCESSING'
-    if (status === 2) return 'DELIVERED'
-    return 'CANCELED'
-  }
-
   const downloadExcelTable = () => {
-    downloadExcel('refOrderListPendingTable', 'delivery-pending')
+    downloadExcel('refShopLogsTable', 'logs')
   }
 
   const printTable = () => {
-    print('refOrderListPendingTable', 'logs')
+    print('refShopLogsTable', 'logs')
   }
 
   return {
-    fetchOrderListPending,
+    fetchShopLogs,
     tableColumns,
     perPage,
     currentPage,
-    totalOrders,
+    totalLogs,
     dataMeta,
     perPageOptions,
     searchQuery,
     sortBy,
     isSortDirDesc,
-    refOrderListPendingTable,
-    resolveStatusVariant,
+    refShopLogsTable,
     refetchData,
     downloadExcelTable,
-    printTable,
+    printTable
   }
 }
