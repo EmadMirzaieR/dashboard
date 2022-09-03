@@ -192,7 +192,6 @@ import vSelect from "vue-select";
 import store from "@/store";
 import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
-import CustomersListFilters from "./CustomersListFilters.vue";
 import useCustomersList from "./useCustomersList";
 import customerStoreModule from "../customerStoreModule";
 import CustomerListAddNew from "./CustomerListAddNew.vue";
@@ -200,7 +199,6 @@ import router from "@/router";
 
 export default {
   components: {
-    CustomersListFilters,
     CustomerListAddNew,
 
     BCard,
@@ -242,23 +240,6 @@ export default {
 
     const isAddNewCustomerSidebarActive = ref(false);
 
-    const isActiveOptions = [
-      { label: "Active", value: true },
-      { label: "InActive", value: false },
-    ];
-
-    const isStaffOptions = [
-      { label: "Staff", value: true },
-      { label: "NotStaff", value: false },
-    ];
-
-    const roleOptions = [
-      { label: "Normal", value: 0 },
-      { label: "Admin", value: 1 },
-      { label: "Cashier", value: 2 },
-      { label: "Stock Keeper", value: 3 },
-    ];
-
     const onRowSelected = (item) => {
       router.push({
         name: "apps-customers-view",
@@ -283,10 +264,6 @@ export default {
       // UI
       resolveCustomerIsActiveStaffVariant,
 
-      // Extra Filters
-      isActiveFilter,
-      isStaffFilter,
-      roleFilter,
       downloadExcelTable,
       printTable,
     } = useCustomersList();
@@ -314,14 +291,6 @@ export default {
       // UI
       resolveCustomerIsActiveStaffVariant,
 
-      isActiveOptions,
-      isStaffOptions,
-      roleOptions,
-
-      // Extra Filters
-      isActiveFilter,
-      isStaffFilter,
-      roleFilter,
       downloadExcelTable,
       printTable,
       onRowSelected,

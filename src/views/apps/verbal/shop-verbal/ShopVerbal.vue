@@ -19,7 +19,7 @@
               <b-img
                 :alt="`${shop.name}-${shop.id}`"
                 :src="shop.image"
-                fluid
+                
                 center
                 :blank="!shop.image"
                 blankColor="#bbb"
@@ -118,7 +118,6 @@ export default {
     store
       .dispatch("app-user/fetchSelf")
       .then((response) => {
-        console.log(response);
         shops.value = response.data.shops;
         this.$toast({
           component: ToastificationContent,

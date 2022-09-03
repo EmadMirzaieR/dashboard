@@ -191,6 +191,13 @@
         <!-- Left Form -->
         <b-card no-body>
           <b-row>
+            <b-col cols="12">
+              <b-form-group label="Search" class="mb-2">
+                <b-form-input id="search"  @update="searchUsersFunc" v-model="searchUserInput" />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row>
             <b-col cols="12" md="6">
               <b-form-group
                 label="Email"
@@ -257,6 +264,7 @@
               </b-form-group>
             </b-col>
           </b-row>
+
           <b-row>
             <b-col cols="12" md="4">
               <b-button
@@ -268,9 +276,38 @@
                 Finish
               </b-button>
             </b-col>
+            <b-col cols="12" md="4">
+              <b-button
+                v-b-modal.modal-order
+                @click="finish"
+                variant="secondary"
+                class="mb-1 mb-sm-0 mr-0 mr-sm-1"
+              >
+                Add Customer
+              </b-button>
+            </b-col>
+            <b-col cols="12" md="4">
+              <b-button
+                v-b-modal.modal-order
+                @click="finish"
+                variant="secondary"
+                class="mb-1 mb-sm-0 mr-0 mr-sm-1"
+              >
+                Edit Customer
+              </b-button>
+            </b-col>
           </b-row>
         </b-card>
       </b-form>
+      <b-table
+        :items="searchUsers"
+        :fields="['first_name', 'last_name', 'email', 'phone_number']"
+        responsive
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+      >
+      </b-table>
     </b-modal>
 
     <b-modal
@@ -420,6 +457,8 @@ export default {
     const verbalStockList = ref(false);
     const stocks = ref([]);
     const cart = ref([]);
+    const searchUsers = ref([]);
+    const searchUserInput = ref("");
 
     const makeTotal = () => {
       let res = 0;
@@ -463,6 +502,39 @@ export default {
       makeTotal();
     };
 
+    const searchUsersFunc = () => {
+      store
+        .dispatch("app-user/fetchUsersVerbal", {
+          q: searchUserInput.value,
+        })
+        .then((response) => {
+          const { data, total } = response;
+          searchUsers.value = data;
+        })
+        .catch(() => {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: "Error fetching users list",
+              icon: "AlertTriangleIcon",
+              variant: "danger",
+            },
+          });
+        });
+    };
+
+    searchUsersFunc();
+
+    const onRowSelected = (item) => {
+      const obj = item[0];
+
+      verbal.value = emptyVerbal;
+
+      verbal.value.customer_email = obj.email;
+      verbal.value.customer_first_name = obj.first_name;
+      verbal.value.customer_last_name = obj.last_name;
+    };
+
     const {
       fetchVerbalStocks,
       tableColumns,
@@ -479,6 +551,10 @@ export default {
     } = useVerbal(shopId.value);
 
     return {
+      searchUsersFunc,
+      searchUserInput,
+      searchUsers,
+      onRowSelected,
       shopId,
       makeTotal,
       totalCart,

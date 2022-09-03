@@ -8,6 +8,36 @@ export default {
   getters: {},
   mutations: {},
   actions: {
+    fetchUsers(ctx, queryParams) {
+      const {
+        q = '',
+        sortBy = 'id',
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          // .get('/dashboard/users/', { params: queryParams })
+          .get('/dashboard/users/', {})
+          .then(response => {
+            const { data } = response
+            const queryLowered = q.toLowerCase()
+
+            const filteredData = data.filter(
+              user =>
+                /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
+                (user.first_name.toLowerCase().includes(queryLowered) ||
+                  user.last_name.toLowerCase().includes(queryLowered) ||
+                  user.phone_number.toLowerCase().includes(queryLowered) ||
+                  user.email.toLowerCase().includes(queryLowered)
+                  )
+            )
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: sortedData, total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchVerbalStocks({ state }, queryParams) {
       const {
         q = '',
@@ -23,7 +53,6 @@ export default {
           .get(`/verbal/stocks/${shopId}/`)
           .then(response => {
             const { data } = response
-            console.log(data);
             const queryLowered = q.toLowerCase()
 
             const filteredData = data.filter(

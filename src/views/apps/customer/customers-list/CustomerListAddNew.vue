@@ -59,6 +59,26 @@
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
             </b-form-group>
+          </validation-provider>        
+          
+            <validation-provider
+            #default="validationContext"
+            name="Phone Number"
+            rules="required|phone_number"
+          >
+            <b-form-group label="Phone Number" label-for="phone_number">
+              <b-form-input
+                id="phone_number"
+                v-model="customerData.phone_number"
+                autofocus
+                :state="getValidationState(validationContext)"
+                trim
+              />
+
+              <b-form-invalid-feedback>
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
           </validation-provider>
 
           <validation-provider
@@ -113,84 +133,6 @@
               />
 
               <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <validation-provider
-            #default="validationContext"
-            name="Is Active"
-            rules=""
-          >
-            <b-form-group
-              label="Is Active"
-              label-for="is_active"
-              :state="getValidationState(validationContext)"
-            >
-              <v-select
-                v-model="customerData.is_active"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="isActiveOptions"
-                :reduce="(val) => val.value"
-                :clearable="false"
-                input-id="is_active"
-              />
-              <b-form-invalid-feedback
-                :state="getValidationState(validationContext)"
-              >
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <validation-provider
-            #default="validationContext"
-            name="Is Staff"
-            rules=""
-          >
-            <b-form-group
-              label="Is Staff"
-              label-for="is_staff"
-              :state="getValidationState(validationContext)"
-            >
-              <v-select
-                v-model="customerData.is_staff"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="isStaffOptions"
-                :reduce="(val) => val.value"
-                :clearable="false"
-                input-id="is_staff"
-              />
-              <b-form-invalid-feedback
-                :state="getValidationState(validationContext)"
-              >
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <validation-provider
-            #default="validationContext"
-            name="Role"
-            rules=""
-          >
-            <b-form-group
-              label="Role"
-              label-for="role"
-              :state="getValidationState(validationContext)"
-            >
-              <v-select
-                v-model="customerData.role"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="roleOptions"
-                :reduce="(val) => val.value"
-                :clearable="false"
-                input-id="role"
-              />
-              <b-form-invalid-feedback
-                :state="getValidationState(validationContext)"
-              >
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
             </b-form-group>
@@ -297,8 +239,9 @@ export default {
       first_name: null,
       last_name: null,
       password: "",
+      phone_number: "",
       is_active: true,
-      is_staff: true,
+      is_staff: false,
       is_supercustomer: false,
       role: 0,
     };

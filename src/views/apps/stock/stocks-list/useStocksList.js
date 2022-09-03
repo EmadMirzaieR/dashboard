@@ -22,7 +22,6 @@ export default function useStocksList() {
     { key: 'quantity', sortable: true },
     { key: 'online_offline_status', label: "online/offline", sortable: true },
     { key: 'status', sortable: true },
-    { key: 'actions' },
   ]
   const perPage = ref(10)
   const totalStocks = ref(0)

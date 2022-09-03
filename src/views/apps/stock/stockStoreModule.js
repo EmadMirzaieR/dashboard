@@ -94,7 +94,15 @@ export default {
     fetchStock(ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`/stocks-dashboard/transfer-products/${id}/`)
+          .get(`/stocks-dashboard/stocks/${id}/`)
+          .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
+    fetchStockPricing(ctx, { id }) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/pricing/${id}/`)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
@@ -103,6 +111,22 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post('/stocks-dashboard/transfer-products/create/', stockData)
+          .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
+    addDiscount(ctx, data) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/pricing/discount/create/', data)
+          .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
+    addPrice(ctx, data) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/pricing/price/create/', data)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })

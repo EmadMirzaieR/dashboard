@@ -1,12 +1,10 @@
 <template>
   <div>
-    <stock-list-add-new
-      :is-add-new-stock-sidebar-active.sync="isAddNewStockSidebarActive"
-      @refetch-data="refetchData"
-    />
-
     <!-- Table Container Card -->
-    <b-card no-body class="mb-0">
+    <b-card  >
+      <b-card-header>
+        <h3>Stock Logs</h3>
+      </b-card-header>
       <div class="m-2">
         <!-- Table Top -->
         <b-row>
@@ -36,31 +34,14 @@
               </b-button>
             </div>
           </b-col>
-
-          <!-- Search -->
-          <b-col cols="12" md="6">
-            <div class="d-flex align-items-center justify-content-end">
-              <b-form-input
-                v-model="searchQuery"
-                class="d-inline-block mr-1"
-                placeholder="Search..."
-              />
-              <b-button
-                variant="primary"
-                @click="isAddNewStockSidebarActive = true"
-              >
-                <span class="text-nowrap">Register Stock</span>
-              </b-button>
-            </div>
-          </b-col>
         </b-row>
       </div>
 
       <b-table
-        ref="refStockListTable"
-        id="refStockListTable"
+        ref="refStockLogsTable"
+        id="refStockLogsTable"
         class="position-relative"
-        :items="fetchStocks"
+        :items="fetchStockLogs"
         responsive
         :fields="tableColumns"
         primary-key="id"
@@ -68,70 +49,20 @@
         show-empty
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
-        select-mode="single"
-        @row-selected="onRowSelected"
-        selectable
-        striped
-        bordered
       >
-        <template #cell(product)="data">
-          {{ data.item.product.name }}
-        </template>
-
-        <template #cell(online_offline_status)="data">
-          <b-badge
-            pill
-            :variant="`light-${
-              data.item.online_offline_status === 1 ? 'info' : 'danger'
-            }`"
-            class="text-capitalize"
-          >
-            {{ getOnOffStatus(data.item.online_offline_status) }}
-          </b-badge>
-        </template>
-
-        <template #cell(status)="data">
+        <template #cell(object_type)="data">
           <b-badge pill class="text-capitalize">
-            {{ getStatus(data.item.status) }}
+            {{ data.item.object_type }}
           </b-badge>
         </template>
 
-        <template #cell(color)="data">
-          {{ data.item.color.name }}
+        <template #cell(full_name)="data">
+          {{ data.item.user.first_name }} {{ data.item.user.last_name }}
         </template>
 
-        <template #cell(size)="data">
-          {{ data.item.size.name }}
+        <template #cell(created_at)="data">
+          {{ new Date(data.item.created_at) }}
         </template>
-
-        <template #cell(shop)="data">
-          {{ data.item.shop.name }}
-        </template>
-        <!-- Column: Actions -->
-        <!-- <template #cell(actions)="data">
-          <b-dropdown
-            variant="link"
-            no-caret
-            :right="$store.state.appConfig.isRTL"
-          >
-            <template #button-content>
-              <feather-icon
-                icon="MoreVerticalIcon"
-                size="16"
-                class="align-middle text-body"
-              />
-            </template>
-            <b-dropdown-item @click="hdhd">
-              <feather-icon icon="CheckIcon" />
-              <span class="align-middle ml-50">Available</span>
-            </b-dropdown-item>
-
-            <b-dropdown-item>
-              <feather-icon icon="XIcon" />
-              <span class="align-middle ml-50">Not Available</span>
-            </b-dropdown-item>
-          </b-dropdown>
-        </template> -->
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
@@ -161,7 +92,7 @@
           >
             <b-pagination
               v-model="currentPage"
-              :total-rows="totalStocks"
+              :total-rows="totalLogs"
               :per-page="perPage"
               first-number
               last-number
@@ -202,16 +133,11 @@ import {
 import vSelect from "vue-select";
 import store from "@/store";
 import { ref, onUnmounted } from "@vue/composition-api";
-import { avatarText } from "@core/utils/filter";
-import useStocksList from "./useStocksList";
-import stockStoreModule from "../stockStoreModule";
-import StockListAddNew from "./StockListAddNew.vue";
-import router from "@/router";
+import useLogsList from "./useLogsList";
+import logStoreModule from "../logStoreModule";
 
 export default {
   components: {
-    StockListAddNew,
-
     BCard,
     BRow,
     BCol,
@@ -228,80 +154,53 @@ export default {
 
     vSelect,
   },
-  methods: {
-    getStatus(status) {
-      if (status === 0) return "UnAvailable";
-      if (status === 1) return "Available";
-      if (status === 2) return "Out Of Stock";
-    },
-    getOnOffStatus(status) {
-      if (status === 1) return "Online";
-      if (status === 2) return "Offline";
-    },
-  },
-  setup() {
-    const Stock_APP_STORE_MODULE_NAME = "app-stock";
+  props:["stockId"],
+  setup(props) {
+    const LOG_APP_STORE_MODULE_NAME = "app-log";
 
     // Register module
-    if (!store.hasModule(Stock_APP_STORE_MODULE_NAME))
-      store.registerModule(Stock_APP_STORE_MODULE_NAME, stockStoreModule);
+    if (!store.hasModule(LOG_APP_STORE_MODULE_NAME))
+      store.registerModule(LOG_APP_STORE_MODULE_NAME, logStoreModule);
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(Stock_APP_STORE_MODULE_NAME))
-        store.unregisterModule(Stock_APP_STORE_MODULE_NAME);
+      if (store.hasModule(LOG_APP_STORE_MODULE_NAME))
+        store.unregisterModule(LOG_APP_STORE_MODULE_NAME);
     });
 
-    const isAddNewStockSidebarActive = ref(false);
-
-    const onRowSelected = (item) => {
-      router.push({
-        name: "apps-stocks-detail",
-        params: { id: item[0].id },
-      });
-    };
-
     const {
-      fetchStocks,
+      fetchStockLogs,
       tableColumns,
       perPage,
       currentPage,
-      totalStocks,
+      totalLogs,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refStockListTable,
+      refStockLogsTable,
       refetchData,
       downloadExcelTable,
       printTable,
-
       // UI
-    } = useStocksList();
+    } = useLogsList(props.stockId);
 
     return {
-      // Sidebar
-      isAddNewStockSidebarActive,
-
-      fetchStocks,
+      fetchStockLogs,
       tableColumns,
       perPage,
       currentPage,
-      totalStocks,
+      totalLogs,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refStockListTable,
+      refStockLogsTable,
       refetchData,
       downloadExcelTable,
       printTable,
-
-      // Filter
-      avatarText,
-      onRowSelected,
     };
   },
 };

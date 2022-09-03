@@ -69,34 +69,30 @@ export default {
           .catch(error => reject(error))
       })
     },
-    fetchUsers(ctx, queryParams) {
+    fetchCustomers(ctx, queryParams) {
       const {
         q = '',
         perPage = 10,
         page = 1,
         sortBy = 'id',
         sortDesc = false,
-        isActive = null,
-        isStaff = null,
-        role = null
       } = queryParams
       return new Promise((resolve, reject) => {
         axios
           // .get('/dashboard/users/', { params: queryParams })
-          .get('/dashboard/users/', {})
+          .get('/dashboard/users/')
           .then(response => {
             const { data } = response
             const queryLowered = q.toLowerCase()
 
             const filteredData = data.filter(
               user =>
-                /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
-                (user.first_name.toLowerCase().includes(queryLowered) ||
-                  user.last_name.toLowerCase().includes(queryLowered) ||
-                  user.email.toLowerCase().includes(queryLowered)) &&
-                (isActive === null ? true : user.is_active === isActive) &&
-                (isStaff === null ? true : user.is_staff === isStaff)&&
-                (role === null ? true : user.role === role),
+              /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
+              (
+                user.first_name.toLowerCase().includes(queryLowered) ||
+                user.last_name.toLowerCase().includes(queryLowered) ||
+                user.phone_number.includes(queryLowered) ||
+                user.email.toLowerCase().includes(queryLowered))
             )
 
             const sortedData = filteredData.sort(sortCompare(sortBy))

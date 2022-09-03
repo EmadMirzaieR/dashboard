@@ -297,8 +297,8 @@ export default [
     },
   },
   {
-    path: '/apps/stocks/view/:id',
-    name: 'apps-stocks-view',
+    path: '/apps/stocks/detail/:id',
+    name: 'apps-stocks-detail',
     component: () => import('@/views/apps/stock/stocks-view/StocksView.vue'),
     meta: {
       resource: 'stockKeeper',
@@ -325,6 +325,16 @@ export default [
     path: '/apps/affiliates/accounts/list',
     name: 'apps-affiliates-accounts-list',
     component: () => import('@/views/apps/affiliate/affiliate-accounts-list/AffiliateAccountsList.vue'),
+  },
+  {
+    path: '/apps/customers/list',
+    name: 'apps-customers-list',
+    component: () => import('@/views/apps/customer/customers-list/CustomersList.vue'),
+  },
+  {
+    path: '/apps/customers/view/:id',
+    name: 'apps-customers-view',
+    component: () => import('@/views/apps/customer/customers-view/CustomersView.vue'),
   },
   {
     path: '/apps/customers/carts/list',

@@ -4,75 +4,70 @@ import store from '@/store'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import { downloadExcel, print } from '@/@core/utils/utils'
+import { print, downloadExcel } from '@/@core/utils/utils'
 
-export default function useCustomersList() {
+export default function useLogsList(stockId) {
   // Use toast
   const toast = useToast()
 
-  const refCustomerListTable = ref(null)
+  const refStockLogsTable = ref(null)
 
   // Table Handlers
   const tableColumns = [
     { key: 'id', sortable: true },
-    { key: 'email', sortable: true },
-    { key: 'first_name', sortable: true },
-    { key: 'last_name', sortable: true },
-    { key: 'role', sortable: true },
-    { key: 'is_active', sortable: true },
-    { key: 'is_staff', sortable: true },
-    { key: 'actions' },
+    { key: 'full_name', sortable: true },
+    { key: 'user.phone_number', label: "phone", sortable: true },
+    { key: 'message', sortable: true },
+    { key: 'action', sortable: true },
+    { key: 'object_type', sortable: true },
+    { key: 'object_id', sortable: true },
+    { key: 'created_at', label: "time", sortable: true },
   ]
   const perPage = ref(10)
-  const totalCustomers = ref(0)
+  const totalLogs = ref(0)
   const currentPage = ref(1)
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
   const isSortDirDesc = ref(true)
-  const isActiveFilter = ref(null)
-  const isStaffFilter = ref(true)
-  const roleFilter = ref(null)
 
   const dataMeta = computed(() => {
-    const localItemsCount = refCustomerListTable.value ? refCustomerListTable.value.localItems.length : 0
+    const localItemsCount = refStockLogsTable.value ? refStockLogsTable.value.localItems.length : 0
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalCustomers.value,
+      of: totalLogs.value,
     }
   })
 
   const refetchData = () => {
-    refCustomerListTable.value.refresh()
+    refStockLogsTable.value.refresh()
   }
 
-  watch([currentPage, perPage, searchQuery, isActiveFilter, isStaffFilter, roleFilter], () => {
+  watch([currentPage, perPage, searchQuery], () => {
     refetchData()
   })
 
-  const fetchCustomers = (ctx, callback) => {
+  const fetchStockLogs = (ctx, callback) => {
     store
-      .dispatch('app-customer/fetchCustomers', {
+      .dispatch('app-log/fetchStockLogs', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
-        isActive: isActiveFilter.value,
-        isStaff: isStaffFilter.value,
-        role: roleFilter.value,
+        id: stockId
       })
       .then(response => {
         const { data, total } = response
         callback(data)
-        totalCustomers.value = total
+        totalLogs.value = total
       })
       .catch(() => {
         toast({
           component: ToastificationContent,
           props: {
-            title: 'Error fetching customers list',
+            title: 'Error fetching logs list',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
@@ -80,44 +75,32 @@ export default function useCustomersList() {
       })
   }
 
-  const downloadExcelTable = () => {
-    downloadExcel('refCustomerListTable', 'staffs')
-  }
-
-  const printTable = () => {
-    print('refCustomerListTable', 'staffs')
-  }
-
   // *===============================================---*
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const resolveCustomerIsActiveStaffVariant = status => {
-    if (status === true) return 'success'
-    return 'danger'
+  const downloadExcelTable = () => {
+    downloadExcel('refStockLogsTable', 'logs')
+  }
+
+  const printTable = () => {
+    print('refStockLogsTable', 'logs')
   }
 
   return {
-    fetchCustomers,
+    fetchStockLogs,
     tableColumns,
     perPage,
     currentPage,
-    totalCustomers,
+    totalLogs,
     dataMeta,
     perPageOptions,
     searchQuery,
     sortBy,
     isSortDirDesc,
-    refCustomerListTable,
-
-    resolveCustomerIsActiveStaffVariant,
+    refStockLogsTable,
     refetchData,
-
-    // Extra Filters
-    isActiveFilter,
-    isStaffFilter,
-    roleFilter,
     downloadExcelTable,
-    printTable,
+    printTable
   }
 }

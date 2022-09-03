@@ -30,6 +30,13 @@ export default [
     route: 'apps-comments-pending',
   },
   {
+    title: 'Customers',
+    icon: 'UserCheckIcon',
+    route: 'apps-customers-list',
+    resource: 'verbal',
+    action: 'read',
+  },
+  {
     title: 'Verbal',
     icon: 'ShoppingBagIcon',
     route: 'apps-shop-verbal',
