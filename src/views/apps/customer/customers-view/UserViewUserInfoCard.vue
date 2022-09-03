@@ -109,20 +109,42 @@
         </b-col>
       </b-row>
     </b-card>
-    <b-row>
-      <b-col cols="12" xl="6">
-        <b-card>
-          <b-card-header class="pb-50">
-            <h5>User Actions</h5>
-          </b-card-header>
-          <user-action-logs :userId="userData.id" />
-        </b-card>
-      </b-col>
-    </b-row>
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Customer Orders">
+        <b-row>
+          <b-col cols="12">
+            <customer-orders :customerId="userData.id" />
+          </b-col>
+        </b-row>
+      </app-collapse-item>
+    </app-collapse>   
+    
+     <app-collapse accordion type="margin">
+      <app-collapse-item title="Customer Carts">
+        <b-row>
+          <b-col cols="12">
+            <customer-carts :customerId="userData.id" />
+          </b-col>
+        </b-row>
+      </app-collapse-item>
+    </app-collapse>
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Customer Actions">
+        <b-row>
+          <b-col cols="12">
+            <user-action-logs :userId="userData.id" />
+          </b-col>
+        </b-row>
+      </app-collapse-item>
+    </app-collapse>
   </div>
 </template>
 
 <script>
+import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
+import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
 import {
   BCard,
   BButton,
@@ -134,6 +156,8 @@ import {
 import { avatarText } from "@core/utils/filter";
 import UserActionLogs from "@views/apps/log/user-action-logs/UserActionLogs";
 import UserChangeLogs from "@views/apps/log/user-change-logs/UserChangeLogs";
+import CustomerOrders from "../customer-orders/CustomerOrders.vue";
+import CustomerCarts from "../customer-carts/CustomerCarts.vue";
 
 export default {
   components: {
@@ -145,6 +169,10 @@ export default {
     UserActionLogs,
     UserChangeLogs,
     BCardHeader,
+    AppCollapse,
+    AppCollapseItem,
+    CustomerOrders,
+    CustomerCarts
   },
   props: {
     userData: {

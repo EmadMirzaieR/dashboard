@@ -6,7 +6,7 @@
       :items="fetchProductStocks"
       responsive
       :fields="tableColumns"
-      primary-key="shop"
+      primary-key="id"
       :sort-by.sync="sortBy"
       show-empty
       empty-text="No matching records found"
@@ -34,7 +34,7 @@
                 'actions',
               ]"
             >
-              <template #cell(actions)="">
+              <template #cell(actions)="data">
                 <b-dropdown
                   variant="link"
                   no-caret
@@ -47,14 +47,14 @@
                       class="align-middle text-body"
                     />
                   </template>
-                  <b-dropdown-item v-b-modal.modal-transfer-to-other-shop>
+                  <b-dropdown-item @click="fillStock(data.item)" v-b-modal.modal-transfer-to-other-shop>
                     <feather-icon icon="ChevronsUpIcon" />
                     <span class="align-middle ml-50"
                       >Transfer To Other Shop</span
                     >
                   </b-dropdown-item>
 
-                  <b-dropdown-item v-b-modal.modal-transfer-to-online-shop>
+                  <b-dropdown-item @click="fillStock(data.item)" v-b-modal.modal-transfer-to-online-shop>
                     <feather-icon icon="ChevronsUpIcon" />
                     <span class="align-middle ml-50"
                       >Transfer To Online Shop</span
@@ -93,7 +93,7 @@
                 'actions',
               ]"
             >
-              <template #cell(actions)="">
+              <template #cell(actions)="data">
                 <b-dropdown
                   variant="link"
                   no-caret
@@ -106,7 +106,7 @@
                       class="align-middle text-body"
                     />
                   </template>
-                  <b-dropdown-item v-b-modal.modal-transfer-to-offline-shop>
+                  <b-dropdown-item @click="fillStock(data.item)" v-b-modal.modal-transfer-to-offline-shop>
                     <feather-icon icon="ChevronsUpIcon" />
                     <span class="align-middle ml-50"
                       >Transfer To Offline Shop</span
@@ -197,6 +197,7 @@
         </b-col>
       </b-row>
     </div>
+
     <b-modal
       hide-footer
       id="modal-transfer-to-other-shop"
@@ -205,8 +206,11 @@
       size="lg"
       cancel-variant="outline-secondary"
     >
-    </b-modal>    
-    
+      <transfer-stock-product-form-wizard
+        :stock="stock"
+      ></transfer-stock-product-form-wizard>
+    </b-modal>
+
     <b-modal
       hide-footer
       id="modal-transfer-to-offline-shop"
@@ -215,9 +219,9 @@
       size="lg"
       cancel-variant="outline-secondary"
     >
-    </b-modal>   
-    
-     <b-modal
+    </b-modal>
+
+    <b-modal
       hide-footer
       id="modal-transfer-to-online-shop"
       scrollable
@@ -254,6 +258,7 @@ import { avatarText } from "@core/utils/filter";
 import useProductStocks from "./useProductStocks";
 import productStoreModule from "../../product/productStoreModule";
 import TransferToOtherShopWizard from "@views/apps/stock/stocks-list/TransferToOtherShopWizard.vue";
+import TransferStockProductFormWizard from "@views/apps/stock/stocks-transfer-product/TransferStockProductFormWizard.vue";
 
 export default {
   directives: {
@@ -276,13 +281,30 @@ export default {
     BPagination,
     vSelect,
     TransferToOtherShopWizard,
+    TransferStockProductFormWizard,
   },
   data() {
     return {
       stockClick: {},
+      stock: {
+        product: null,
+        size: null,
+        color: null,
+        quantity: null,
+        transfer_type: 2,
+        transfer_to_shop: null,
+        transfer_from_shop: null,
+        purchase_price: 0,
+        transfer_price: 0,
+        transfer_datetime: null,
+        transfer_note: null,
+      },
     };
   },
   methods: {
+    fillStock(row){
+      console.log(row);
+    },
     changeRows(index, type) {
       this.stockClick[index] = type;
     },

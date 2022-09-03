@@ -193,23 +193,37 @@
           <b-row>
             <b-col cols="12">
               <b-form-group label="Search" class="mb-2">
-                <b-form-input id="search"  @update="searchUsersFunc" v-model="searchUserInput" />
+                <b-form-input
+                  id="search"
+                  @update="searchUsersFunc"
+                  v-model="searchUserInput"
+                />
               </b-form-group>
             </b-col>
           </b-row>
           <b-row>
             <b-col cols="12" md="6">
-              <b-form-group
-                label="Email"
-                label-for="customer_email"
-                class="mb-2"
+              <validation-provider
+                #default="validationContext"
+                name="Email"
+                rules="required|email"
               >
-                <b-form-input
-                  id="customer_email"
-                  v-model="verbal.customer_email"
-                  trim
-                />
-              </b-form-group>
+                <b-form-group
+                  label="Email"
+                  label-for="customer_email"
+                  class="mb-2"
+                >
+                  <b-form-input
+                    id="customer_email"
+                    v-model="user.email"
+                    :state="getValidationState(validationContext)"
+                    trim
+                  />
+                  <b-form-invalid-feedback>
+                    {{ validationContext.errors[0] }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
             </b-col>
             <b-col cols="12" md="6">
               <b-form-group
@@ -219,7 +233,7 @@
               >
                 <b-form-input
                   id="customer_first_name"
-                  v-model="verbal.customer_first_name"
+                  v-model="user.first_name"
                   trim
                 />
               </b-form-group>
@@ -232,7 +246,7 @@
               >
                 <b-form-input
                   id="customer_last_name"
-                  v-model="verbal.customer_last_name"
+                  v-model="user.last_name"
                   trim
                 />
               </b-form-group>
@@ -245,7 +259,7 @@
               >
                 <b-form-input
                   id="customer_phone"
-                  v-model="verbal.customer_phone"
+                  v-model="user.phone_number"
                   trim
                 />
               </b-form-group>
@@ -278,8 +292,7 @@
             </b-col>
             <b-col cols="12" md="4">
               <b-button
-                v-b-modal.modal-order
-                @click="finish"
+                @click="addCustomer"
                 variant="secondary"
                 class="mb-1 mb-sm-0 mr-0 mr-sm-1"
               >
@@ -288,8 +301,7 @@
             </b-col>
             <b-col cols="12" md="4">
               <b-button
-                v-b-modal.modal-order
-                @click="finish"
+                @click="editCustomer"
                 variant="secondary"
                 class="mb-1 mb-sm-0 mr-0 mr-sm-1"
               >
@@ -344,6 +356,7 @@ import {
   VBModal,
   BFormGroup,
   BForm,
+  BFormInvalidFeedback,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import store from "@/store";
@@ -353,6 +366,9 @@ import useVerbal from "./useVerbal";
 import verbalStoreModule from "../verbalStoreModule";
 import VerbalPreview from "../verbal-preview/VerbalPreview.vue";
 import router from "@/router";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { required, alphaNum, email } from "@validations";
+import formValidation from "@core/comp-functions/forms/form-validation";
 
 export default {
   directives: {
@@ -379,6 +395,9 @@ export default {
     BForm,
     VerbalPreview,
     vSelect,
+    BFormInvalidFeedback,
+    ValidationProvider,
+    ValidationObserver,
   },
   computed: {},
   methods: {
@@ -398,32 +417,16 @@ export default {
         .then((response) => {
           if (response.status == 201) {
             this.invoice = response.data;
-            this.$toast({
-              component: ToastificationContent,
-              position: "top-left",
-              props: {
-                title: "",
-                variant: "success",
-              },
-            });
           }
         })
-        .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-left",
-            props: {
-              title: "Error",
-              variant: "danger",
-              icon: "AlertOctagonIcon",
-              text: error.response.data,
-            },
-          });
-        });
+        .catch((error) => {});
     },
   },
   data() {
     return {
+      required,
+      alphaNum,
+      email,
       invoice: {},
     };
   },
@@ -444,13 +447,12 @@ export default {
 
     const emptyVerbal = {
       shop: 0,
-      customer_email: "",
-      customer_first_name: "",
-      customer_last_name: "",
-      customer_phone: "",
       order_items: [],
       referral_code: "",
+      customer_id: 0,
     };
+
+    const user = ref({});
 
     const totalCart = ref(0);
     const verbal = ref(emptyVerbal);
@@ -511,16 +513,32 @@ export default {
           const { data, total } = response;
           searchUsers.value = data;
         })
-        .catch(() => {
-          toast({
-            component: ToastificationContent,
-            props: {
-              title: "Error fetching users list",
-              icon: "AlertTriangleIcon",
-              variant: "danger",
-            },
-          });
-        });
+        .catch(() => {});
+    };
+
+    const addCustomer = () => {
+      store
+        .dispatch("app-user/addUser", {
+          email: user.value.email,
+          first_name: user.value.first_name,
+          last_name: user.value.last_name,
+          phone_number: user.value.phone_number,
+          password: "1234",
+        })
+        .then((response) => {})
+        .catch(() => {});
+    };
+
+    const editCustomer = () => {
+      store
+        .dispatch("app-user/editUser", {
+          id: user.value.id,
+          userData: user.value,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch(() => {});
     };
 
     searchUsersFunc();
@@ -528,12 +546,18 @@ export default {
     const onRowSelected = (item) => {
       const obj = item[0];
 
-      verbal.value = emptyVerbal;
+      user.value = obj;
 
-      verbal.value.customer_email = obj.email;
-      verbal.value.customer_first_name = obj.first_name;
-      verbal.value.customer_last_name = obj.last_name;
+      verbal.value = emptyVerbal;
+      verbal.value.customer_id = obj.id;
     };
+
+    const resetuserData = () => {
+      userData.value = JSON.parse(JSON.stringify(emptyVerbal));
+    };
+
+    const { refFormObserver, getValidationState, resetForm } =
+      formValidation(resetuserData);
 
     const {
       fetchVerbalStocks,
@@ -551,6 +575,9 @@ export default {
     } = useVerbal(shopId.value);
 
     return {
+      user,
+      addCustomer,
+      editCustomer,
       searchUsersFunc,
       searchUserInput,
       searchUsers,
@@ -581,6 +608,9 @@ export default {
       refetchData,
       // Filter
       avatarText,
+      refFormObserver,
+      getValidationState,
+      resetForm,
     };
   },
 };

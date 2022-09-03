@@ -64,7 +64,7 @@
             <validation-provider
             #default="validationContext"
             name="Phone Number"
-            rules="required|phone_number"
+            rules=""
           >
             <b-form-group label="Phone Number" label-for="phone_number">
               <b-form-input
@@ -236,8 +236,8 @@ export default {
   setup(props, { emit }) {
     const blankCustomerData = {
       email: "",
-      first_name: null,
-      last_name: null,
+      first_name: "",
+      last_name: "",
       password: "",
       phone_number: "",
       is_active: true,
@@ -252,7 +252,8 @@ export default {
     };
 
     const onSubmit = () => {
-      store.dispatch("app-customer/addCustomer", customerData.value).then(() => {
+      console.log(customerData.value);
+      store.dispatch("app-customer/addUser", customerData.value).then(() => {
         emit("refetch-data");
         emit("update:is-add-new-customer-sidebar-active", false);
       });
@@ -264,7 +265,6 @@ export default {
     return {
       customerData,
       onSubmit,
-
       refFormObserver,
       getValidationState,
       resetForm,

@@ -68,6 +68,11 @@
         show-empty
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordered
       >
         <template #cell(show_details)="row">
           <b-button
@@ -246,6 +251,7 @@ import { avatarText } from "@core/utils/filter";
 import useSuppliersList from "./useSuppliersList";
 import supplierStoreModule from "../supplierStoreModule";
 import SupplierListAddNew from "./SupplierListAddNew.vue";
+import router from '@/router';
 
 export default {
   components: {
@@ -273,9 +279,6 @@ export default {
     };
   },
   methods: {
-    onRowSelected(items) {
-      this.selected = items[0];
-    },
     deleteSupplier(id) {
       this.$swal({
         title: "Accept Or Deny",
@@ -334,6 +337,13 @@ export default {
 
     const isAddNewSupplierSidebarActive = ref(false);
 
+    const onRowSelected = (item) => {
+      router.push({
+        name: "apps-suppliers-history",
+        params: { id: item[0].id },
+      });
+    };
+
     const {
       fetchSuppliers,
       tableColumns,
@@ -357,6 +367,7 @@ export default {
     } = useSuppliersList();
 
     return {
+      onRowSelected,
       // Sidebar
       isAddNewSupplierSidebarActive,
 

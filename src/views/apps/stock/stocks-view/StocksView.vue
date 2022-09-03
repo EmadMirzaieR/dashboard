@@ -10,7 +10,9 @@
         { key: 'size', sortable: true },
         { key: 'shop', sortable: true },
         { key: 'quantity', sortable: true },
-        { key: 'price', sortable: true },
+        { key: 'price_without_discount', label: 'price', sortable: true },
+        { key: 'discount', sortable: true },
+        { key: 'price', label: 'final_price', sortable: true },
         {
           key: 'online_offline_status',
           label: 'online/offline',
@@ -22,6 +24,8 @@
       <template #cell(product)="data">
         {{ data.item.product.name }}
       </template>
+
+      <template #cell(discount)="data"> {{ data.item.discount }}% </template>
 
       <template #cell(online_offline_status)="data">
         <b-badge
@@ -157,10 +161,7 @@
     </app-collapse>
     <app-collapse accordion type="margin">
       <app-collapse-item title="Logs">
-        <stock-logs
-          :stockId="stockData.id"
-          class="mt-2 pt-75"
-        />
+        <stock-logs :stockId="stockData.id" class="mt-2 pt-75" />
       </app-collapse-item>
     </app-collapse>
   </div>
@@ -187,7 +188,7 @@ import {
   BFormInput,
 } from "bootstrap-vue";
 import stockStoreModule from "../stockStoreModule";
-import StockLogs from "@views/apps/log/stock-logs/StockLogs.vue"
+import StockLogs from "@views/apps/log/stock-logs/StockLogs.vue";
 
 export default {
   components: {
@@ -205,7 +206,7 @@ export default {
     BFormInput,
     AppCollapse,
     AppCollapseItem,
-    StockLogs
+    StockLogs,
   },
   methods: {
     getStatus(status) {

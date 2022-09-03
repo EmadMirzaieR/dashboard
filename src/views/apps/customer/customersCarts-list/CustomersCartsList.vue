@@ -57,6 +57,11 @@
         show-empty
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordered
       >
         <template #cell(name)="data">
           {{ data.item.first_name + " " + data.item.last_name }}
@@ -138,6 +143,7 @@ import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
 import useCustomersCartsList from "./useCustomersCartsList";
 import customerStoreModule from "../customerStoreModule";
+import router from '@/router';
 
 export default {
   components: {
@@ -174,6 +180,13 @@ export default {
         store.unregisterModule(CustomersCart_APP_STORE_MODULE_NAME);
     });
 
+    const onRowSelected = (item) => {
+      router.push({
+        name: "apps-customers-view",
+        params: { id: item[0].id },
+      });
+    };
+
     const {
       fetchCustomersCarts,
       tableColumns,
@@ -194,6 +207,7 @@ export default {
     } = useCustomersCartsList();
 
     return {
+      onRowSelected,
       // Sidebar
       fetchCustomersCarts,
       tableColumns,

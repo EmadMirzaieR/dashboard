@@ -63,6 +63,26 @@
 
           <validation-provider
             #default="validationContext"
+            name="Phone Number"
+            rules=""
+          >
+            <b-form-group label="Phone Number" label-for="phone_number">
+              <b-form-input
+                id="phone_number"
+                v-model="userData.phone_number"
+                autofocus
+                :state="getValidationState(validationContext)"
+                trim
+              />
+
+              <b-form-invalid-feedback>
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </validation-provider>
+
+          <validation-provider
+            #default="validationContext"
             name="FirstName"
             rules=""
           >
@@ -294,8 +314,9 @@ export default {
   setup(props, { emit }) {
     const blankUserData = {
       email: "",
-      first_name: null,
-      last_name: null,
+      first_name: "",
+      last_name: "",
+      phone_number: "",
       password: "",
       is_active: true,
       is_staff: true,

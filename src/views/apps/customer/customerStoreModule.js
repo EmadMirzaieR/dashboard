@@ -110,6 +110,50 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchOrdersOfCustomer(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/customers/orders/customer-order-list/${id}/`)
+          .then(response => {
+            const { data } = response
+
+            const sortedData = data.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: data.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
+    fetchCartsOfCustomer(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/customers/carts/customer-cart-item-list/${id}/`)
+          .then(response => {
+            const { data } = response
+
+            const sortedData = data.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: data.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
     addUser(ctx, userData) {
       return new Promise((resolve, reject) => {
         axios
