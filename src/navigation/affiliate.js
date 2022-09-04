@@ -4,9 +4,9 @@ export default [
     icon: 'LinkIcon',
     route: 'apps-affiliates-links-list',
   },
-  {
-    title: 'Accounts',
-    icon: 'UserCheckIcon',
-    route: 'apps-affiliates-accounts-list',
-  }
+  // {
+  //   title: 'Accounts',
+  //   icon: 'UserCheckIcon',
+  //   route: 'apps-affiliates-accounts-list',
+  // }
 ]

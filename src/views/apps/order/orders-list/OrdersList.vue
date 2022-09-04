@@ -102,6 +102,26 @@
           </div>
         </template>
 
+        <template #cell(actions)="data">
+          <b-dropdown
+            variant="link"
+            no-caret
+            :right="$store.state.appConfig.isRTL"
+          >
+            <template #button-content>
+              <feather-icon
+                icon="MoreVerticalIcon"
+                size="16"
+                class="align-middle text-body"
+              />
+            </template>
+            <b-dropdown-item @click="orderDelete(data.item.id)">
+              <feather-icon icon="TrashIcon" />
+              <span class="align-middle ml-50">Cancel</span>
+            </b-dropdown-item>
+          </b-dropdown>
+        </template>
+
         <template #cell(status)="data">
           <b-badge pill class="text-capitalize">
             {{ resolveStatusVariant(data.item.status) }}
@@ -264,6 +284,12 @@ export default {
       { label: "Offline", value: 2 },
     ];
 
+    const orderDelete = (id) => {
+      store.dispatch("app-order/deleteOrder", { id }).then(() => {
+        window.location.reload(true);
+      });
+    };
+
     const {
       fetchOrders,
       tableColumns,
@@ -287,6 +313,7 @@ export default {
     } = useOrdersList();
 
     return {
+      orderDelete,
       // Sidebar
       fetchOrders,
       tableColumns,

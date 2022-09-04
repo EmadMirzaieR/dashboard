@@ -92,5 +92,13 @@ export default {
           .catch(error => reject(error))
       })
     },
+    deleteOrder(ctx, { id }) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`/orders-dashboard/order-detail/${id}/`)
+          .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
   },
 }

@@ -28,6 +28,7 @@ export default function useOrdersList() {
     { key: 'status', sortable: true },
     { key: 'order_type', sortable: true },
     { key: 'details' },
+    { key: 'actions' },
   ]
   const perPage = ref(10)
   const totalOrders = ref(0)
