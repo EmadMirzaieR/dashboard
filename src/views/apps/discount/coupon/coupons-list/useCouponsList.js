@@ -16,7 +16,7 @@ export default function useCouponsList() {
     { key: 'id', sortable: true },
     { key: 'code', sortable: true },
     { key: 'status', sortable: true },
-    { key: 'minimum_cart_amount', sortable: true },
+    // { key: 'minimum_cart_amount', sortable: true },
     { key: 'discount_rate', sortable: true },
     { key: 'actions' },
   ]

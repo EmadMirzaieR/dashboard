@@ -68,6 +68,10 @@
           </b-badge>
         </template>
 
+        <template #cell(discount_rate)="data">
+          {{ data.item.discount_rate }}%
+        </template>
+
         <!-- Column: Actions -->
         <template #cell(actions)="data">
           <b-dropdown

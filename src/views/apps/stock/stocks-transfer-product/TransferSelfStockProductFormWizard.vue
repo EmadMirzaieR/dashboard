@@ -10,10 +10,6 @@
       class="mb-3"
       @on-complete="formSubmitted"
     >
-      <tab-content title="To Shop">
-        <to-shop-tab :stock="stock" />
-      </tab-content>
-
       <tab-content title="Transfer Data">
         <transfer-tab :stock="stock" />
       </tab-content>
@@ -76,6 +72,7 @@ export default {
   computed: {},
   methods: {
     formSubmitted() {
+      delete this.stock.transfer_to_shop;
       store
         .dispatch("app-stock/addStock", this.stock)
         .then((response) => {

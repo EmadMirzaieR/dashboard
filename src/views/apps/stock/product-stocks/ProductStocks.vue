@@ -47,14 +47,20 @@
                       class="align-middle text-body"
                     />
                   </template>
-                  <b-dropdown-item @click="fillStock(data.item)" v-b-modal.modal-transfer-to-other-shop>
+                  <b-dropdown-item
+                    @click="fillStockToOtherShop(data.item)"
+                    v-b-modal.modal-transfer-to-other-shop
+                  >
                     <feather-icon icon="ChevronsUpIcon" />
                     <span class="align-middle ml-50"
                       >Transfer To Other Shop</span
                     >
                   </b-dropdown-item>
 
-                  <b-dropdown-item @click="fillStock(data.item)" v-b-modal.modal-transfer-to-online-shop>
+                  <b-dropdown-item
+                    @click="fillStockToOnlineShop(data.item)"
+                    v-b-modal.modal-transfer-to-self-shop
+                  >
                     <feather-icon icon="ChevronsUpIcon" />
                     <span class="align-middle ml-50"
                       >Transfer To Online Shop</span
@@ -106,7 +112,10 @@
                       class="align-middle text-body"
                     />
                   </template>
-                  <b-dropdown-item @click="fillStock(data.item)" v-b-modal.modal-transfer-to-offline-shop>
+                  <b-dropdown-item
+                    @click="fillStockToOfflineShop(data.item)"
+                    v-b-modal.modal-transfer-to-self-shop
+                  >
                     <feather-icon icon="ChevronsUpIcon" />
                     <span class="align-middle ml-50"
                       >Transfer To Offline Shop</span
@@ -213,22 +222,15 @@
 
     <b-modal
       hide-footer
-      id="modal-transfer-to-offline-shop"
+      id="modal-transfer-to-self-shop"
       scrollable
       title="Register"
       size="lg"
       cancel-variant="outline-secondary"
     >
-    </b-modal>
-
-    <b-modal
-      hide-footer
-      id="modal-transfer-to-online-shop"
-      scrollable
-      title="Register"
-      size="lg"
-      cancel-variant="outline-secondary"
-    >
+    <transfer-self-stock-product-form-wizard
+        :stock="stock"
+      ></transfer-self-stock-product-form-wizard>
     </b-modal>
   </b-card>
 </template>
@@ -257,8 +259,8 @@ import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
 import useProductStocks from "./useProductStocks";
 import productStoreModule from "../../product/productStoreModule";
-import TransferToOtherShopWizard from "@views/apps/stock/stocks-list/TransferToOtherShopWizard.vue";
 import TransferStockProductFormWizard from "@views/apps/stock/stocks-transfer-product/TransferStockProductFormWizard.vue";
+import TransferSelfStockProductFormWizard from "@views/apps/stock/stocks-transfer-product/TransferSelfStockProductFormWizard.vue";
 
 export default {
   directives: {
@@ -280,30 +282,36 @@ export default {
     BDropdownItem,
     BPagination,
     vSelect,
-    TransferToOtherShopWizard,
     TransferStockProductFormWizard,
+    TransferSelfStockProductFormWizard
   },
   data() {
     return {
       stockClick: {},
       stock: {
-        product: null,
-        size: null,
-        color: null,
-        quantity: null,
-        transfer_type: 2,
-        transfer_to_shop: null,
-        transfer_from_shop: null,
+        stock: 0,
+        quantity: 0,
+        transfer_type: 4,
+        transfer_to_shop: 0,
         purchase_price: 0,
         transfer_price: 0,
         transfer_datetime: null,
-        transfer_note: null,
+        transfer_note: "",
       },
     };
   },
   methods: {
-    fillStock(row){
-      console.log(row);
+    fillStockToOtherShop(row) {
+      this.stock.stock = row.stock_id;
+      this.stock.transfer_type = 4;
+    },
+    fillStockToOnlineShop(row) {
+      this.stock.stock = row.stock_id;
+      this.stock.transfer_type = 3;
+    },
+    fillStockToOfflineShop(row) {
+      this.stock.stock = row.stock_id;
+      this.stock.transfer_type = 2;
     },
     changeRows(index, type) {
       this.stockClick[index] = type;

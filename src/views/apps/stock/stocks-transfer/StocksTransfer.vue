@@ -63,10 +63,9 @@
         <template #cell(status)="data">
           <b-badge
             pill
-            :variant="`light-${resolveStatusVariant(data.item.status)}`"
             class="text-capitalize"
           >
-            {{ data.item.status }}
+            {{ getStatus(data.item.status) }}
           </b-badge>
         </template>
 
@@ -313,6 +312,11 @@ export default {
       if (status == "Canceled") return "danger";
       if (status == "Transferred") return "success";
     };
+    const getStatus = (status) => {
+      if (status == 1) return "Pending";
+      if (status == 0) return "Canceled";
+      if (status == 2) return "Transferred";
+    };
     const Stock_APP_STORE_MODULE_NAME = "app-stock";
 
     // Transfer module
@@ -345,6 +349,7 @@ export default {
     } = useStocksTransfer();
 
     return {
+      getStatus,
       resolveStatusVariant,
       // Sidebar
       isAddNewStockTransferSidebarActive,

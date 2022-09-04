@@ -86,7 +86,7 @@
             </b-form-group>
           </validation-provider>
 
-          <validation-provider
+          <!-- <validation-provider
             #default="validationContext"
             name="Minimum Cart Amount"
             rules=""
@@ -106,7 +106,7 @@
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
             </b-form-group>
-          </validation-provider>
+          </validation-provider> -->
 
           <validation-provider
             #default="validationContext"

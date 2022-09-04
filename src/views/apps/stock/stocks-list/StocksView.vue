@@ -47,6 +47,11 @@
         show-empty
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordered
       >
         <template #cell(product)="data">
           {{ data.item.product.name }}
@@ -82,7 +87,6 @@
           {{ data.item.shop.name }}
         </template>
         <!-- Column: Actions -->
-        
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
@@ -157,6 +161,7 @@ import { avatarText } from "@core/utils/filter";
 import useStocksList from "./useStocksList";
 import stockStoreModule from "../stockStoreModule";
 import StockListAddNew from "./StockListAddNew.vue";
+import router from "@/router"
 
 export default {
   components: {
@@ -204,6 +209,13 @@ export default {
 
     const isAddNewStockSidebarActive = ref(false);
 
+    const onRowSelected = (item) => {
+      router.push({
+        name: "apps-product-details",
+        params: { id: item[0].product.id },
+      });
+    };
+
     const {
       fetchStocks,
       tableColumns,
@@ -226,7 +238,7 @@ export default {
     return {
       // Sidebar
       isAddNewStockSidebarActive,
-
+      onRowSelected,
       fetchStocks,
       tableColumns,
       perPage,
