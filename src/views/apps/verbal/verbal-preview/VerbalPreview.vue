@@ -215,8 +215,8 @@ export default {
       store
         .dispatch("app-verbal/addVerbal", props.verbal)
         .then((response) => {
-          if (response.status == 200) {
-            console.log(response);
+          if (response.status == 201) {
+            window.location.reload(true)
           }
         })
         .catch((error) => {});
@@ -238,7 +238,6 @@ export default {
       var newWin = window.open("");
       newWin.document.write(divToPrint.outerHTML);
       newWin.print();
-      newWin.close();
     };
 
     return {
