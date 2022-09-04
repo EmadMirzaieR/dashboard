@@ -35,7 +35,7 @@ export default function useOrdersList() {
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
-  const isSortDirDesc = ref(false)
+  const isSortDirDesc = ref(true)
   const statusFilter = ref(null)
   const orderTypeFilter = ref(null)
 
