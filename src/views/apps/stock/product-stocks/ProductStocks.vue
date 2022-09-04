@@ -322,11 +322,11 @@ export default {
     },
     fillStockToOnlineShop(row) {
       this.stock.stock = row.stock_id;
-      this.stock.transfer_type = 2;
+      this.stock.transfer_type = 3;
     },
     fillStockToOfflineShop(row) {
       this.stock.stock = row.stock_id;
-      this.stock.transfer_type = 3;
+      this.stock.transfer_type = 2;
     },
     changeRows(index, type) {
       this.stockClick[index] = type;
