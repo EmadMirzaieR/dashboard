@@ -80,11 +80,11 @@ export default function useLogsList(categoryId) {
   // *===============================================---*
 
   const downloadExcelTable = () => {
-    downloadExcel('refCategoryLogsTable', 'logs')
+    downloadExcel('refCategoryLogsTable', 'category-logs')
   }
 
   const printTable = () => {
-    print('refCategoryLogsTable', 'logs')
+    print('refCategoryLogsTable', 'category-logs')
   }
 
   return {

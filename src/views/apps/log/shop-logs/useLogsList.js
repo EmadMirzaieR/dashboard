@@ -80,11 +80,11 @@ export default function useLogsList(shopId) {
   // *===============================================---*
 
   const downloadExcelTable = () => {
-    downloadExcel('refShopLogsTable', 'logs')
+    downloadExcel('refShopLogsTable', 'shop-logs')
   }
 
   const printTable = () => {
-    print('refShopLogsTable', 'logs')
+    print('refShopLogsTable', 'shop-logs')
   }
 
   return {

@@ -81,11 +81,11 @@ export default function useUsersList() {
   }
 
   const downloadExcelTable = () => {
-    downloadExcel('refUserListTable', 'staffs')
+    downloadExcel('refUserListTable', 'users')
   }
 
   const printTable = () => {
-    print('refUserListTable', 'staffs')
+    print('refUserListTable', 'users')
   }
 
   // *===============================================---*

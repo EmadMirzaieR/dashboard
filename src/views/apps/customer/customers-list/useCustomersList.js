@@ -72,11 +72,11 @@ export default function useCustomersList() {
   }
 
   const downloadExcelTable = () => {
-    downloadExcel('refCustomerListTable', 'staffs')
+    downloadExcel('refCustomerListTable', 'customer')
   }
 
   const printTable = () => {
-    print('refCustomerListTable', 'staffs')
+    print('refCustomerListTable', 'customer')
   }
 
   // *===============================================---*

@@ -90,11 +90,11 @@ export default function useOrdersListPending(shopId) {
   }
 
   const downloadExcelTable = () => {
-    downloadExcel('refOrderListPendingTable', 'delivery-pending')
+    downloadExcel('refOrderListPendingTable', 'shop-sell')
   }
 
   const printTable = () => {
-    print('refOrderListPendingTable', 'logs')
+    print('refOrderListPendingTable', 'shop-sell')
   }
 
   return {

@@ -90,11 +90,11 @@ export default function useCartsList(customerId) {
   }
 
   const downloadExcelTable = () => {
-    downloadExcel('refOrderListTable', 'orders')
+    downloadExcel('refOrderListTable', 'CartsOfCustomer')
   }
 
   const printTable = () => {
-    print('refOrderListTable', 'orders')
+    print('refOrderListTable', 'CartsOfCustomer')
   }
 
   return {

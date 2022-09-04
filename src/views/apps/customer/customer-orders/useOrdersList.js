@@ -95,11 +95,11 @@ export default function useOrdersList(customerId) {
   }
 
   const downloadExcelTable = () => {
-    downloadExcel('refOrderListTable', 'orders')
+    downloadExcel('refOrderListTable', 'OrdersOfCustomer')
   }
 
   const printTable = () => {
-    print('refOrderListTable', 'orders')
+    print('refOrderListTable', 'OrdersOfCustomer')
   }
 
   return {

@@ -80,11 +80,11 @@ export default function useLogsList(brandId) {
   // *===============================================---*
 
   const downloadExcelTable = () => {
-    downloadExcel('refBrandLogsTable', 'logs')
+    downloadExcel('refBrandLogsTable', 'brand-logs')
   }
 
   const printTable = () => {
-    print('refBrandLogsTable', 'logs')
+    print('refBrandLogsTable', 'brand-logs')
   }
 
   return {

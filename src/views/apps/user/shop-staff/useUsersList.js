@@ -82,11 +82,11 @@ export default function useUsersList(shopId) {
   }
 
   const downloadExcelTable = () => {
-    downloadExcel('refUserListTable', 'staffs')
+    downloadExcel('refUserListTable', 'shop-staff')
   }
 
   const printTable = () => {
-    print('refUserListTable', 'staffs')
+    print('refUserListTable', 'shop-staff')
   }
 
   // *===============================================---*

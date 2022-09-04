@@ -78,11 +78,11 @@ export default function useLogsList(userId) {
   // *===============================================---*
 
   const downloadExcelTable = () => {
-    downloadExcel('refUserActionLogsTable', 'logs')
+    downloadExcel('refUserActionLogsTable', 'user-action-logs')
   }
 
   const printTable = () => {
-    print('refUserActionLogsTable', 'logs')
+    print('refUserActionLogsTable', 'user-action-logs')
   }
 
   return {

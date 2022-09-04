@@ -93,7 +93,7 @@ export default function useOrdersListPending() {
   }
 
   const printTable = () => {
-    print('refOrderListPendingTable', 'logs')
+    print('refOrderListPendingTable', 'delivery-pending')
   }
 
   return {
