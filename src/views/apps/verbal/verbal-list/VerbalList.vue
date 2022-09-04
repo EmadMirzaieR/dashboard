@@ -327,10 +327,10 @@
       id="modal-order"
       scrollable
       title="order"
-      size="lg"
+      size="xl"
       cancel-variant="outline-secondary"
     >
-      <verbal-preview :invoice="invoice"></verbal-preview>
+      <verbal-preview :verbal="invoice"></verbal-preview>
     </b-modal>
   </div>
 </template>
@@ -401,6 +401,21 @@ export default {
   },
   computed: {},
   methods: {
+    makeTotals() {
+      this.verbal.totals.final_price = 0;
+      this.verbal.totals.total_discount = 0;
+      this.verbal.totals.total_price = 0;
+
+      this.cart.forEach((element) => {
+        this.verbal.totals.total_price +=
+          element.stock.price_without_discount * element.count;
+
+        this.verbal.totals.final_price += element.stock.price * element.count;
+      });
+
+      this.verbal.totals.total_discount =
+        this.verbal.totals.total_price - this.verbal.totals.final_price;
+    },
     finish() {
       const a = this.cart.map((item) => {
         return {
@@ -410,16 +425,20 @@ export default {
       });
 
       this.verbal.order_items = [...a];
-      this.verbal.shop = this.shopId;
+      this.verbal.cart = this.cart;
 
-      store
-        .dispatch("app-verbal/addVerbal", this.verbal)
-        .then((response) => {
-          if (response.status == 201) {
-            this.invoice = response.data;
-          }
-        })
-        .catch((error) => {});
+      this.makeTotals();
+
+      this.invoice = this.verbal;
+
+      // store
+      //   .dispatch("app-verbal/addVerbal", this.verbal)
+      //   .then((response) => {
+      //     if (response.status == 201) {
+      //       this.invoice = response.data;
+      //     }
+      //   })
+      //   .catch((error) => {});
     },
   },
   data() {
@@ -446,10 +465,16 @@ export default {
     });
 
     const emptyVerbal = {
-      shop: 0,
+      shop: shopId,
       order_items: [],
       referral_code: "",
-      customer_id: 0,
+      customer: 0,
+      cart: [],
+      totals: {
+        total_price: 0,
+        total_discount: 0,
+        final_price: 0,
+      },
     };
 
     const user = ref({});
@@ -525,7 +550,10 @@ export default {
           phone_number: user.value.phone_number,
           password: "1234",
         })
-        .then((response) => {})
+        .then((response) => {
+          const { data } = response;
+          verbal.value.customer = data.data.id;
+        })
         .catch(() => {});
     };
 
@@ -545,11 +573,8 @@ export default {
 
     const onRowSelected = (item) => {
       const obj = item[0];
-
       user.value = obj;
-
-      verbal.value = emptyVerbal;
-      verbal.value.customer_id = obj.id;
+      verbal.value.customer = obj.id;
     };
 
     const resetuserData = () => {

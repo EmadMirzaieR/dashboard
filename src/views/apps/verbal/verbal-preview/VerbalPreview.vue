@@ -1,15 +1,12 @@
 <template>
   <section class="invoice-preview-wrapper">
-    <!-- Alert: No item found -->
-    <b-alert variant="danger" :show="invoice === undefined">
-      <h4 class="alert-heading">Error fetching invoice data</h4>
+    <b-alert variant="danger" :show="verbal === undefined">
+      <h4 class="alert-heading">Error fetching verbal data</h4>
     </b-alert>
 
-    <b-row v-if="invoice" class="invoice-preview">
-      <!-- Col: Left (Invoice Container) -->
+    <b-row v-if="verbal" class="invoice-preview">
       <b-col cols="12" xl="9" md="8">
-        <b-card no-body class="invoice-preview-card">
-          <!-- Header -->
+        <b-card id="verbal-card" no-body class="invoice-preview-card">
           <b-card-body class="invoice-padding pb-0">
             <div
               class="
@@ -20,118 +17,71 @@
                 mt-0
               "
             >
-              <!-- Header: Left Content -->
-              <!-- <div>
-                <div class="logo-wrapper">
-                  <logo />
-                  <h3 class="text-primary invoice-logo">Vuexy</h3>
-                </div>
-                <p class="card-text mb-25">
-                  Office 149, 450 South Brand Brooklyn
-                </p>
-                <p class="card-text mb-25">San Diego County, CA 91905, USA</p>
-                <p class="card-text mb-0">
-                  +1 (123) 456 7891, +44 (876) 543 2198
-                </p>
-              </div> -->
-
-              <!-- Header: Right Content -->
               <div class="mt-md-0 mt-2">
                 <h4 class="invoice-title">
                   Invoice
-                  <span class="invoice-number">#{{ invoice.id }}</span>
+                  <span class="invoice-number">#{{ "ddd" }}</span>
                 </h4>
                 <div class="invoice-date-wrapper">
                   <p class="invoice-date-title">Date Issued:</p>
                   <p class="invoice-date">
-                    {{ new Date(invoice.created_at) }}
+                    {{ new Date() }}
                   </p>
                 </div>
-                <!-- <div class="invoice-date-wrapper">
-                  <p class="invoice-date-title">Due Date:</p>
-                  <p class="invoice-date">
-                    {{ invoice.dueDate }}
-                  </p>
-                </div> -->
               </div>
             </div>
           </b-card-body>
 
-          <!-- Spacer -->
           <hr class="invoice-spacing" />
 
-          <!-- Invoice Client & Payment Details -->
-          <b-card-body v-if="invoice.client" class="invoice-padding pt-0">
-            <b-row class="invoice-spacing">
-              <!-- Col: Invoice To -->
-              <b-col cols="12" xl="6" class="p-0">
-                <h6 class="mb-25">
-                  {{ invoiceData.client.name }}
-                </h6>
-                <p class="card-text mb-25">
-                  {{ invoiceData.client.address }},
-                  {{ invoiceData.client.country }}
-                </p>
-              </b-col>
-
-              <!-- Col: Payment Details -->
-              <b-col
-                xl="6"
-                cols="12"
-                class="p-0 mt-xl-0 mt-2 d-flex justify-content-xl-end"
-              >
-                <div>
-                  <h6 class="mb-2">Payment Details:</h6>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td class="pr-1">Total Due:</td>
-                        <td>
-                          <span class="font-weight-bold">{{
-                            paymentDetails.totalDue
-                          }}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">Bank name:</td>
-                        <td>{{ paymentDetails.bankName }}</td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">Country:</td>
-                        <td>{{ paymentDetails.country }}</td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">IBAN:</td>
-                        <td>{{ paymentDetails.iban }}</td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">SWIFT code:</td>
-                        <td>{{ paymentDetails.swiftCode }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </b-col>
-            </b-row>
-          </b-card-body>
-
-          <!-- Invoice Description: Table -->
           <b-table-lite
             responsive
-            :items="invoice.order_items"
-            :fields="['id', 'name', 'price']"
+            :items="verbal.cart"
+            :fields="[
+              'name',
+              'quantity',
+              { key: 'stock.price_without_discount', label: 'price' },
+              { key: 'stock.discount', label: 'discount' },
+              'final_price',
+            ]"
           >
             <template #cell(name)="data">
               <b-card-text class="font-weight-bold mb-25">
-                {{ data.item.stock.product.name }}
+                {{ data.item.stock.product }}
               </b-card-text>
             </template>
+
+            <template #cell(final_price)="data">
+              <b-card-text class="font-weight-bold mb-25">
+                {{ data.item.stock.price }}
+              </b-card-text>
+            </template>
+
+            <template #cell(quantity)="data">
+              <b-card-text class="font-weight-bold mb-25">
+                {{ data.item.count }}
+              </b-card-text>
+            </template>
+            <!--             
+            <template #cell(quantity)="data">
+              <b-card-text class="font-weight-bold mb-25">
+                {{ data.item.count }}
+              </b-card-text>
+            </template>
+            <template #cell(quantity)="data">
+              <b-card-text class="font-weight-bold mb-25">
+                {{ data.item.count }}
+              </b-card-text>
+            </template>
+            <template #cell(quantity)="data">
+              <b-card-text class="font-weight-bold mb-25">
+                {{ data.item.count }}
+              </b-card-text>
+            </template> -->
           </b-table-lite>
 
-          <!-- Invoice Description: Total -->
           <b-card-body class="invoice-padding pb-0">
             <b-row>
-              <!-- Col: Sales Persion -->
               <b-col
                 cols="12"
                 md="6"
@@ -139,13 +89,8 @@
                 order="2"
                 order-md="1"
               >
-                <!-- <b-card-text class="mb-0">
-                  <span class="font-weight-bold">Salesperson:</span>
-                  <span class="ml-75">Alfie Solomons</span>
-                </b-card-text> -->
               </b-col>
 
-              <!-- Col: Total -->
               <b-col
                 cols="12"
                 md="6"
@@ -157,50 +102,32 @@
                   <div class="invoice-total-item">
                     <p class="invoice-total-title">Subtotal:</p>
                     <p class="invoice-total-amount">
-                      {{ invoice.total_price }}
+                      ${{ verbal.totals.total_price.toFixed(2) }}
                     </p>
                   </div>
                   <div class="invoice-total-item">
                     <p class="invoice-total-title">Discount:</p>
                     <p class="invoice-total-amount">
-                      ${{ invoice.total_discount }}
+                      ${{ verbal.totals.total_discount.toFixed(2) }}
                     </p>
                   </div>
                   <hr class="my-50" />
                   <div class="invoice-total-item">
                     <p class="invoice-total-title">Total:</p>
                     <p class="invoice-total-amount">
-                      ${{ invoice.final_price }}
+                      ${{ verbal.totals.final_price.toFixed(2) }}
                     </p>
                   </div>
                 </div>
               </b-col>
             </b-row>
           </b-card-body>
-
-          <!-- Spacer -->
           <hr class="invoice-spacing" />
-
-          <!-- Note -->
-          <!-- <b-card-body class="invoice-padding pt-0">
-            <span class="font-weight-bold">Note: </span>
-            <span
-              >It was a pleasure working with you and your team. We hope you
-              will keep us in mind for future freelance projects. Thank
-              You!</span
-            >
-          </b-card-body> -->
         </b-card>
       </b-col>
 
-      <!-- Right Col: Card -->
       <b-col cols="12" md="4" xl="3" class="invoice-actions">
         <b-card>
-          <!-- Button: Send Invoice -->
-
-          <!-- Button: DOwnload -->
-
-          <!-- Button: Print -->
           <b-button
             v-ripple.400="'rgba(186, 191, 199, 0.15)'"
             variant="outline-secondary"
@@ -209,6 +136,16 @@
             @click="printInvoice"
           >
             Print
+          </b-button>
+
+          <b-button
+            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+            variant="outline-secondary"
+            class="mb-75 mt-20"
+            block
+            @click="submitOrder"
+          >
+            Submit Order
           </b-button>
         </b-card>
       </b-col>
@@ -241,7 +178,7 @@ export default {
     Ripple,
     "b-toggle": VBToggle,
   },
-  props: ["invoice"],
+  props: ["verbal"],
   components: {
     BRow,
     BCol,
@@ -255,30 +192,9 @@ export default {
 
     Logo,
   },
-  setup() {
+  setup(props) {
     const invoiceData = ref(null);
     const paymentDetails = ref({});
-
-    // Invoice Description
-    // ? Your real data will contain this information
-    const invoiceDescription = [
-      {
-        taskTitle: "Native App Development",
-        taskDescription:
-          "Developed a full stack native app using React Native, Bootstrap & Python",
-        rate: "$60.00",
-        hours: "30",
-        total: "$1,800.00",
-      },
-      {
-        taskTitle: "UI Kit Design",
-        taskDescription:
-          "Designed a UI kit for native app using Sketch, Figma & Adobe XD",
-        rate: "$60.00",
-        hours: "20",
-        total: "$1200.00",
-      },
-    ];
 
     const INVOICE_APP_STORE_MODULE_NAME = "app-verbal";
 
@@ -292,6 +208,20 @@ export default {
         store.unregisterModule(INVOICE_APP_STORE_MODULE_NAME);
     });
 
+    const submitOrder = () => {
+      console.log(props.verbal);
+      delete props.verbal.cart
+      delete props.verbal.totals
+      store
+        .dispatch("app-verbal/addVerbal", props.verbal)
+        .then((response) => {
+          if (response.status == 200) {
+            console.log(response);
+          }
+        })
+        .catch((error) => {});
+    };
+
     // store.dispatch('app-verbal/fetchInvoice', { id: router.currentRoute.params.id })
     //   .then(response => {
     //     invoiceData.value = response.data.invoice
@@ -304,14 +234,18 @@ export default {
     //   })
 
     const printInvoice = () => {
-      window.print();
+      var divToPrint = document.getElementById("verbal-card");
+      var newWin = window.open("");
+      newWin.document.write(divToPrint.outerHTML);
+      newWin.print();
+      newWin.close();
     };
 
     return {
       invoiceData,
       paymentDetails,
-      invoiceDescription,
       printInvoice,
+      submitOrder,
     };
   },
 };
