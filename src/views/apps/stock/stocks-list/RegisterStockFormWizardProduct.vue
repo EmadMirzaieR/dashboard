@@ -58,6 +58,7 @@ import SizeTab from "./tabs/SizeTab.vue";
 import ProductTab from "./tabs/ProductTab.vue";
 import TransferTab from "./tabs/TransferTab.vue";
 import store from "@/store";
+import router from "@/router";
 
 export default {
   components: {
@@ -109,19 +110,23 @@ export default {
   computed: {},
   methods: {
     formSubmitted() {
+      console.log("lskjdlkj");
       store
         .dispatch("app-stock/addStock", this.stock)
         .then((response) => {
-          if (response.status == 201) {
+          if (response.status == 200) {
             this.$toast({
-            component: ToastificationContent,
-            position: "top-left",
-            props: {
-              title: "Error",
-              variant: "success",
-              icon: "AlertOctagonIcon",
-            },
-          });
+              component: ToastificationContent,
+              position: "top-left",
+              props: {
+                title: "Stock Register Successfully",
+                variant: "success",
+                icon: "AlertOctagonIcon",
+              },
+            });
+            router.push({
+              name: "apps-stocks-transfer",
+            });
           }
         })
         .catch((error) => {
@@ -174,7 +179,7 @@ export default {
     },
   },
   async created() {
-    this.getProduct()
+    this.getProduct();
   },
   setup() {},
 };
@@ -182,5 +187,4 @@ export default {
 
 <style lang="scss">
 @import "@core/scss/vue/libs/vue-wizard.scss";
-
 </style>

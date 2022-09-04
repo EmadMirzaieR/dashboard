@@ -25,6 +25,11 @@ export default [
     route: 'apps-coupons-list',
   },
   {
+    title: 'All Comments',
+    icon: 'MessageCircleIcon',
+    route: 'apps-comments-all',
+  },
+  {
     title: 'Pending Comments',
     icon: 'MessageCircleIcon',
     route: 'apps-comments-pending',

@@ -28,6 +28,27 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchCommentsAll(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/comments/all-comments/')
+          .then(response => {
+            const { data } = response
+
+            const sortedData = data.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: data.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchCommentsProduct(ctx, queryParams) {
       const {
         q = '',

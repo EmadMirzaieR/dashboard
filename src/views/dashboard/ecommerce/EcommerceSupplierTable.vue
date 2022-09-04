@@ -3,7 +3,12 @@
     <b-card-header>
       <b-card-title>Top Suppliers</b-card-title>
     </b-card-header>
-    <b-table :items="data" responsive :fields="fields" class="mb-0">
+    <b-table :items="data" responsive :fields="fields" class="mb-0"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordere>
       <!-- company -->
       <!-- <template #cell(name)="data">
         {{ data.item.first_name }} {{ data.item.last_name }}
@@ -61,6 +66,7 @@ import {
   BCardHeader,
   BCardTitle,
 } from "bootstrap-vue";
+import router from '@/router';
 
 export default {
   components: {
@@ -70,6 +76,14 @@ export default {
     BImg,
     BCardTitle,
     BCardHeader,
+  },
+  methods: {
+    onRowSelected(item) {
+      router.push({
+        name: "apps-suppliers-edit",
+        params: { id: item[0].id },
+      });
+    },
   },
   props: {
     data: {
@@ -81,7 +95,6 @@ export default {
       default: "",
     },
   },
-
   data() {
     return {
       fields: [

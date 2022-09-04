@@ -62,6 +62,7 @@ import SizeTab from "./tabs/SizeTab.vue";
 import ProductTab from "./tabs/ProductTab.vue";
 import TransferTab from "./tabs/TransferTab.vue";
 import store from "@/store";
+import router from '@/router';
 
 export default {
   components: {
@@ -116,7 +117,7 @@ export default {
       store
         .dispatch("app-stock/addStock", this.stock)
         .then((response) => {
-          if (response.status == 201) {
+          if (response.status == 200) {
             this.$toast({
               component: ToastificationContent,
               position: "top-left",
@@ -124,6 +125,9 @@ export default {
                 title: "",
                 variant: "success",
               },
+            });
+            router.push({
+              name: "apps-stocks-transfer",
             });
           }
         })

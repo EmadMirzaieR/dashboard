@@ -238,7 +238,7 @@ export default {
               if (response.status == 204) {
                 this.$swal({
                   icon: "success",
-                  text: "Canceled",
+                  text: "Success",
                   confirmButtonText: "OK",
                   customClass: {
                     confirmButton: "btn btn-primary",
@@ -283,7 +283,7 @@ export default {
               if (response.status == 200) {
                 this.$swal({
                   icon: "success",
-                  text: "Canceled",
+                  text: "Success",
                   confirmButtonText: "OK",
                   customClass: {
                     confirmButton: "btn btn-primary",

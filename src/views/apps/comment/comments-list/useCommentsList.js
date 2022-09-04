@@ -70,8 +70,8 @@ export default function useCommentsList(productId) {
           },
         })
       })
-  } 
-  
+  }
+
   const fetchCommentsProduct = (ctx, callback) => {
     store
       .dispatch('app-comment/fetchCommentsProduct', {
@@ -81,6 +81,32 @@ export default function useCommentsList(productId) {
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
         productId: productId,
+      })
+      .then(response => {
+        const { data, total } = response
+        callback(data)
+        totalComments.value = total
+      })
+      .catch(() => {
+        toast({
+          component: ToastificationContent,
+          props: {
+            title: 'Error fetching comments list',
+            icon: 'AlertTriangleIcon',
+            variant: 'danger',
+          },
+        })
+      })
+  }
+
+  const fetchCommentsAll = (ctx, callback) => {
+    store
+      .dispatch('app-comment/fetchCommentsAll', {
+        q: searchQuery.value,
+        perPage: perPage.value,
+        page: currentPage.value,
+        sortBy: sortBy.value,
+        sortDesc: isSortDirDesc.value
       })
       .then(response => {
         const { data, total } = response
@@ -111,6 +137,7 @@ export default function useCommentsList(productId) {
   return {
     fetchCommentsProduct,
     fetchCommentsPending,
+    fetchCommentsAll,
     tableColumns,
     perPage,
     currentPage,

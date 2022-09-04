@@ -3,7 +3,12 @@
     <b-card-header>
       <b-card-title>Top Products</b-card-title>
     </b-card-header>
-    <b-table :items="data" responsive :fields="fields" class="mb-0">
+    <b-table :items="data" responsive :fields="fields" class="mb-0"
+        select-mode="single"
+        @row-selected="onRowSelected"
+        selectable
+        striped
+        bordere>
       <!-- company -->
 
       <!-- category -->
@@ -58,6 +63,7 @@ import {
   BCardHeader,
   BCardTitle,
 } from "bootstrap-vue";
+import router from '@/router';
 
 export default {
   components: {
@@ -67,6 +73,14 @@ export default {
     BImg,
     BCardTitle,
     BCardHeader,
+  },
+  methods: {
+    onRowSelected(item) {
+      router.push({
+        name: "apps-product-details",
+        params: { id: item[0].id },
+      });
+    },
   },
   props: {
     data: {
@@ -78,7 +92,6 @@ export default {
       default: "",
     },
   },
-
   data() {
     return {
       fields: [

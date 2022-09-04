@@ -18,6 +18,10 @@
           <b-row class="mb-2">
             <b-table
               striped
+              select-mode="single"
+              @row-selected="onRowSelected"
+              selectable
+              bordered
               small
               hover
               :items="row.item.offline_stock"
@@ -25,12 +29,15 @@
                 'stock_id',
                 'size',
                 'color',
+                'purchase_price_total',
+                'total_transfer_price',
+                'stock_values',
                 'quantity',
                 'status',
-                'prices',
-                'stock_values',
-                'who_sell_in_month',
-                'who_sell_in_year',
+                'price',
+                'discount',
+                'sell_in_month',
+                'sell_in_year',
                 'actions',
               ]"
             >
@@ -83,6 +90,10 @@
           <b-row class="mb-2">
             <b-table
               striped
+              select-mode="single"
+              @row-selected="onRowSelected"
+              selectable
+              bordered
               small
               hover
               :items="row.item.online_stock"
@@ -90,12 +101,15 @@
                 'stock_id',
                 'size',
                 'color',
+                'purchase_price_total',
+                'total_transfer_price',
+                'stock_values',
                 'quantity',
                 'status',
-                'prices',
-                'stock_values',
-                'who_sell_in_month',
-                'who_sell_in_year',
+                'price',
+                'discount',
+                'sell_in_month',
+                'sell_in_year',
                 'actions',
               ]"
             >
@@ -228,7 +242,7 @@
       size="lg"
       cancel-variant="outline-secondary"
     >
-    <transfer-self-stock-product-form-wizard
+      <transfer-self-stock-product-form-wizard
         :stock="stock"
       ></transfer-self-stock-product-form-wizard>
     </b-modal>
@@ -261,6 +275,7 @@ import useProductStocks from "./useProductStocks";
 import productStoreModule from "../../product/productStoreModule";
 import TransferStockProductFormWizard from "@views/apps/stock/stocks-transfer-product/TransferStockProductFormWizard.vue";
 import TransferSelfStockProductFormWizard from "@views/apps/stock/stocks-transfer-product/TransferSelfStockProductFormWizard.vue";
+import router from "@/router";
 
 export default {
   directives: {
@@ -283,7 +298,7 @@ export default {
     BPagination,
     vSelect,
     TransferStockProductFormWizard,
-    TransferSelfStockProductFormWizard
+    TransferSelfStockProductFormWizard,
   },
   data() {
     return {
@@ -307,11 +322,11 @@ export default {
     },
     fillStockToOnlineShop(row) {
       this.stock.stock = row.stock_id;
-      this.stock.transfer_type = 3;
+      this.stock.transfer_type = 2;
     },
     fillStockToOfflineShop(row) {
       this.stock.stock = row.stock_id;
-      this.stock.transfer_type = 2;
+      this.stock.transfer_type = 3;
     },
     changeRows(index, type) {
       this.stockClick[index] = type;
@@ -337,6 +352,13 @@ export default {
         store.unregisterModule(Product_Stock_APP_STORE_MODULE_NAME);
     });
 
+    const onRowSelected = (item) => {
+      router.push({
+        name: "apps-stocks-detail",
+        params: { id: item[0].stock_id },
+      });
+    };
+
     const {
       fetchProductStocks,
       tableColumns,
@@ -355,6 +377,7 @@ export default {
     } = useProductStocks(props.productId);
 
     return {
+      onRowSelected,
       // Sidebar
 
       fetchProductStocks,

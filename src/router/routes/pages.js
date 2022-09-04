@@ -211,6 +211,11 @@ export default [
     component: () => import('@/views/apps/comment/comments-list/CommentsListPending.vue'),
   },
   {
+    path: '/apps/comments/all',
+    name: 'apps-comments-all',
+    component: () => import('@/views/apps/comment/comments-list/CommentsListAll.vue'),
+  },
+  {
     path: '/apps/product/list',
     name: 'apps-products-list',
     component: () => import('@/views/apps/product/products-list/ProductsList.vue'),
