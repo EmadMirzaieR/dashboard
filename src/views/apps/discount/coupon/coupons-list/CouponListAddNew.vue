@@ -86,27 +86,31 @@
             </b-form-group>
           </validation-provider>
 
-          <!-- <validation-provider
+          <validation-provider
             #default="validationContext"
-            name="Minimum Cart Amount"
+            name="Use Limit"
             rules=""
           >
             <b-form-group
-              label="Minimum Cart Amount"
-              label-for="minimum_cart_amount"
+              label="Use Limit"
+              label-for="use_limit_type"
+              :state="getValidationState(validationContext)"
             >
-              <b-form-input
-                id="minimum_cart_amount"
-                v-model="couponData.minimum_cart_amount"
-                :state="getValidationState(validationContext)"
-                trim
+              <v-select
+                v-model="couponData.use_limit_type"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                :options="use_limit_typeOptions"
+                :reduce="(val) => val.value"
+                :clearable="false"
+                input-id="use_limit_type"
               />
-
-              <b-form-invalid-feedback>
+              <b-form-invalid-feedback
+                :state="getValidationState(validationContext)"
+              >
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
             </b-form-group>
-          </validation-provider> -->
+          </validation-provider>
 
           <validation-provider
             #default="validationContext"

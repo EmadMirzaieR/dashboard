@@ -106,7 +106,7 @@
                     </b-table>
                   </div>
                 </b-tab>
-                <b-tab active title="Discount">
+                <b-tab title="Discount">
                   <b-row>
                     <b-col cols="6">
                       <div

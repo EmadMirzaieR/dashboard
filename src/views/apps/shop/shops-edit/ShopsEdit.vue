@@ -44,6 +44,31 @@
     </app-collapse>
 
     <app-collapse accordion type="margin">
+      <app-collapse-item title="Stock">
+        <shop-stocks :shopId="shopData.id" />
+      </app-collapse-item>
+    </app-collapse>
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Transfer All">
+        <shop-transfer-all :shopId="shopData.id" />
+      </app-collapse-item>
+    </app-collapse>
+    <!-- 
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Transfer Pending">
+        <shop-transfer-pending :shopId="shopData.id" />
+      </app-collapse-item>
+    </app-collapse>
+
+    <app-collapse accordion type="margin">
+      <app-collapse-item title="Buy">
+        <shop-buyy :shopId="shopData.id" />
+      </app-collapse-item>
+    </app-collapse> -->
+
+    <app-collapse accordion type="margin">
       <app-collapse-item title="Sell">
         <shop-sell :shopId="shopData.id" />
       </app-collapse-item>
@@ -89,6 +114,7 @@ import ShopProducts from "@views/apps/product/shop-products/ShopProducts.vue";
 import ShopStaff from "@views/apps/user/shop-staff/ShopStaff.vue";
 import ShopSell from "@views/apps/order/shop-sell/ShopSell.vue";
 import ShopLogs from "@views/apps/log/shop-logs/ShopLogs.vue";
+import ShopStocks from "@views/apps/stock/shop-stocks/ShopStocks.vue";
 
 export default {
   components: {
@@ -116,7 +142,8 @@ export default {
     ShopProducts,
     ShopStaff,
     ShopSell,
-    ShopLogs
+    ShopLogs,
+    ShopStocks,
   },
   setup() {
     const shopData = ref(null);

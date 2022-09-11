@@ -77,7 +77,9 @@ export default {
           .then(response => {
             const { data } = response
 
-            const filteredData = data.map(item => {
+            const activeSuppliers = data.filter(item => item.is_active)
+
+            const filteredData = activeSuppliers.map(item => {
               return {
                 value: item.id,
                 text: item.name
@@ -94,6 +96,90 @@ export default {
         axios
           .get(`/suppliers/suppliers/${id}/`)
           .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
+    fetchSupplierTransferred(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/suppliers/suppliers/${id}/`)
+          .then(response => {
+            const { data } = response
+            const queryLowered = q.toLowerCase()
+
+            const transferred = data.transferred;
+
+            const filteredData = transferred.filter(supplier => (supplier.product__name.toLowerCase().includes(queryLowered)))
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          }
+          )
+          .catch(error => reject(error))
+      })
+    },
+    fetchSupplierCanceled(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/suppliers/suppliers/${id}/`)
+          .then(response => {
+            const { data } = response
+            const queryLowered = q.toLowerCase()
+
+            const canceled = data.canceled;
+
+            const filteredData = canceled.filter(supplier => (supplier.product__name.toLowerCase().includes(queryLowered)))
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          }
+          )
+          .catch(error => reject(error))
+      })
+    },
+    fetchSupplierPending(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/suppliers/suppliers/${id}/`)
+          .then(response => {
+            const { data } = response
+            const queryLowered = q.toLowerCase()
+
+            const pending = data.pending;
+
+            const filteredData = pending.filter(supplier => (supplier.product__name.toLowerCase().includes(queryLowered)))
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          }
+          )
           .catch(error => reject(error))
       })
     },

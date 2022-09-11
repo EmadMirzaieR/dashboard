@@ -11,7 +11,7 @@
       @on-complete="formSubmitted"
     >
       <tab-content title="Transfer Data">
-        <transfer-tab :stock="stock" />
+        <transfer-self-tab :stock="stock" />
       </tab-content>
     </form-wizard>
   </div>
@@ -38,7 +38,7 @@ import {
 import { required, email } from "@validations";
 import FromShopTab from "./tabs/FromShopTab.vue";
 import ToShopTab from "./tabs/ToShopTab.vue";
-import TransferTab from "./tabs/TransferTab.vue";
+import TransferSelfTab from "./tabs/TransferSelfTab.vue";
 import store from "@/store";
 import router from "@/router";
 
@@ -63,7 +63,7 @@ export default {
     BInputGroupAppend,
     FromShopTab,
     ToShopTab,
-    TransferTab,
+    TransferSelfTab,
   },
   props: ["stock"],
   data() {
