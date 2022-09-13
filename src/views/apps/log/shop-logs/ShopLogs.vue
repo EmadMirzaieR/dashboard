@@ -2,9 +2,6 @@
   <div>
     <!-- Table Container Card -->
     <b-card  >
-      <b-card-header>
-        <h3>Shop Logs</h3>
-      </b-card-header>
       <div class="m-2">
         <!-- Table Top -->
         <b-row>

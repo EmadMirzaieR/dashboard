@@ -110,7 +110,6 @@ export default {
   computed: {},
   methods: {
     formSubmitted() {
-      console.log("lskjdlkj");
       store
         .dispatch("app-stock/addStock", this.stock)
         .then((response) => {

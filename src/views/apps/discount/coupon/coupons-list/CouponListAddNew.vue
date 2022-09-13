@@ -85,7 +85,7 @@
               </b-form-invalid-feedback>
             </b-form-group>
           </validation-provider>
-
+          <!-- 
           <validation-provider
             #default="validationContext"
             name="Use Limit"
@@ -110,7 +110,33 @@
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
             </b-form-group>
-          </validation-provider>
+          </validation-provider> -->
+
+          <b-form-group label="Valid From" label-for="valid_from">
+            <flat-pickr
+              v-model="couponData.constraint.valid_from"
+              class="form-control"
+              :config="{
+                altInput: true,
+                altFormat: 'F j, Y',
+                enableTime: true,
+                dateFormat: 'Y-m-d H:i',
+              }"
+            />
+          </b-form-group>
+
+          <b-form-group label="Valid To" label-for="valid_to">
+            <flat-pickr
+              v-model="couponData.constraint.valid_to"
+              class="form-control"
+              :config="{
+                altInput: true,
+                altFormat: 'F j, Y',
+                enableTime: true,
+                dateFormat: 'Y-m-d H:i',
+              }"
+            />
+          </b-form-group>
 
           <validation-provider
             #default="validationContext"
@@ -120,7 +146,7 @@
             <b-form-group label="Discount Rate" label-for="discount_rate">
               <b-form-input
                 id="discount_rate"
-                v-model="couponData.discount_rate"
+                v-model="couponData.discount_rate_or_fix_amount"
                 :state="getValidationState(validationContext)"
                 trim
               />
@@ -172,6 +198,7 @@ import formValidation from "@core/comp-functions/forms/form-validation";
 import Ripple from "vue-ripple-directive";
 import vSelect from "vue-select";
 import store from "@/store";
+import flatPickr from "vue-flatpickr-component";
 
 export default {
   components: {
@@ -182,10 +209,9 @@ export default {
     BFormInvalidFeedback,
     BButton,
     vSelect,
-
-    // Form Validation
     ValidationProvider,
     ValidationObserver,
+    flatPickr,
   },
   directives: {
     Ripple,
@@ -214,8 +240,15 @@ export default {
   },
   setup(props, { emit }) {
     const blankCouponData = {
-      question: "",
-      answer: "",
+      code: "",
+      discount_type: 1,
+      discount_rate_or_fix_amount: 0,
+      status: 1,
+      use_limit_type: 1,
+      constraint: {
+        valid_from: "",
+        valid_to: "",
+      },
     };
 
     const couponData = ref(JSON.parse(JSON.stringify(blankCouponData)));

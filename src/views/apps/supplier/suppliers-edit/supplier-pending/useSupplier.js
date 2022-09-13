@@ -60,8 +60,6 @@ export default function useSupplier(supplierId) {
       })
       .then(response => {
         const { data, total } = response
-
-        console.log(data);
         callback(data)
         totalSuppliers.value = total
       })

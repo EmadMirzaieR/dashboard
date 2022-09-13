@@ -19,7 +19,6 @@
               <b-img
                 :alt="`${shop.name}-${shop.id}`"
                 :src="shop.image"
-                
                 center
                 :blank="!shop.image"
                 blankColor="#bbb"
@@ -77,6 +76,7 @@ import vSelect from "vue-select";
 import store from "@/store";
 import { ref, onUnmounted } from "@vue/composition-api";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import { useToast } from "vue-toastification/composition";
 
 import router from "@/router";
 
@@ -113,22 +113,14 @@ export default {
     return {};
   },
   setup() {
+    const toast = useToast();
+
     const shops = ref([]);
 
     store
       .dispatch("app-user/fetchSelf")
       .then((response) => {
         shops.value = response.data.shops;
-        this.$toast({
-          component: ToastificationContent,
-          position: "top-left",
-          props: {
-            title: "Error",
-            variant: "danger",
-            icon: "AlertOctagonIcon",
-            text: error.response.data,
-          },
-        });
 
         if (shops.value.length == 1) {
           router.push({
@@ -138,7 +130,7 @@ export default {
         }
       })
       .catch((error) => {
-        this.$toast({
+        toast({
           component: ToastificationContent,
           position: "top-left",
           props: {

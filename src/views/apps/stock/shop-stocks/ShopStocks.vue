@@ -309,7 +309,6 @@ export default {
       if (status === 2) return "Out Of Stock";
     },
     getOnOffStatus(status) {
-      console.log(status);
       if (status === 1) return "Online";
       if (status === 2) return "Offline";
     },

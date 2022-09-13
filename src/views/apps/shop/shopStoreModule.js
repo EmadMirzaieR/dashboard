@@ -39,6 +39,111 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchTransfersAll(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/shops-dashboard/shops/${id}/transfer/`, {})
+          .then(response => {
+            const { data } = response
+            const queryLowered = q.toLowerCase()
+
+            console.log('transfer',data);
+
+            // const filteredData = data.filter(
+            //   shop =>
+            //     /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
+            //     (shop.name.toLowerCase().includes(queryLowered) ||
+            //       shop.description.toLowerCase().includes(queryLowered) ||
+            //       shop.address.toLowerCase().includes(queryLowered)) ||
+            //     shop.phone.toLowerCase().includes(queryLowered) ||
+            //     shop.email.toLowerCase().includes(queryLowered),
+            // )
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
+    fetchTransfersPending(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/shops-dashboard/shops/${id}/pending-transfers/`, {})
+          .then(response => {
+            const { data } = response
+            const queryLowered = q.toLowerCase()
+
+            console.log('pending',data);
+
+            // const filteredData = data.filter(
+            //   shop =>
+            //     /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
+            //     (shop.name.toLowerCase().includes(queryLowered) ||
+            //       shop.description.toLowerCase().includes(queryLowered) ||
+            //       shop.address.toLowerCase().includes(queryLowered)) ||
+            //     shop.phone.toLowerCase().includes(queryLowered) ||
+            //     shop.email.toLowerCase().includes(queryLowered),
+            // )
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
+    fetchTransfersBuy(ctx, queryParams) {
+      const {
+        q = '',
+        perPage = 10,
+        page = 1,
+        sortBy = 'id',
+        sortDesc = false,
+        id = 0
+      } = queryParams
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/shops-dashboard/shops/${id}/buy/`, {})
+          .then(response => {
+            const { data } = response
+            const queryLowered = q.toLowerCase()
+
+            console.log('buy',data);
+
+            // const filteredData = data.filter(
+            //   shop =>
+            //     /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
+            //     (shop.name.toLowerCase().includes(queryLowered) ||
+            //       shop.description.toLowerCase().includes(queryLowered) ||
+            //       shop.address.toLowerCase().includes(queryLowered)) ||
+            //     shop.phone.toLowerCase().includes(queryLowered) ||
+            //     shop.email.toLowerCase().includes(queryLowered),
+            // )
+
+            const sortedData = filteredData.sort(sortCompare(sortBy))
+            if (sortDesc) sortedData.reverse()
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchOptionShops(ctx) {
       return new Promise((resolve, reject) => {
         axios

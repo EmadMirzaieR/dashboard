@@ -42,9 +42,6 @@ export default {
           .get(`/shops-dashboard/shops/${id}/sell/`)
           .then(response => {
             const { data } = response
-
-            console.log(data);
-
             const sortedData = data.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()
             resolve({ data: paginateArray(sortedData, perPage, page), total: data.length })
@@ -88,7 +85,10 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .patch(`/orders-dashboard/order-delivery/${id}/`, { delivery_status: status })
-          .then(response => resolve(response))
+          .then(response => { 
+            console.log(response);
+            resolve(response) 
+          })
           .catch(error => reject(error))
       })
     },

@@ -252,7 +252,6 @@ export default {
     };
 
     const onSubmit = () => {
-      console.log(customerData.value);
       store.dispatch("app-customer/addUser", customerData.value).then(() => {
         emit("refetch-data");
         emit("update:is-add-new-customer-sidebar-active", false);

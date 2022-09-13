@@ -209,7 +209,6 @@ export default {
     });
 
     const submitOrder = () => {
-      console.log(props.verbal);
       delete props.verbal.cart
       delete props.verbal.totals
       store

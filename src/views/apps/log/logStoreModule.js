@@ -111,9 +111,6 @@ export default {
           .then(response => {
             const { data } = response
             const filteredData = data.logs
-
-            console.log(filteredData);
-
             const sortedData = filteredData.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()
             resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })

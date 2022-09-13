@@ -1,10 +1,5 @@
 <template>
   <div>
-    <coupon-list-add-new
-      :is-add-new-coupon-sidebar-active.sync="isAddNewCouponSidebarActive"
-      @refetch-data="refetchData"
-    />
-
     <!-- Table Container Card -->
     <b-card no-body class="mb-0">
       <div class="m-2">
@@ -35,21 +30,15 @@
                 class="d-inline-block mr-1"
                 placeholder="Search..."
               />
-              <b-button
-                variant="primary"
-                @click="isAddNewCouponSidebarActive = true"
-              >
-                <span class="text-nowrap">Add Coupon</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
       </div>
 
       <b-table
-        ref="refCouponListTable"
+        ref="refStockTransferTable"
         class="position-relative"
-        :items="fetchCoupons"
+        :items="fetchTransfers"
         responsive
         :fields="tableColumns"
         primary-key="id"
@@ -59,19 +48,38 @@
         :sort-desc.sync="isSortDirDesc"
       >
         <template #cell(status)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveTrueFalseVariant(data.item.status)}`"
-            class="text-capitalize"
-          >
-            {{ data.item.status }}
+          <b-badge pill class="text-capitalize">
+            {{ getStatus(data.item.status) }}
           </b-badge>
         </template>
 
-        <template #cell(discount_rate_or_fix_amount)="data">
-          {{ data.item.discount_rate_or_fix_amount }}%
+        <template #cell(product)="data">
+          {{ data.item.product.name }}
         </template>
 
+        <template #cell(color)="data">
+          {{ data.item.color.name }}
+        </template>
+
+        <template #cell(size)="data">
+          {{ data.item.size.name }}
+        </template>
+
+        <template #cell(transfer_from_shop)="data">
+          {{
+            data.item.transfer_from_shop == null
+              ? ""
+              : data.item.transfer_from_shop.name
+          }}
+        </template>
+
+        <template #cell(transfer_to_shop)="data">
+          {{
+            data.item.transfer_to_shop == null
+              ? ""
+              : data.item.transfer_to_shop.name
+          }}
+        </template>
         <!-- Column: Actions -->
         <template #cell(actions)="data">
           <b-dropdown
@@ -82,18 +90,19 @@
             <template #button-content>
               <feather-icon
                 icon="MoreVerticalIcon"
-                coupon="16"
+                size="16"
                 class="align-middle text-body"
               />
             </template>
 
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span
-                class="align-middle ml-50"
-                @click="deleteCoupon(data.item.id)"
-                >Delete</span
-              >
+            <b-dropdown-item @click="cancelTransfer(data.item.id)">
+              <feather-icon icon="XIcon" />
+              <span class="align-middle ml-50">Cancel</span>
+            </b-dropdown-item>
+
+            <b-dropdown-item @click="confirmTransfer(data.item.id)">
+              <feather-icon icon="CheckIcon" />
+              <span class="align-middle ml-50">Confirm</span>
             </b-dropdown-item>
           </b-dropdown>
         </template>
@@ -126,7 +135,7 @@
           >
             <b-pagination
               v-model="currentPage"
-              :total-rows="totalCoupons"
+              :total-rows="totalTransfer"
               :per-page="perPage"
               first-number
               last-number
@@ -135,10 +144,10 @@
               next-class="next-item"
             >
               <template #prev-text>
-                <feather-icon icon="ChevronLeftIcon" coupon="18" />
+                <feather-icon icon="ChevronLeftIcon" size="18" />
               </template>
               <template #next-text>
-                <feather-icon icon="ChevronRightIcon" coupon="18" />
+                <feather-icon icon="ChevronRightIcon" size="18" />
               </template>
             </b-pagination>
           </b-col>
@@ -168,14 +177,11 @@ import vSelect from "vue-select";
 import store from "@/store";
 import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
-import useCouponsList from "./useCouponsList";
-import discountStoreModule from "../../discountStoreModule";
-import CouponListAddNew from "./CouponListAddNew.vue";
+import useTransfersBuy from "./useTransfersBuy";
+import shopStoreModule from "../shopStoreModule";
 
 export default {
   components: {
-    CouponListAddNew,
-
     BCard,
     BRow,
     BCol,
@@ -189,17 +195,16 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
-
     vSelect,
   },
   methods: {
-    deleteCoupon(id) {
+    cancelTransfer(id) {
       this.$swal({
         title: "Accept Or Deny",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Remove",
-        cancelButtonText: "Cancel",
+        confirmButtonText: "Accept",
+        cancelButtonText: "Deny",
         customClass: {
           confirmButton: "btn btn-primary",
           cancelButton: "btn btn-outline-danger ml-1",
@@ -208,12 +213,57 @@ export default {
       }).then((result) => {
         if (result.value) {
           store
-            .dispatch("app-discount/deleteCoupon", { id })
+            .dispatch("app-stock/cancelTransfer", { id })
             .then((response) => {
               if (response.status == 204) {
                 this.$swal({
                   icon: "success",
-                  text: "Deleted",
+                  text: "Success",
+                  confirmButtonText: "OK",
+                  customClass: {
+                    confirmButton: "btn btn-primary",
+                  },
+                });
+                this.refetchData();
+              } else {
+                this.$toast({
+                  component: ToastificationContent,
+                  position: "top-right",
+                  props: {
+                    title: "Error",
+                    variant: "danger",
+                    text: "Error",
+                  },
+                });
+              }
+            });
+        }
+      });
+    },
+    confirmTransfer(id) {
+      this.$swal({
+        title: "Accept Or Deny",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Accept",
+        cancelButtonText: "Deny",
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-outline-danger ml-1",
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.value) {
+          store
+            .dispatch("app-stock/confirmTransfer", {
+              id,
+              stockData: { status: 2 },
+            })
+            .then((response) => {
+              if (response.status == 200) {
+                this.$swal({
+                  icon: "success",
+                  text: "Success",
                   confirmButtonText: "OK",
                   customClass: {
                     confirmButton: "btn btn-primary",
@@ -236,61 +286,65 @@ export default {
       });
     },
   },
-  setup() {
-    const coupon_APP_STORE_MODULE_NAME = "app-discount";
+  props: ["shopId"],
+  setup(props) {
+    const resolveStatusVariant = (status) => {
+      if (status == "Pending") return "warning";
+      if (status == "Canceled") return "danger";
+      if (status == "Transferred") return "success";
+    };
+    const getStatus = (status) => {
+      if (status == 1) return "Pending";
+      if (status == 0) return "Canceled";
+      if (status == 2) return "Transferred";
+    };
+    const TRANSFER_APP_STORE_MODULE_NAME = "app-shop";
 
-    // Register module
-    if (!store.hasModule(coupon_APP_STORE_MODULE_NAME))
-      store.registerModule(coupon_APP_STORE_MODULE_NAME, discountStoreModule);
+    // Transfer module
+    if (!store.hasModule(TRANSFER_APP_STORE_MODULE_NAME))
+      store.transferModule(TRANSFER_APP_STORE_MODULE_NAME, shopStoreModule);
 
-    // UnRegister on leave
+    // UnTransfer on leave
     onUnmounted(() => {
-      if (store.hasModule(coupon_APP_STORE_MODULE_NAME))
-        store.unregisterModule(coupon_APP_STORE_MODULE_NAME);
+      if (store.hasModule(TRANSFER_APP_STORE_MODULE_NAME))
+        store.untransferModule(TRANSFER_APP_STORE_MODULE_NAME);
     });
 
-    const isAddNewCouponSidebarActive = ref(false);
-
     const {
-      fetchCoupons,
+      fetchTransfers,
       tableColumns,
       perPage,
       currentPage,
-      totalCoupons,
+      totalTransfer,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refCouponListTable,
+      refStockTransferTable,
       refetchData,
 
       // UI
-      resolveTrueFalseVariant,
-    } = useCouponsList();
+    } = useTransfersBuy(props.shopId);
 
     return {
-      // Sidebar
-      isAddNewCouponSidebarActive,
-
-      fetchCoupons,
+      getStatus,
+      resolveStatusVariant,
+      fetchTransfers,
       tableColumns,
       perPage,
       currentPage,
-      totalCoupons,
+      totalTransfer,
       dataMeta,
       perPageOptions,
       searchQuery,
       sortBy,
       isSortDirDesc,
-      refCouponListTable,
+      refStockTransferTable,
       refetchData,
 
       // Filter
       avatarText,
-
-      // UI
-      resolveTrueFalseVariant,
     };
   },
 };

@@ -65,7 +65,7 @@
             :variant="`light-${resolveStatusVariant(data.item.status)}`"
             class="text-capitalize"
           >
-            {{ data.item.status }}
+            {{ getStatus(data.item.status) }}
           </b-badge>
         </template>
 
@@ -201,9 +201,14 @@ export default {
   },
   setup() {
     const resolveStatusVariant = (status) => {
-      if (status == "Pending") return "warning";
-      if (status == "Canceled") return "danger";
-      if (status == "Transferred") return "success";
+      if (status == 0) return "danger";
+      if (status == 1) return "warning";
+      if (status == 2) return "success";
+    };
+    const getStatus = (status) => {
+      if (status == 0) return "Canceled";
+      if (status == 1) return "Pending";
+      if (status == 2) return "Transferred";
     };
     const Stock_APP_STORE_MODULE_NAME = "app-stock";
 
@@ -237,6 +242,7 @@ export default {
     } = useStocksHistory();
 
     return {
+      getStatus,
       resolveStatusVariant,
       fetchStocksHistory,
       tableColumns,
