@@ -60,9 +60,11 @@ export default {
       } = queryParams
       return new Promise((resolve, reject) => {
         axios
-          .get(`/comments/comments-product/${productId}/`)
+          .get(`/comments/all-comments/`)
           .then(response => {
             const { data } = response
+
+            // const filteredData = data.filter(item => item.id)
 
             const sortedData = data.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()
