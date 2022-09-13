@@ -86,7 +86,6 @@ export default {
         axios
           .patch(`/orders-dashboard/order-delivery/${id}/`, { delivery_status: status })
           .then(response => { 
-            console.log(response);
             resolve(response) 
           })
           .catch(error => reject(error))

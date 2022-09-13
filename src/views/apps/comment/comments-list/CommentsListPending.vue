@@ -12,6 +12,12 @@
       empty-text="No matching records found"
       :sort-desc.sync="isSortDirDesc"
     >
+      <template #cell(status)="data">
+        <b-badge pill class="text-capitalize">
+          {{ getStatus(data.item.status) }}
+        </b-badge>
+      </template>
+
       <template #cell(user)="data">
         <b-media vertical-align="center">
           <template #aside>
@@ -28,6 +34,16 @@
             {{ data.item.nickname }}
           </b-link>
         </b-media>
+      </template>
+
+      <template #cell(rate)="data">
+        <b-badge pill class="text-capitalize">
+          {{ getRate(data.item.rate) }}
+        </b-badge>
+      </template>
+
+      <template #cell(created_at)="data">
+          {{ new Date(data.item.created_at) }}
       </template>
 
       <!-- Column: Actions -->
@@ -154,6 +170,20 @@ export default {
     vSelect,
   },
   methods: {
+    getStatus(status) {
+      if (status == 1) return "Pending";
+      if (status == 2) return "Approve";
+      if (status == 3) return "Reject";
+      return "";
+    },
+    getRate(rate) {
+      if (rate == 1) return "Very Bad";
+      if (rate == 2) return "Bad";
+      if (rate == 3) return "Good";
+      if (rate == 4) return "Very Good";
+      if (rate == 5) return "Excellent";
+      return "";
+    },
     approveComment(id) {
       this.$swal({
         title: "Accept Or Deny",
@@ -267,7 +297,6 @@ export default {
       refetchData,
 
       // UI
-      resolveTrueFalseVariant,
     } = useCommentsList("");
 
     return {
@@ -289,7 +318,6 @@ export default {
       avatarText,
 
       // UI
-      resolveTrueFalseVariant,
     };
   },
 };

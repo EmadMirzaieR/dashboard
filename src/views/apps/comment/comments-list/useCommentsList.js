@@ -27,7 +27,7 @@ export default function useCommentsList(productId) {
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
-  const isSortDirDesc = ref(false)
+  const isSortDirDesc = ref(true)
 
   const dataMeta = computed(() => {
     const localItemsCount = refCommentListTable.value ? refCommentListTable.value.localItems.length : 0
@@ -129,9 +129,10 @@ export default function useCommentsList(productId) {
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const resolveTrueFalseVariant = status => {
-    if (status === true) return 'success'
-    return 'danger'
+  const resolveStatus = status => {
+    if (status === 1) return 'Pending'
+    if (status === 2) return 'Approve'
+    if (status === 3) return 'Reject'
   }
 
   return {
@@ -148,7 +149,7 @@ export default function useCommentsList(productId) {
     sortBy,
     isSortDirDesc,
     refCommentListTable,
-    resolveTrueFalseVariant,
+    resolveStatus,
     refetchData,
   }
 }

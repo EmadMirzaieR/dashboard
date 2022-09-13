@@ -49,7 +49,6 @@
         </b-media>
       </template>
 
-      <!-- Column: Actions -->
       <template #cell(actions)="data">
         <b-dropdown
           variant="link"
@@ -254,7 +253,6 @@ export default {
       refetchData,
 
       // UI
-      resolveTrueFalseVariant,
     } = useCommentsList(props.productId);
 
     return {
@@ -278,7 +276,6 @@ export default {
       avatarText,
 
       // UI
-      resolveTrueFalseVariant,
     };
   },
 };

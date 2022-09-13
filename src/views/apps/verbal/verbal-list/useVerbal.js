@@ -62,7 +62,6 @@ export default function useVerbal(shopId) {
       })
       .then(response => {
         const { data, total } = response
-        console.log(data);
         callback(data)
         totalVerbalStocks.value = total
       })

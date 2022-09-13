@@ -568,7 +568,6 @@ export default {
           userData: user.value,
         })
         .then((response) => {
-          console.log(response);
         })
         .catch(() => {});
     };

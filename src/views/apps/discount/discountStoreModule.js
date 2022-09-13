@@ -20,7 +20,6 @@ export default {
           .get('/discount-dashboard/coupons/')
           .then(response => {
             const { data } = response
-            console.log(data);
             const queryLowered = q.toLowerCase()
 
             const filteredData = data.filter(
