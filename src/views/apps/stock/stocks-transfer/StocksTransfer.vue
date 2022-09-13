@@ -61,10 +61,7 @@
         :sort-desc.sync="isSortDirDesc"
       >
         <template #cell(status)="data">
-          <b-badge
-            pill
-            class="text-capitalize"
-          >
+          <b-badge pill class="text-capitalize">
             {{ getStatus(data.item.status) }}
           </b-badge>
         </template>
@@ -290,6 +287,10 @@ export default {
                   },
                 });
                 this.refetchData();
+                this.$router.push({
+                  name: "apps-stocks-detail",
+                  params: { id },
+                });
               } else {
                 this.$toast({
                   component: ToastificationContent,

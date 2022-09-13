@@ -55,17 +55,9 @@ export default {
             const { data } = response
             const queryLowered = q.toLowerCase()
 
-            console.log('transfer',data);
-
-            // const filteredData = data.filter(
-            //   shop =>
-            //     /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
-            //     (shop.name.toLowerCase().includes(queryLowered) ||
-            //       shop.description.toLowerCase().includes(queryLowered) ||
-            //       shop.address.toLowerCase().includes(queryLowered)) ||
-            //     shop.phone.toLowerCase().includes(queryLowered) ||
-            //     shop.email.toLowerCase().includes(queryLowered),
-            // )
+            const filteredData = data.filter(
+              item => item.product.toLowerCase().includes(queryLowered)
+            )
 
             const sortedData = filteredData.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()
@@ -90,17 +82,9 @@ export default {
             const { data } = response
             const queryLowered = q.toLowerCase()
 
-            console.log('pending',data);
-
-            // const filteredData = data.filter(
-            //   shop =>
-            //     /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
-            //     (shop.name.toLowerCase().includes(queryLowered) ||
-            //       shop.description.toLowerCase().includes(queryLowered) ||
-            //       shop.address.toLowerCase().includes(queryLowered)) ||
-            //     shop.phone.toLowerCase().includes(queryLowered) ||
-            //     shop.email.toLowerCase().includes(queryLowered),
-            // )
+            const filteredData = data.filter(
+              item => item.product.toLowerCase().includes(queryLowered)
+            )
 
             const sortedData = filteredData.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()
@@ -125,17 +109,9 @@ export default {
             const { data } = response
             const queryLowered = q.toLowerCase()
 
-            console.log('buy',data);
-
-            // const filteredData = data.filter(
-            //   shop =>
-            //     /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
-            //     (shop.name.toLowerCase().includes(queryLowered) ||
-            //       shop.description.toLowerCase().includes(queryLowered) ||
-            //       shop.address.toLowerCase().includes(queryLowered)) ||
-            //     shop.phone.toLowerCase().includes(queryLowered) ||
-            //     shop.email.toLowerCase().includes(queryLowered),
-            // )
+            const filteredData = data.filter(
+              item => item.product.toLowerCase().includes(queryLowered)
+            )
 
             const sortedData = filteredData.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()

@@ -53,18 +53,6 @@
           </b-badge>
         </template>
 
-        <template #cell(product)="data">
-          {{ data.item.product.name }}
-        </template>
-
-        <template #cell(color)="data">
-          {{ data.item.color.name }}
-        </template>
-
-        <template #cell(size)="data">
-          {{ data.item.size.name }}
-        </template>
-
         <template #cell(transfer_from_shop)="data">
           {{
             data.item.transfer_from_shop == null

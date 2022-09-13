@@ -72,6 +72,10 @@
                   inline
                 />
               </div>
+            </template>     
+            
+                   <template #cell(discount)="data">
+              {{data.item.discount}}%
             </template>
 
             <template #cell(add)="data">

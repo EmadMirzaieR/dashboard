@@ -75,6 +75,9 @@
                   </b-dropdown-item>
                 </b-dropdown>
               </template>
+              <template #cell(discount)="data">
+                {{ data.item.discount }}%
+              </template>
             </b-table>
           </b-row>
           <b-button
@@ -136,6 +139,10 @@
                     >
                   </b-dropdown-item>
                 </b-dropdown>
+              </template>
+
+              <template #cell(discount)="data">
+                {{ data.item.discount }}%
               </template>
             </b-table>
           </b-row>

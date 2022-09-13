@@ -17,11 +17,13 @@ export default function useVerbal(shopId) {
     { key: 'count' },
     { key: 'add' },
     { key: 'product', sortable: true },
+    { key: 'price', sortable: true },
+    { key: 'discount', sortable: true },
+    { key: 'price_without_discount', sortable: true },
     { key: 'color', sortable: true },
     { key: 'size', sortable: true },
     { key: 'shop', sortable: true },
     { key: 'quantity', sortable: true },
-    { key: 'price', sortable: true },
   ]
   const perPage = ref(10)
   const totalVerbalStocks = ref(0)
@@ -60,6 +62,7 @@ export default function useVerbal(shopId) {
       })
       .then(response => {
         const { data, total } = response
+        console.log(data);
         callback(data)
         totalVerbalStocks.value = total
       })

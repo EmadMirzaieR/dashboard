@@ -18,7 +18,6 @@ export default function useTransfersAll(shopId) {
     { key: 'color', sortable: true },
     { key: 'size', sortable: true },
     { key: 'transfer_from_shop', sortable: true },
-    { key: 'transfer_to_shop', sortable: true },
     { key: 'quantity', sortable: true },
     { key: 'status', sortable: true },
     { key: 'actions' },
