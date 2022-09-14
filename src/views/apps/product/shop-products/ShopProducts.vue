@@ -68,15 +68,11 @@
           </b-badge>
         </template>
 
-        <!-- <template #cell(product_type)="data">
-          <b-badge
-            pill
-            :variant="`light-${getType(data.item.product_type)}`"
-            class="text-capitalize"
-          >
-            {{ data.item.status }}
+        <template #cell(product_type)="data">
+          <b-badge pill class="text-capitalize">
+            {{ getType(data.item.product_type) }}
           </b-badge>
-        </template> -->
+        </template>
 
         <template #cell(star)="data">
           <ul class="unstyled-list list-inline">
@@ -170,7 +166,7 @@ import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
 import useShopProduct from "./useShopProduct";
 import productStoreModule from "../productStoreModule";
-import router from "@/router"
+import router from "@/router";
 
 export default {
   components: {
@@ -192,6 +188,11 @@ export default {
   },
   props: ["shopId"],
   methods: {
+    getType(type) {
+      if (type == 0) return "Normal";
+      if (type == 1) return "New";
+      if (type == 2) return "Hot";
+    },
     getStatus(num) {
       if (typeof num !== "number") return num;
       switch (num) {

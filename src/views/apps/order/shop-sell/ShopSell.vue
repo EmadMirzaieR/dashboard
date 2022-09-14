@@ -156,6 +156,7 @@ import { ref, onUnmounted } from "@vue/composition-api";
 import { avatarText } from "@core/utils/filter";
 import useOrdersListPending from "./useOrdersListPending";
 import orderStoreModule from "../orderStoreModule";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
 export default {
   components: {
@@ -178,7 +179,7 @@ export default {
 
     vSelect,
   },
-  props:["shopId"],
+  props: ["shopId"],
   methods: {
     statusUpdate(id, status) {
       this.$swal({
@@ -197,6 +198,7 @@ export default {
           store
             .dispatch("app-order/changeStatusOrder", { id, status })
             .then((response) => {
+              console.log(response.status);
               if (response.status == 200) {
                 this.$swal({
                   icon: "success",
@@ -215,6 +217,19 @@ export default {
                     title: "Error",
                     variant: "danger",
                     text: "Error",
+                  },
+                });
+              }
+            })
+            .catch((error) => {
+              if (error.response.status == 404) {
+                this.$toast({
+                  component: ToastificationContent,
+                  position: "top-right",
+                  props: {
+                    title: "Error",
+                    variant: "danger",
+                    text: "Order delivered, You can't change status.",
                   },
                 });
               }

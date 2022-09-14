@@ -186,6 +186,7 @@ import {
   BTab,
   BCardText,
   BFormInput,
+  BBadge
 } from "bootstrap-vue";
 import stockStoreModule from "../stockStoreModule";
 import StockLogs from "@views/apps/log/stock-logs/StockLogs.vue";
@@ -207,6 +208,7 @@ export default {
     AppCollapse,
     AppCollapseItem,
     StockLogs,
+    BBadge
   },
   methods: {
     getStatus(status) {

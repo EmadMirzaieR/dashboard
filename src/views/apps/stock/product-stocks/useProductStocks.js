@@ -25,7 +25,7 @@ export default function useProductStocks(productId) {
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('shop')
-  const isSortDirDesc = ref(false)
+  const isSortDirDesc = ref(true)
 
   const dataMeta = computed(() => {
     const localItemsCount = refStockListTable.value ? refStockListTable.value.localItems.length : 0

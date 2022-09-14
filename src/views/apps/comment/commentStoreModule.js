@@ -41,7 +41,7 @@ export default {
           .get('/comments/all-comments/')
           .then(response => {
             const { data } = response
-
+console.log(data);
             const sortedData = data.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()
             resolve({ data: paginateArray(sortedData, perPage, page), total: data.length })

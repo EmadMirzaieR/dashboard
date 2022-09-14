@@ -30,7 +30,7 @@ export default function useCustomersCartsList() {
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
-  const isSortDirDesc = ref(false)
+  const isSortDirDesc = ref(true)
 
   const dataMeta = computed(() => {
     const localItemsCount = refCustomersCartListTable.value ? refCustomersCartListTable.value.localItems.length : 0

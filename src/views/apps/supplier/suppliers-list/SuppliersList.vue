@@ -121,7 +121,7 @@
           </b-badge>
         </template>
 
-        <!-- <template #cell(supplier_type)="data">
+        <template #cell(supplier_type)="data">
           <b-badge pill class="text-capitalize">
             {{ resolveSupplierType(data.item.supplier_type) }}
           </b-badge>
@@ -131,7 +131,7 @@
           <b-badge pill class="text-capitalize">
             {{ resolveWorkType(data.item.work_type) }}
           </b-badge>
-        </template> -->
+        </template>
 
         <!-- Column: Actions -->
         <template #cell(actions)="data">
@@ -296,7 +296,7 @@ export default {
           store
             .dispatch("app-supplier/deleteSupplier", { id })
             .then((response) => {
-              if (response.status == 204) {
+              if (response.status == 200) {
                 this.$swal({
                   icon: "success",
                   text: "Deleted",

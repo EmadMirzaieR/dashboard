@@ -101,7 +101,7 @@
             </template>
 
             <b-dropdown-item
-              :to="{ name: 'apps-stocks-view', params: { id: data.item.id } }"
+              :to="{ name: 'apps-stocks-detail', params: { id: data.item.stock } }"
             >
               <feather-icon icon="EyeIcon" />
               <span class="align-middle ml-50">View</span>

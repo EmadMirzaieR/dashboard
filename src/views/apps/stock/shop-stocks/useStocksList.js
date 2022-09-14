@@ -16,6 +16,7 @@ export default function useStocksList(shopId) {
   const tableColumns = [
     { key: 'id', sortable: true },
     { key: 'product', sortable: true },
+    { key: 'price', sortable: true },
     { key: 'color', sortable: true },
     { key: 'size', sortable: true },
     { key: 'shop', sortable: true },

@@ -34,7 +34,7 @@ export default function useCustomersOrdersList() {
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
-  const isSortDirDesc = ref(false)
+  const isSortDirDesc = ref(true)
 
   const dataMeta = computed(() => {
     const localItemsCount = refCustomersOrderListTable.value ? refCustomersOrderListTable.value.localItems.length : 0

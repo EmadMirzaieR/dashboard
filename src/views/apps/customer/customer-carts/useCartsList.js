@@ -16,6 +16,7 @@ export default function useCartsList(customerId) {
   const tableColumns = [
     { key: 'id', sortable: true },
     { key: 'name', sortable: true },
+    { key: 'shop', sortable: true },
     { key: 'count', sortable: true },
     { key: 'color', sortable: true },
     { key: 'size', sortable: true },
@@ -29,7 +30,7 @@ export default function useCartsList(customerId) {
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
   const sortBy = ref('id')
-  const isSortDirDesc = ref(false)
+  const isSortDirDesc = ref(true)
   const statusFilter = ref(null)
   const orderTypeFilter = ref(null)
 

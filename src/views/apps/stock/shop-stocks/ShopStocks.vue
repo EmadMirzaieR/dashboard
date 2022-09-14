@@ -87,7 +87,7 @@
             }`"
             class="text-capitalize"
           >
-            {{ getOnOffStatus(data.item) }}
+            {{ getOnOffStatus(data.item.online_offline_status) }}
           </b-badge>
         </template>
 

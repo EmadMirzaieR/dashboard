@@ -113,7 +113,9 @@
               <span class="align-middle ml-50">Cancel</span>
             </b-dropdown-item>
 
-            <b-dropdown-item @click="confirmTransfer(data.item.id)">
+            <b-dropdown-item
+              @click="confirmTransfer(data.item.id, data.item.stock)"
+            >
               <feather-icon icon="CheckIcon" />
               <span class="align-middle ml-50">Confirm</span>
             </b-dropdown-item>
@@ -257,7 +259,7 @@ export default {
         }
       });
     },
-    confirmTransfer(id) {
+    confirmTransfer(id, stockId) {
       this.$swal({
         title: "Accept Or Deny",
         icon: "warning",
@@ -289,7 +291,7 @@ export default {
                 this.refetchData();
                 this.$router.push({
                   name: "apps-stocks-detail",
-                  params: { id },
+                  params: { id: stockId },
                 });
               } else {
                 this.$toast({

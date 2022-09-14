@@ -14,15 +14,16 @@ export default function useStocksHistory() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'id', sortable: true },
+    { key: 'id', label: 'transfer id', sortable: true },
+    { key: 'stock', label: 'stock id', sortable: true },
     { key: 'product', sortable: true },
+    { key: 'purchase_price', sortable: true },
     { key: 'color', sortable: true },
     { key: 'size', sortable: true },
     { key: 'transfer_to_shop', sortable: true },
     { key: 'quantity', sortable: true },
     { key: 'status', sortable: true },
     { key: 'transfer_type', sortable: true },
-    { key: 'actions' },
   ]
   const perPage = ref(10)
   const totalStocks = ref(0)
@@ -60,6 +61,7 @@ export default function useStocksHistory() {
       })
       .then(response => {
         const { data, total } = response
+        console.log(data);
         callback(data)
         totalStocks.value = total
       })

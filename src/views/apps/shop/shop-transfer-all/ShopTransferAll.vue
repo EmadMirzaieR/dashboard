@@ -53,6 +53,14 @@
           </b-badge>
         </template>
 
+        <template #cell(buy_from)="data">
+          {{ data.item.buy_from ? data.item.buy_from.name : "" }}
+        </template>
+
+        <template #cell(transfer_type)="data">
+          {{ getType(data.item.transfer_type) }}
+        </template>
+
         <template #cell(transfer_from_shop)="data">
           {{
             data.item.transfer_from_shop == null
@@ -186,6 +194,13 @@ export default {
     vSelect,
   },
   methods: {
+    getType(type) {
+      if (type == 1) return "BUY";
+      if (type == 2) return "TRANSFER_OFFLINE";
+      if (type == 3) return "TRANSFER_ONLINE";
+      if (type == 4) return "TRANSFER_TO_OTHER";
+      if (type == 5) return "SELL";
+    },
     cancelTransfer(id) {
       this.$swal({
         title: "Accept Or Deny",
