@@ -1,5 +1,9 @@
 <template>
   <div>
+    <stocks-list-filters
+      :shops-filter.sync="shopsFilter"
+      :shops-options="shopsOptions"
+    />
     <!-- Table Container Card -->
     <b-card no-body class="mb-0">
       <div class="m-2">
@@ -161,12 +165,13 @@ import { avatarText } from "@core/utils/filter";
 import useStocksList from "./useStocksList";
 import stockStoreModule from "../stockStoreModule";
 import StockListAddNew from "./StockListAddNew.vue";
-import router from "@/router"
+import router from "@/router";
+import StocksListFilters from "./StocksListFilters.vue";
 
 export default {
   components: {
     StockListAddNew,
-
+    StocksListFilters,
     BCard,
     BRow,
     BCol,
@@ -201,6 +206,17 @@ export default {
     if (!store.hasModule(Stock_APP_STORE_MODULE_NAME))
       store.registerModule(Stock_APP_STORE_MODULE_NAME, stockStoreModule);
 
+    const shopsOptions = ref([]);
+
+    const getShopsOption = () => {
+      store.dispatch("app-shop/fetchShopsOption").then((response) => {
+        const { data } = response;
+        shopsOptions.value = data;
+      });
+    };
+
+    getShopsOption();
+
     // UnRegister on leave
     onUnmounted(() => {
       if (store.hasModule(Stock_APP_STORE_MODULE_NAME))
@@ -231,6 +247,7 @@ export default {
       refetchData,
       downloadExcelTable,
       printTable,
+      shopsFilter,
 
       // UI
     } = useStocksList();
@@ -253,6 +270,8 @@ export default {
       refetchData,
       downloadExcelTable,
       printTable,
+      shopsOptions,
+      shopsFilter,
 
       // Filter
       avatarText,

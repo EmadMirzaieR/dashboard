@@ -198,7 +198,6 @@ export default {
           store
             .dispatch("app-order/changeStatusOrder", { id, status })
             .then((response) => {
-              console.log(response.status);
               if (response.status == 200) {
                 this.$swal({
                   icon: "success",

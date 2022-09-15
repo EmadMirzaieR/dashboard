@@ -5,6 +5,11 @@
       @refetch-data="refetchData"
     />
 
+    <stocks-list-filters
+      :shops-filter.sync="shopsFilter"
+      :shops-options="shopsOptions"
+    />
+
     <!-- Table Container Card -->
     <b-card no-body class="mb-0">
       <div class="m-2">
@@ -207,11 +212,12 @@ import useStocksList from "./useStocksList";
 import stockStoreModule from "../stockStoreModule";
 import StockListAddNew from "./StockListAddNew.vue";
 import router from "@/router";
+import StocksListFilters from "./StocksListFilters.vue";
 
 export default {
   components: {
     StockListAddNew,
-
+    StocksListFilters,
     BCard,
     BRow,
     BCol,
@@ -252,7 +258,18 @@ export default {
         store.unregisterModule(Stock_APP_STORE_MODULE_NAME);
     });
 
+    const shopsOptions = ref([]);
+
     const isAddNewStockSidebarActive = ref(false);
+
+    const getShopsOption = () => {
+      store.dispatch("app-shop/fetchShopsOption").then((response) => {
+        const { data } = response;
+        shopsOptions.value = data
+      });
+    };
+
+    getShopsOption();
 
     const onRowSelected = (item) => {
       router.push({
@@ -276,6 +293,7 @@ export default {
       refetchData,
       downloadExcelTable,
       printTable,
+      shopsFilter,
 
       // UI
     } = useStocksList();
@@ -298,7 +316,8 @@ export default {
       refetchData,
       downloadExcelTable,
       printTable,
-
+      shopsOptions,
+      shopsFilter,
       // Filter
       avatarText,
       onRowSelected,

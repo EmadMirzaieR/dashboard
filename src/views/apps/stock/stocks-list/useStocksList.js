@@ -31,6 +31,7 @@ export default function useStocksList() {
   const searchQuery = ref('')
   const sortBy = ref('id')
   const isSortDirDesc = ref(true)
+  const shopsFilter = ref(null)
 
   const dataMeta = computed(() => {
     const localItemsCount = refStockListTable.value ? refStockListTable.value.localItems.length : 0
@@ -45,7 +46,7 @@ export default function useStocksList() {
     refStockListTable.value.refresh()
   }
 
-  watch([currentPage, perPage, searchQuery], () => {
+  watch([currentPage, perPage, searchQuery,shopsFilter], () => {
     refetchData()
   })
 
@@ -57,6 +58,7 @@ export default function useStocksList() {
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
+        shops: shopsFilter.value,
       })
       .then(response => {
         const { data, total } = response
@@ -91,7 +93,7 @@ export default function useStocksList() {
     refStockListTable,
     downloadExcelTable,
     printTable,
-
+    shopsFilter,
     refetchData,
   }
 }

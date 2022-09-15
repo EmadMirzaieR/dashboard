@@ -70,7 +70,6 @@ export default function useOrdersList(customerId) {
       })
       .then(response => {
         const { data, total } = response
-        console.log(data);
         callback(data)
         totalOrders.value = total
       })

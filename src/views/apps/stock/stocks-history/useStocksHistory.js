@@ -61,7 +61,6 @@ export default function useStocksHistory() {
       })
       .then(response => {
         const { data, total } = response
-        console.log(data);
         callback(data)
         totalStocks.value = total
       })

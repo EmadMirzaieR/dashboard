@@ -14,6 +14,7 @@ export default {
         page = 1,
         sortBy = 'id',
         sortDesc = false,
+        shops = null
       } = queryParams
       return new Promise((resolve, reject) => {
         axios
@@ -25,7 +26,9 @@ export default {
             const filteredData = data.filter(
               stock =>
                 /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
-                (stock.product.name.toLowerCase().includes(queryLowered))
+                (stock.product.name.toLowerCase().includes(queryLowered) &&
+                (shops === null ? true : stock.shop.id === shops)
+                )
             )
 
             const sortedData = filteredData.sort(sortCompare(sortBy))

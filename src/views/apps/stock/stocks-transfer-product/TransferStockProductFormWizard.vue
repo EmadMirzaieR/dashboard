@@ -11,7 +11,7 @@
       @on-complete="formSubmitted"
     >
       <tab-content title="To Shop">
-        <to-shop-tab :stock="stock" />
+        <to-shop-tab :stock="stock" :shopId="shopId" />
       </tab-content>
 
       <tab-content title="Transfer Data">
@@ -69,7 +69,7 @@ export default {
     ToShopTab,
     TransferTab,
   },
-  props: ["stock"],
+  props: ["stock", "shopId"],
   data() {
     return {};
   },

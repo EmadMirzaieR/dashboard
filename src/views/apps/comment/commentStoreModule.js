@@ -41,7 +41,6 @@ export default {
           .get('/comments/all-comments/')
           .then(response => {
             const { data } = response
-console.log(data);
             const sortedData = data.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()
             resolve({ data: paginateArray(sortedData, perPage, page), total: data.length })
@@ -56,7 +55,7 @@ console.log(data);
         page = 1,
         sortBy = 'id',
         sortDesc = false,
-        productId = 0,
+        id = 0,
       } = queryParams
       return new Promise((resolve, reject) => {
         axios
@@ -64,11 +63,11 @@ console.log(data);
           .then(response => {
             const { data } = response
 
-            // const filteredData = data.filter(item => item.id)
+            const filteredData = data.filter(item => item.object_id == id)
 
-            const sortedData = data.sort(sortCompare(sortBy))
+            const sortedData = filteredData.sort(sortCompare(sortBy))
             if (sortDesc) sortedData.reverse()
-            resolve({ data: paginateArray(sortedData, perPage, page), total: data.length })
+            resolve({ data: paginateArray(sortedData, perPage, page), total: filteredData.length })
           })
           .catch(error => reject(error))
       })

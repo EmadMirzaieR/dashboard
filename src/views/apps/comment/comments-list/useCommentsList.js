@@ -14,6 +14,7 @@ export default function useCommentsList(productId) {
   // Table Handlers
   const tableColumns = [
     { key: 'user', sortable: true },
+    { key: 'object_id', label: 'product id', sortable: true },
     { key: 'email', sortable: true },
     { key: 'rate', sortable: true },
     { key: 'body', sortable: true },
@@ -80,7 +81,7 @@ export default function useCommentsList(productId) {
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
-        productId: productId,
+        id: productId,
       })
       .then(response => {
         const { data, total } = response

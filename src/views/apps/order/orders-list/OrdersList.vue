@@ -74,8 +74,15 @@
                   'price',
                   'total_price',
                   'status',
+                  'delivery_status',
                 ]"
               >
+                <template #cell(delivery_status)="data">
+                  <b-badge pill class="text-capitalize">
+                    {{ resolveDeliveryStatusVariant(data.item.delivery_status) }}
+                  </b-badge>
+                </template>
+
                 <template #cell(status)="data">
                   <b-badge pill class="text-capitalize">
                     {{ getStatus(data.item.status) }}
@@ -246,6 +253,12 @@ export default {
     vSelect,
   },
   methods: {
+    resolveDeliveryStatusVariant(status) {
+      if (status === 0) return "PENDING";
+      if (status === 1) return "PROCESSING";
+      if (status === 2) return "DELIVERED";
+      return "CANCELED";
+    },
     resolveStatusVariant(status) {
       if (status == 0) return "Pending";
       if (status == 1) return "Completed";

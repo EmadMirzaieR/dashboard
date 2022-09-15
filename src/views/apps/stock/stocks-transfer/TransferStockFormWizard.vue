@@ -113,7 +113,7 @@ export default {
         purchase_price: 0,
         transfer_price: 0,
         transfer_datetime: null,
-        transfer_note: null,
+        transfer_note: "",
       },
       colors: [],
       sizes: [],

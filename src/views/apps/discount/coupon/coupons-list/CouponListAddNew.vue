@@ -112,7 +112,7 @@
             </b-form-group>
           </validation-provider> -->
 
-          <b-form-group label="Valid From" label-for="valid_from">
+          <!-- <b-form-group label="Valid From" label-for="valid_from">
             <flat-pickr
               v-model="couponData.constraint.valid_from"
               class="form-control"
@@ -136,7 +136,7 @@
                 dateFormat: 'Y-m-d H:i',
               }"
             />
-          </b-form-group>
+          </b-form-group> -->
 
           <validation-provider
             #default="validationContext"
@@ -245,10 +245,10 @@ export default {
       discount_rate_or_fix_amount: 0,
       status: 1,
       use_limit_type: 1,
-      constraint: {
-        valid_from: "",
-        valid_to: "",
-      },
+      // constraint: {
+      //   valid_from: "",
+      //   valid_to: "",
+      // },
     };
 
     const couponData = ref(JSON.parse(JSON.stringify(blankCouponData)));

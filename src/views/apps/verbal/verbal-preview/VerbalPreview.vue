@@ -51,6 +51,12 @@
               </b-card-text>
             </template>
 
+            <template #cell(stock.discount)="data">
+              <b-card-text class="font-weight-bold mb-25">
+                {{ data.item.stock.discount }}%
+              </b-card-text>
+            </template>
+
             <template #cell(final_price)="data">
               <b-card-text class="font-weight-bold mb-25">
                 {{ data.item.stock.price }}

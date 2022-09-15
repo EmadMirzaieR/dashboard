@@ -68,7 +68,7 @@ export default {
     BInputGroup,
     BInputGroupAppend,
   },
-  props: ["stock"],
+  props: ["stock", "shopId"],
   data() {
     return {
       selected: null,
@@ -100,8 +100,9 @@ export default {
   },
   async created() {
     const { data } = await store.dispatch("app-shop/fetchOptionShops");
-    this.allOptionShops = data;
-    this.optionShops = data;
+    const filteredData = data.filter((item) => item.value != this.shopId);
+    this.allOptionShops = filteredData;
+    this.optionShops = filteredData;
   },
 };
 </script>

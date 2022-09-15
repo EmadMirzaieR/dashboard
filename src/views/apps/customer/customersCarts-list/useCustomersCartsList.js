@@ -29,7 +29,7 @@ export default function useCustomersCartsList() {
   const currentPage = ref(1)
   const perPageOptions = [5, 10, 25, 50, 100]
   const searchQuery = ref('')
-  const sortBy = ref('id')
+  const sortBy = ref('pending_items_count')
   const isSortDirDesc = ref(true)
 
   const dataMeta = computed(() => {

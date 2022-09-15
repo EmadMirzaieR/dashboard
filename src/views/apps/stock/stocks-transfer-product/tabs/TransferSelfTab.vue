@@ -29,6 +29,8 @@
           v-model="stock.transfer_datetime"
           class="form-control"
           :config="{
+            enable: [new Date()],
+            defaultDate: new Date(),
             altInput: true,
             altFormat: 'F j, Y',
             enableTime: true,
@@ -39,7 +41,12 @@
     </b-col>
     <b-col md="6">
       <b-form-group label="Quantity" label-for="quantity">
-        <b-form-input id="quantity" min="0" type="number" v-model="stock.quantity" />
+        <b-form-input
+          id="quantity"
+          min="0"
+          type="number"
+          v-model="stock.quantity"
+        />
       </b-form-group>
     </b-col>
     <b-col md="6">
@@ -62,7 +69,7 @@ import {
   BButton,
   BInputGroup,
   BInputGroupAppend,
-  BFormTextarea
+  BFormTextarea,
 } from "bootstrap-vue";
 import flatPickr from "vue-flatpickr-component";
 import store from "@/store";
@@ -81,7 +88,7 @@ export default {
     BInputGroup,
     BInputGroupAppend,
     flatPickr,
-    BFormTextarea
+    BFormTextarea,
   },
   props: {
     stock: {

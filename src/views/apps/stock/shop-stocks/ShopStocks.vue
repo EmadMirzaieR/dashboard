@@ -205,6 +205,7 @@
     >
       <transfer-stock-product-form-wizard
         :stock="stock"
+        :shopId="shopId"
       ></transfer-stock-product-form-wizard>
     </b-modal>
 

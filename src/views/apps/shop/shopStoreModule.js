@@ -140,6 +140,26 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchShopsOption(ctx) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/shops-dashboard/shops/', {})
+          .then(response => {
+            const { data } = response
+
+            const active = data.filter(item => (item.status === 1));
+
+            const filteredData = active.map(item => {
+              return {
+                value: item.id,
+                label: item.name
+              }
+            })
+            resolve({ data: filteredData })
+          })
+          .catch(error => reject(error))
+      })
+    },
     fetchShop(ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios
