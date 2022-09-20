@@ -360,7 +360,7 @@ export default {
           title: this.onlineData.all_customer,
           subtitle: "All",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-stocks-list",
+          url: "apps-customers-list",
         },
         {
           icon: "UserIcon",
@@ -368,7 +368,7 @@ export default {
           title: this.onlineData.count_customer_has_pending,
           subtitle: "With Pending Order",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-users-list",
+          url: "apps-customers-carts-list",
         },
         {
           icon: "BoxIcon",
@@ -376,7 +376,7 @@ export default {
           title: this.onlineData.customer_has_order,
           subtitle: "With Order",
           customClass: "mb-2 mb-sm-0",
-          url: "apps-products-list",
+          url: "apps-customers-orders-list",
         },
         {
           icon: "UserIcon",
@@ -384,7 +384,7 @@ export default {
           title: this.onlineData.count_customer_has_completed,
           subtitle: "With Complete Order",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-users-list",
+          url: "",
         },
         {
           icon: "BoxIcon",
@@ -392,7 +392,7 @@ export default {
           title: this.onlineData.customer_has_item_in_shopping_cart,
           subtitle: "Pending Cart",
           customClass: "mb-2 mb-sm-0",
-          url: "apps-products-list",
+          url: "apps-customers-carts-list",
         },
         {
           icon: "UserIcon",
@@ -418,7 +418,7 @@ export default {
           title: order.count_orders,
           subtitle: "Total Completed",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-stocks-list",
+          url: "apps-orders-list",
         },
         {
           icon: "UserIcon",
@@ -426,7 +426,7 @@ export default {
           title: order.total_sell,
           subtitle: "Total Sell",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-users-list",
+          url: "",
         },
         {
           icon: "BoxIcon",
@@ -434,7 +434,7 @@ export default {
           title: order.month_sell,
           subtitle: "In Month",
           customClass: "mb-2 mb-sm-0",
-          url: "apps-products-list",
+          url: "",
         },
         {
           icon: "UserIcon",
@@ -442,7 +442,7 @@ export default {
           title: order.today_sell,
           subtitle: "Today",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-users-list",
+          url: "",
         },
         {
           icon: "BoxIcon",
@@ -450,7 +450,7 @@ export default {
           title: order.seven_days_sell,
           subtitle: "Last 7 Days",
           customClass: "mb-2 mb-sm-0",
-          url: "apps-products-list",
+          url: "",
         },
         {
           icon: "UserIcon",
@@ -458,7 +458,7 @@ export default {
           title: order.fourteen_days_sell,
           subtitle: "Last 14 Days",
           customClass: "",
-          url: "apps-users-list",
+          url: "",
         },
       ];
 
@@ -469,7 +469,7 @@ export default {
           title: cart.all_pending_cart_count,
           subtitle: "Pending",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-stocks-list",
+          url: "",
         },
         {
           icon: "UserIcon",
@@ -477,7 +477,7 @@ export default {
           title: cart.all_confirmed_cart_count,
           subtitle: "Confirmed",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-users-list",
+          url: "",
         },
         {
           icon: "BoxIcon",
@@ -485,7 +485,7 @@ export default {
           title: cart.all_cancelled_cart_items_count,
           subtitle: "Cancel Items",
           customClass: "mb-2 mb-sm-0",
-          url: "apps-products-list",
+          url: "",
         },
         {
           icon: "UserIcon",
@@ -493,7 +493,7 @@ export default {
           title: cart.all_pending_cart_items_count,
           subtitle: "Pending Items",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-users-list",
+          url: "",
         },
       ];
 
@@ -504,7 +504,7 @@ export default {
           title: product.count_products,
           subtitle: "Count",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-stocks-list",
+          url: "apps-products-list",
         },
         {
           icon: "UserIcon",
@@ -512,7 +512,7 @@ export default {
           title: product.count_stocks_offline,
           subtitle: "Verbal",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-users-list",
+          url: "apps-shop-verbal",
         },
         {
           icon: "BoxIcon",
@@ -520,7 +520,7 @@ export default {
           title: product.stock_offline_total_price,
           subtitle: "Verbal Price",
           customClass: "mb-2 mb-sm-0",
-          url: "apps-products-list",
+          url: "",
         },
         {
           icon: "UserIcon",
@@ -528,7 +528,7 @@ export default {
           title: product.count_stocks_online,
           subtitle: "Online",
           customClass: "mb-2 mb-xl-0",
-          url: "apps-users-list",
+          url: "apps-stocks-view",
         },
         {
           icon: "BoxIcon",
@@ -536,7 +536,7 @@ export default {
           title: product.stock_online_total_price,
           subtitle: "Online Price",
           customClass: "mb-2 mb-sm-0",
-          url: "apps-products-list",
+          url: "",
         },
       ];
 
